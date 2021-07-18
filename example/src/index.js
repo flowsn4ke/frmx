@@ -1,7 +1,15 @@
-import './index.css'
-
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import App from './App'
+import { createTheme, ThemeProvider, CssBaseline } from "@material-ui/core"
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const theme = createTheme()
+
+render(
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>
+  ,
+  document.getElementById('root')
+)

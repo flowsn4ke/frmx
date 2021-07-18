@@ -1,6 +1,6 @@
-import React from 'react'
-import styles from './styles.module.css'
+import FrmX from "./FrmX"
+import FldX from "./FldX"
+import BtnX from "./BtnX"
+import { useFrmX } from "./FrmXContext"
 
-export const ExampleComponent = ({ text }) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+export { FrmX, FldX, BtnX, useFrmX }
