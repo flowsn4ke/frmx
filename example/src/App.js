@@ -28,6 +28,7 @@ export default function App() {
         updatesOnly
         initialValues={fields}
         onSubmit={values => alert(JSON.stringify(values, null, 2))}
+        isDisabled={formData => formData.options.breakfast.length > 0}
       >
 
         <FldX field="date" type="date" >

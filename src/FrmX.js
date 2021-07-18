@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { FrmXContext } from "./FrmXContext"
 import _ from "lodash"
 
+// TODO: Add callback fn to do smthg when submitting when incorrect field values?
 export default function FrmX({
   initialValues,
   onSubmit,
@@ -9,6 +10,7 @@ export default function FrmX({
   children,
   updatesOnly = false,
   autoCompleteOff = false,
+  isDisabled
 }) {
   const [fields, setFields] = useState(initialValues || {})
   const [updates, setUpdates] = useState({})
@@ -16,6 +18,11 @@ export default function FrmX({
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const isValidForm = useMemo(() => {
+    console.log("running");
+    if (isDisabled) return isDisabled(fields)
+    else return false
+  }, [fields])
   // TODO: Add isValidForm logic prop to pass it down and disable submit buttons
   // TODO: Implement schema validation
 
@@ -46,7 +53,8 @@ export default function FrmX({
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-
+    // Add check that the button does have the id we gave it (random Id, nanoID)
+    //  before submitting, avoiding conflicts with other buttons in the form
     // TODO: schema validation step happens here
 
     onSubmit(updatesOnly ? updates : fields)
@@ -64,7 +72,8 @@ export default function FrmX({
     handleBlur,
     handleError,
     setOneError: handleError,
-    isSubmitting
+    isSubmitting,
+    isValidForm
   }}>
     <form className={className} onSubmit={handleSubmit} noValidate autoComplete={autoCompleteOff ? "off" : "on"}>
       {children}

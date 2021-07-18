@@ -15,7 +15,7 @@ export default function FldX({
   children,
   ...rest
 }) {
-  const { fields, errors, visited, handleChange, handleBlur, handleError } = useFrmX()
+  const { fields, errors, visited, handleChange, handleBlur, handleError, isSubmitting } = useFrmX()
 
   const isError = (value) => validate && !validate(value) || false
 
@@ -38,6 +38,7 @@ export default function FldX({
     type,
     onBlur,
     onChange,
+    disabled: isSubmitting,
     [type === "checkbox" ? "checked" : "value"]: _.get(fields, field),
     ...(validate ? { [isErrorProp]: _.get(errors, field) } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),

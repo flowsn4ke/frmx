@@ -10,10 +10,10 @@
 - frmx assumes nothing about your inputs and their nesting / styling
 - frmx provides field-based validation
 - frmx allows you to create highly reusable inputs
-- frmx is so simple that could have written it yourself, but now you don't
-- frmx is so simple you don't need to learn a complex new API
+- frmx is so simple that could have written it yourself, but now you don't need to
+- frmx's API is simple
 - frmx has only one dependency, lodash
-- frmx is lightweight, yet powerful
+- frmx is lightweight
 
 The goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
 
@@ -87,6 +87,8 @@ className={"I style directly the html form tag"}
 updatesOnly
 // Disable autocomplete
 autoCompleteOff
+// A function to check if form data is valid that takes the form data object as an argument
+isDisabled={formData => formData.password !== formData.confirmedPassword}
 // Any other props will be spread on to the form tag
 {...rest}
 />
