@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.1",
     "frmx": "link:..",
+    "lodash": "^4.17.21",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "link:../node_modules/react-scripts",

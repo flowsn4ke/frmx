@@ -6,10 +6,10 @@ export default function BtnX({
   children,
   ...rest
 }) {
-  const { isSubmitting, isValidForm } = useFrmX()
+  const { isSubmitting, isValidForm, disableSubmitIfInvalid } = useFrmX()
 
   const props = {
-    disabled: !isValidForm || isSubmitting || disabledPlus,
+    disabled: !isValidForm && disableSubmitIfInvalid || isSubmitting || disabledPlus,
     type: "submit",
     ...rest
   }

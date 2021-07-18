@@ -1,7 +1,7 @@
 import React from 'react'
 import { FrmX, FldX, BtnX } from 'frmx'
-import { isEmail, isHexColor } from 'validator'
-import { Box, Button, Checkbox, TextField } from "@material-ui/core"
+import { isEmail } from 'validator'
+import { Box, Button, Checkbox, TextField, Typography } from "@material-ui/core"
 import useStyles from "./styles.js"
 
 const fields = {
@@ -17,6 +17,16 @@ const fields = {
   }
 }
 
+const isTrue = val => val
+
+const validationMethods = {
+  email: isEmail,
+  options: {
+    checked: isTrue,
+    breakfast: (str) => str.length > 10
+  }
+}
+
 export default function App() {
   const classes = useStyles()
 
@@ -28,8 +38,14 @@ export default function App() {
         updatesOnly
         initialValues={fields}
         onSubmit={values => alert(JSON.stringify(values, null, 2))}
-        isDisabled={formData => formData.options.breakfast.length > 0}
+        disableIf={formData => formData.options.breakfast.length < 10}
+        disableSubmitIfInvalid
+        onInvalidSubmit={() => alert("invalid form")}
+        schemaValidation={validationMethods}
       >
+        <Typography variant="h4" className={classes.input}>
+          Some Meaningful Form
+        </Typography>
 
         <FldX field="date" type="date" >
           <TextField className={classes.input} variant="outlined" label="Date" />
@@ -39,11 +55,11 @@ export default function App() {
           <TextField className={classes.input} variant="outlined" label="Name" />
         </FldX>
 
-        <FldX field="email" type="text" validate={isEmail}>
+        <FldX field="email" type="text" isErrorProp="error">
           <TextField className={classes.input} variant="outlined" label="me@email.com" />
         </FldX>
 
-        <FldX field="options.breakfast" type="text">
+        <FldX field="options.breakfast" type="text" required>
           <TextField className={classes.input} variant="outlined" label="Breakfast" />
         </FldX>
 

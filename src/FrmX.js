@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { FrmXContext } from "./FrmXContext"
 import _ from "lodash"
+import { makeRecursiveKeyList } from './utils/objectUtils'
 
-// TODO: Add callback fn to do smthg when submitting when incorrect field values?
 export default function FrmX({
   initialValues,
   onSubmit,
@@ -10,7 +10,10 @@ export default function FrmX({
   children,
   updatesOnly = false,
   autoCompleteOff = false,
-  isDisabled
+  disableSubmitIfInvalid,
+  onInvalidSubmit,
+  schemaValidation,
+  disableIf,
 }) {
   const [fields, setFields] = useState(initialValues || {})
   const [updates, setUpdates] = useState({})
@@ -18,12 +21,21 @@ export default function FrmX({
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const validationMethodsPaths = makeRecursiveKeyList(schemaValidation)
+
   const isValidForm = useMemo(() => {
-    if (isDisabled) return isDisabled(fields)
-    else return false
-  }, [fields])
-  // TODO: Add isValidForm logic prop to pass it down and disable submit buttons
-  // TODO: Implement schema validation
+    let isValid = true
+
+    if (disableIf) isValid = !disableIf(fields)
+    if (updatesOnly) isValid = Object.keys(updates).length > 0
+
+    validationMethodsPaths.forEach(path => {
+      const method = _.get(schemaValidation, path)
+      if (!method(_.get(fields, path))) isValid = false
+    })
+
+    return isValid
+  }, [fields, updates])
 
   const handleChange = (e) => {
     const target = e.target
@@ -31,13 +43,8 @@ export default function FrmX({
     const value = target.type === 'checkbox' ? target.checked : target.value
 
     if (updatesOnly) setUpdates(prev => _.set({ ...prev }, name, value))
-
-    setFields(prev => _.set({ ...prev }, name, value))
+    else setFields(prev => _.set({ ...prev }, name, value))
   }
-
-  const setOneField = (name, value) => setFields(prev => _.set({ ...prev }, name, value))
-
-  const getOneField = (name) => _.get(fields, name)
 
   const handleBlur = (e) => {
     const target = e.target
@@ -45,34 +52,54 @@ export default function FrmX({
     setVisited(prev => _.set({ ...prev }, name, true))
   }
 
-  const setOneVisited = (name) => setVisited(prev => _.set({ ...prev }, name, true))
 
-  const handleError = (name, isError) => setErrors(prev => _.set({ ...prev }, name, isError))
+  const handleError = (name, isError) => {
+    setErrors(prev => _.set({ ...prev }, name, isError))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Add check that the button does have the id we gave it (random Id, nanoID)
-    //  before submitting, avoiding conflicts with other buttons in the form
-    // TODO: schema validation step happens here
 
-    onSubmit(updatesOnly ? updates : fields)
+    if (!isValidForm && onInvalidSubmit) {
+      onInvalidSubmit()
+    } else {
+      onSubmit(updatesOnly ? updates : fields)
+
+    }
+    // Add check that the button does have the id we gave it (random Id, nanoID)
+    // before submitting, avoiding conflicts with other buttons in the form with type of "submit"
+
     setIsSubmitting(false)
   }
+
+  // Functions intended to be used with the useFrmX hook
+  const getOneField = (field) => _.get(fields, field)
+  const setOneField = (field, value) => setFields(prev => _.set({ ...prev }, field, value))
+  const getOneVisited = (field) => _.get(visited, field)
+  const setOneVisited = (field) => setVisited(prev => _.set({ ...prev }, field, true))
+  const getOneError = (field) => _.get(errors, field)
+  const setOneError = (field, isError) => setErrors(prev => _.set({ ...prev }, field, isError))
+  const getIsSubmitting = () => isSubmitting
 
   return <FrmXContext.Provider value={{
     fields,
     setOneField,
     getOneField,
     visited,
+    getOneVisited,
     setOneVisited,
+    getOneError,
+    setOneError,
+    getIsSubmitting,
     errors,
     handleChange,
     handleBlur,
     handleError,
-    setOneError: handleError,
     isSubmitting,
-    isValidForm
+    isValidForm,
+    disableSubmitIfInvalid,
+    schemaValidation
   }}>
     <form className={className} onSubmit={handleSubmit} noValidate autoComplete={autoCompleteOff ? "off" : "on"}>
       {children}

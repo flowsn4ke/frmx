@@ -13,12 +13,20 @@
 - frmx's API is simple
 - frmx has only one dependency, lodash
 - frmx is lightweight
-- schema validation is framework agnostic
+- frmx enforces best practices
+- frmx validation retains the hardest rule you set for a given field
+- schema validation is framework agnostic, bring any functions
 
 The goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
 
 ```js
-<FrmX initialValues={{foo: "", bar: {baz:""}}} onSubmit={formData => doSmthg(formData)}>
+<FrmX
+initialValues={{foo: "", bar: {baz:""}}}
+onSubmit={formData => doSmthg(formData)}
+// disableSubmitIfInvalid // comment out onInvalidSubmit to use this prop!
+onInvalidSubmit={() => alert("invalid form")}
+schemaValidation={foo, bar:{baz: (str) => str.length > 2}}
+>
     <CustomInput1 field="bar.baz" />
     <CustomInput2 field="foo" />
     <CustomSubmitButton />
@@ -210,11 +218,10 @@ You can break down components as you like. The values will bubble up to the neir
 
 ## TODOs
 
+- [ X ] Add a onInvalidSubmit prop to pass a function to FrmX
+- [ X ] Keep track of errors and general form validity
 - [  ] Opt-in value trimming on a per field basis
-- [  ] Keep track of errors and general form validity
 - [  ] Write examples (hook usage, form nesting etc.)
-- [  ] Add a onInvalidSubmit prop to pass a function to FrmX
-- [  ] Make sure only frmx button can trigger submitting
 - [  ] Write tests
 - [  ] Create a demo playground
 
