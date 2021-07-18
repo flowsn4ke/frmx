@@ -19,7 +19,6 @@ export default function FrmX({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const isValidForm = useMemo(() => {
-    console.log("running");
     if (isDisabled) return isDisabled(fields)
     else return false
   }, [fields])

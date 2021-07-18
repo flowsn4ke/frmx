@@ -10,10 +10,10 @@
 - frmx assumes nothing about your inputs and their nesting / styling
 - frmx provides field-based validation
 - frmx allows you to create highly reusable inputs
-- frmx is so simple that could have written it yourself, but now you don't need to
 - frmx's API is simple
 - frmx has only one dependency, lodash
 - frmx is lightweight
+- schema validation is framework agnostic
 
 The goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
 
@@ -212,7 +212,6 @@ You can break down components as you like. The values will bubble up to the neir
 
 - [  ] Opt-in value trimming on a per field basis
 - [  ] Keep track of errors and general form validity
-- [  ] Implement some kind of schema validation
 - [  ] Write examples (hook usage, form nesting etc.)
 - [  ] Add a onInvalidSubmit prop to pass a function to FrmX
 - [  ] Make sure only frmx button can trigger submitting
