@@ -3,7 +3,7 @@
 **frmx** is lightweight and eliminates most of the boilerplate code and headaches when building forms in React, without assuming anything about the shape of your form data or the shape of your component.
 
 ## CodeSandbox
-**[Check the demo here](https://codesandbox.io/s/5g8ek)**
+**[Check the demo here](https://codesandbox.io/s/5g8ek?file=/src/Demo.js)**
 
 ## Mantras
 
