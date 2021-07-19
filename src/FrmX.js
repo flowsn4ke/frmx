@@ -8,12 +8,12 @@ export default function FrmX({
   onSubmit,
   className,
   children,
-  updatesOnly = false,
-  autoCompleteOff = false,
-  disableSubmitIfInvalid,
   onInvalidSubmit,
   schemaValidation,
-  disableIf,
+  updatesOnly = false,
+  autoCompleteOff = false,
+  disableSubmitIfInvalid = false,
+  disableIfNoUpdates = false
 }) {
   const [fields, setFields] = useState(initialValues || {})
   const [updates, setUpdates] = useState({})
@@ -21,13 +21,14 @@ export default function FrmX({
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Also update saved values in the form to untouched values after submission
+  const untouchedValues = _.cloneDeep(initialValues)
+
   const validationMethodsPaths = makeRecursiveKeyList(schemaValidation)
 
   // Add check for errors if
   const isValidForm = useMemo(() => {
     let isValid = true
-
-    if (disableIf && disableIf(fields)) isValid = false
 
     if (updatesOnly && Object.keys(updates).length < 1) isValid = false
 
@@ -76,6 +77,10 @@ export default function FrmX({
     setIsSubmitting(false)
   }
 
+  const resetForm = () => {
+    setFields(_ => untouchedValues)
+  }
+
   // Functions intended to be used with the useFrmX hook
   const getOneField = (field) => _.get(fields, field)
   const setOneField = (field, value) => setFields(prev => _.set({ ...prev }, field, value))
@@ -96,13 +101,16 @@ export default function FrmX({
     setOneError,
     getIsSubmitting,
     errors,
+    updates,
+    disableIfNoUpdates,
     handleChange,
     handleBlur,
     handleError,
     isSubmitting,
     isValidForm,
     disableSubmitIfInvalid,
-    schemaValidation
+    schemaValidation,
+    resetForm
   }}>
     <form className={className} onSubmit={handleSubmit} noValidate autoComplete={autoCompleteOff ? "off" : "on"}>
       {children}
