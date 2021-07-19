@@ -1,5 +1,5 @@
 import React from 'react'
-import { FrmX, FldX, BtnX } from 'frmx'
+import { FrmX, FldX, BtnX, RstX } from 'frmx'
 import { isEmail } from 'validator'
 import { Box, Button, Checkbox, TextField, Typography } from "@material-ui/core"
 import useStyles from "./styles.js"
@@ -27,7 +27,7 @@ const validationMethods = {
   }
 }
 
-export default function App() {
+export default function Demo() {
   const classes = useStyles()
 
   return (
@@ -38,9 +38,9 @@ export default function App() {
         updatesOnly
         initialValues={fields}
         onSubmit={values => alert(JSON.stringify(values, null, 2))}
-        disableIf={formData => formData.options.breakfast.length < 15}
-        disableSubmitIfInvalid
-        // onInvalidSubmit={() => alert("invalid form")}
+        // disableSubmitIfInvalid
+        disableIfNoUpdates
+        // onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
       >
         <Typography variant="h4" className={classes.input}>
@@ -51,7 +51,7 @@ export default function App() {
           <TextField className={classes.input} variant="outlined" label="Date" />
         </FldX>
 
-        <FldX field="name" type="text" required>
+        <FldX field="name" type="text">
           <TextField className={classes.input} variant="outlined" label="Name" />
         </FldX>
 
@@ -59,7 +59,7 @@ export default function App() {
           <TextField className={classes.input} variant="outlined" label="me@email.com" />
         </FldX>
 
-        <FldX field="options.breakfast" type="text" required>
+        <FldX field="options.breakfast" type="text">
           <TextField className={classes.input} variant="outlined" label="Breakfast" />
         </FldX>
 
@@ -77,6 +77,10 @@ export default function App() {
         <BtnX>
           <Button variant="contained" className={classes.input}>Submit</Button>
         </BtnX>
+
+        <RstX>
+          <Button variant="contained" className={classes.input}>Reset</Button>
+        </RstX>
 
       </FrmX>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import App from './App'
+import Demo from './Demo'
 import { createTheme, ThemeProvider, CssBaseline } from "@material-ui/core"
 
 const theme = createTheme()
@@ -8,7 +8,7 @@ const theme = createTheme()
 render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <App />
+    <Demo />
   </ThemeProvider>
   ,
   document.getElementById('root')
