@@ -43,8 +43,7 @@ export default function FrmX({
     const name = target.name
     const value = target.type === 'checkbox' ? target.checked : target.value
 
-    if (updatesOnly) setUpdates(prev => _.set({ ...prev }, name, value))
-
+    setUpdates(prev => _.set({ ...prev }, name, value))
     setFields(prev => _.set({ ...prev }, name, value))
   }
 
