@@ -27,7 +27,7 @@ export default function FrmX({
   const isValidForm = useMemo(() => {
     let isValid = true
 
-    if (disableIf && !disableIf(fields)) isValid = false
+    if (disableIf && disableIf(fields)) isValid = false
 
     if (updatesOnly && Object.keys(updates).length < 1) isValid = false
 
