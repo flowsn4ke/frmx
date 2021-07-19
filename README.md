@@ -16,7 +16,6 @@
 - frmx's API is simple
 - frmx is lightweight and has only one dependency, lodash
 - frmx enforces best practices
-- frmx validation retains the hardest rule you set for a given field
 - schema validation is framework agnostic, bring any functions you'd like
 
 The goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
@@ -26,6 +25,7 @@ The goal is to allow you to write code like this and never worry about wiring st
 initialValues={{foo: "", bar: {baz:""}}}
 onSubmit={formData => doSmthg(formData)}
 // disableSubmitIfInvalid // comment out onInvalidSubmit to use this prop!
+// disableIfNoUpdates // Additional rules to disable submission
 onInvalidSubmit={() => alert("invalid form")}
 schemaValidation={foo, bar:{baz: (str) => str.length > 2}}
 >
@@ -39,7 +39,7 @@ The state is automatically passed on to the nearest FrmX ancestor through React'
 
 ## API
 
-**frmx** exposes **three components** that cover 90% of cases. Because having a hammer doesn't make everything a nail, it also exposes a **a hook** that covers the 10% remaining.
+**frmx** exposes **four components** that cover 90% of cases. Because having a hammer doesn't make everything a nail, it also exposes a **a hook** that covers the 10% remaining.
 
 ### Quick Start
 
@@ -150,11 +150,20 @@ Note: `<FldX/>` can have only one child element, which can have some other eleme
 This components passes a type of "submit" to the underlying button and triggers form submission when the button is clicked or when enter is pressed while editing the form. You can pass it a `disabled` condition, like so (it will be automatically disabled while submitting):
 
 ```js
-<BtnX
-disabled={passwordDoNotMatch && noEmailWasProvided}
->
+<BtnX disabled={passwordDoNotMatch && noEmailWasProvided}>
+  <button>Submit</button>
+</BtnX>
 ```
 
+### RstX Component
+
+This components lets you reset the fields to the values of the object you passed in initialValues:
+
+```js
+<RstX>
+  <button>Reset</button>
+</RstX>
+```
 
 ### Edge Cases
 
@@ -183,7 +192,14 @@ import { TextField, Button } from "@material-ui/core"
 import { WeirdInput } from "some-random-pkg"
 
 export default MyComponent({field}) {
-    const { setOneField, getOneField, setOneVisited, setOneError } = useFrmX()
+    const {
+      setOneField,
+      getOneField,
+      setOneVisited,
+      getOneError,
+      setOneError,
+      getIsSubmitting
+    } = useFrmX()
 
     return (
     <FrmX
@@ -222,7 +238,7 @@ export default MyComponent({field}) {
 
 ### Hints
 
-You can break down components as you like. The values will bubble up to the neirest `<FrmX>` form you defined. You can include this in all your field components and compose your forms as you'd like, never thinking about having to manage field state again. To do so, you might want to set up your components to accept a `"field"` prop that you will then pass to `<FldX/>` or to the functions you got back from the hook.
+Field values will bubble up to the neirest `<FrmX>` form you defined. You can include this in all your field components and compose your forms as you'd like, never thinking about having to manage field state again. To do so, you might want to set up your components to accept a `field` prop that you will then pass to `<FldX/>` or to the functions you got back from the hook.
 
 ## TODOs
 
