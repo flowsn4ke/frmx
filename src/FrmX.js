@@ -23,11 +23,13 @@ export default function FrmX({
 
   const validationMethodsPaths = makeRecursiveKeyList(schemaValidation)
 
+  // Add check for errors if
   const isValidForm = useMemo(() => {
     let isValid = true
 
-    if (disableIf) isValid = !disableIf(fields)
-    if (updatesOnly) isValid = Object.keys(updates).length > 0
+    if (disableIf && !disableIf(fields)) isValid = false
+
+    if (updatesOnly && Object.keys(updates).length < 1) isValid = false
 
     validationMethodsPaths.forEach(path => {
       const method = _.get(schemaValidation, path)

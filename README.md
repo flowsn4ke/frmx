@@ -4,6 +4,7 @@
 
 ## Mantras
 
+
 - frmx starts from the shape of the data you need back
 - frmx handles all of your form state
 - frmx does all the heavy, repetitive & cumbersome lifting for you
@@ -11,11 +12,10 @@
 - frmx provides field-based validation
 - frmx allows you to create highly reusable inputs
 - frmx's API is simple
-- frmx has only one dependency, lodash
-- frmx is lightweight
+- frmx is lightweight and has only one dependency, lodash
 - frmx enforces best practices
 - frmx validation retains the hardest rule you set for a given field
-- schema validation is framework agnostic, bring any functions
+- schema validation is framework agnostic, bring any functions you'd like
 
 The goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
 
@@ -82,7 +82,7 @@ export default MyComponent() {
 
 ### FrmX Component
 
-FrmX needs only two props to do its job, `initialValues` and `onSubmit`. There is, however, a number of props you can pass to make your life easier:
+FrmX needs only two props to do its job, `initialValues` and `onSubmit`. There is, however, a number of props you can pass to make your life easier and to validate your form data:
 ```js
 <FrmX
 // the structure of your form data
@@ -96,7 +96,13 @@ updatesOnly
 // Disable autocomplete
 autoCompleteOff
 // A function to check if form data is valid that takes the form data object as an argument
-isDisabled={formData => formData.password !== formData.confirmedPassword}
+disableIf={formData => formData.options.breakfast.length > 15}
+// Submit button will be disabled until the form is valid according to your rules
+disableSubmitIfInvalid
+// Accepts any functions you need to validate your data
+schemaValidation={{foo: (str) => str.length > 0}}
+// A callback that will be called upon invalid submit. Use either that OR disableSubmitIfInvalid
+onInvalidSubmit={() => alert("invalid form")}
 // Any other props will be spread on to the form tag
 {...rest}
 />
