@@ -22,11 +22,10 @@ export default function FrmX({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Also update saved values in the form to untouched values after submission
-  const untouchedValues = _.cloneDeep(initialValues)
+  let untouchedValues = _.cloneDeep(initialValues)
 
   const validationMethodsPaths = makeRecursiveKeyList(schemaValidation)
 
-  // Add check for errors if
   const isValidForm = useMemo(() => {
     let isValid = true
 
@@ -56,7 +55,6 @@ export default function FrmX({
     setVisited(prev => _.set({ ...prev }, name, true))
   }
 
-
   const handleError = (name, isError) => {
     setErrors(prev => _.set({ ...prev }, name, isError))
   }
@@ -68,17 +66,21 @@ export default function FrmX({
     if (!isValidForm && onInvalidSubmit) {
       onInvalidSubmit()
     } else {
+      setUpdates(_ => { })
+      setErrors(_ => { })
+      untouchedValues = _.cloneDeep(fields)
       onSubmit(updatesOnly ? updates : fields)
-
     }
     // Add check that the button does have the id we gave it (random Id, nanoID)
-    // before submitting, avoiding conflicts with other buttons in the form with type of "submit"
+    // before submitting, avoiding conflicts with other buttons in the form with type of "submit"?
 
     setIsSubmitting(false)
   }
 
   const resetForm = () => {
     setFields(_ => untouchedValues)
+    setUpdates(_ => { })
+    setErrors(_ => { })
   }
 
   // Functions intended to be used with the useFrmX hook
