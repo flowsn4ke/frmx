@@ -40,7 +40,7 @@ export default function App() {
         onSubmit={values => alert(JSON.stringify(values, null, 2))}
         disableIf={formData => formData.options.breakfast.length < 10}
         disableSubmitIfInvalid
-        onInvalidSubmit={() => alert("invalid form")}
+        // onInvalidSubmit={() => alert("invalid form")}
         schemaValidation={validationMethods}
       >
         <Typography variant="h4" className={classes.input}>

@@ -43,7 +43,8 @@ export default function FrmX({
     const value = target.type === 'checkbox' ? target.checked : target.value
 
     if (updatesOnly) setUpdates(prev => _.set({ ...prev }, name, value))
-    else setFields(prev => _.set({ ...prev }, name, value))
+
+    setFields(prev => _.set({ ...prev }, name, value))
   }
 
   const handleBlur = (e) => {
