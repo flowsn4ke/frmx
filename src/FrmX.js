@@ -4,7 +4,7 @@ import _ from "lodash"
 import { makeRecursiveKeyList } from './utils/objectUtils'
 
 export default function FrmX({
-  initialValues,
+  initialValues = {},
   onSubmit,
   className,
   children,
@@ -15,17 +15,16 @@ export default function FrmX({
   disableSubmitIfInvalid = false,
   disableIfNoUpdates = false
 }) {
-  const [fields, setFields] = useState(initialValues || {})
+  const [fields, setFields] = useState(_.cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
   const [visited, setVisited] = useState({})
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Also update saved values in the form to untouched values after submission
-  let untouchedValues = _.cloneDeep(initialValues)
-
   const validationMethodsPaths = makeRecursiveKeyList(schemaValidation)
 
+  // Add check for errors if
   const isValidForm = useMemo(() => {
     let isValid = true
 
@@ -55,6 +54,7 @@ export default function FrmX({
     setVisited(prev => _.set({ ...prev }, name, true))
   }
 
+
   const handleError = (name, isError) => {
     setErrors(prev => _.set({ ...prev }, name, isError))
   }
@@ -66,9 +66,8 @@ export default function FrmX({
     if (!isValidForm && onInvalidSubmit) {
       onInvalidSubmit()
     } else {
-      setUpdates(_ => { })
-      setErrors(_ => { })
-      untouchedValues = _.cloneDeep(fields)
+      setUpdates({})
+      setVisited({})
       onSubmit(updatesOnly ? updates : fields)
     }
     // Add check that the button does have the id we gave it (random Id, nanoID)
@@ -78,9 +77,9 @@ export default function FrmX({
   }
 
   const resetForm = () => {
-    setFields(_ => untouchedValues)
-    setUpdates(_ => { })
-    setErrors(_ => { })
+    setUpdates({})
+    setVisited({})
+    setFields(_ => initialValues)
   }
 
   // Functions intended to be used with the useFrmX hook
