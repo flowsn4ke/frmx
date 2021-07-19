@@ -38,7 +38,7 @@ export default function App() {
         updatesOnly
         initialValues={fields}
         onSubmit={values => alert(JSON.stringify(values, null, 2))}
-        disableIf={formData => formData.options.breakfast.length < 10}
+        disableIf={formData => formData.options.breakfast.length > 15}
         disableSubmitIfInvalid
         // onInvalidSubmit={() => alert("invalid form")}
         schemaValidation={validationMethods}
