@@ -81,9 +81,12 @@ export default function FrmX({
     setFields(_ => initialValues)
   }
 
-  // Functions intended to be used with the useFrmX hook
+  // Functions intended to be used with the useFrmX hook in fields
   const getOneField = (field) => _.get(fields, field)
-  const setOneField = (field, value) => setFields(prev => _.set({ ...prev }, field, value))
+  const setOneField = (field, value) => {
+    setFields(prev => _.set({ ...prev }, field, value))
+    setUpdates(prev => _.set({ ...prev }, field, value))
+  }
   const getOneVisited = (field) => _.get(visited, field)
   const setOneVisited = (field) => setVisited(prev => _.set({ ...prev }, field, true))
   const getOneError = (field) => _.get(errors, field)
