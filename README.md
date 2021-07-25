@@ -143,6 +143,8 @@ autoCapitalizeOff
 />
 ```
 
+Note: **Use only "." notation, even for array elements**, otherwise you will run into bugs. For instance, to access the string `"baz"` in `{a: ["bar", {b: "baz"}]}}`, you would give the field `"a.1.b"`.
+
 Note: `<FldX/>` can have only one child element, which can have some other elements nested into it, of course.
 
 ### BtnX Component

@@ -17,9 +17,9 @@ const fields = {
   },
   newPassword: "",
   confirmedPassword: "",
+  arr: [""],
   obj: {
-    1: "",
-    2: "",
+    0: ""
   }
 }
 
@@ -47,7 +47,7 @@ export default function Demo() {
         // disableSubmitIfInvalid
         disabledIf={formData => formData.name === formData.options.breakfast}
         disableIfNoUpdates
-        // onInvalidSubmit={() => alert("Invalid form!")}
+        onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
       >
         <Typography variant="h4" className={classes.input}>
@@ -70,12 +70,12 @@ export default function Demo() {
           <TextField className={classes.input} variant="outlined" label="Breakfast" />
         </FldX>
 
-        <FldX field="obj.1">
-          <TextField className={classes.input} variant="outlined" label="Field 1" />
+        <FldX field="obj.0">
+          <TextField className={classes.input} variant="outlined" label="Field Object" />
         </FldX>
 
-        <FldX field="obj.2">
-          <TextField className={classes.input} variant="outlined" label="Field 2" />
+        <FldX field="arr.0">
+          <TextField className={classes.input} variant="outlined" label="Field Array" />
         </FldX>
 
         <FldX field="options.colors.main" type="color">

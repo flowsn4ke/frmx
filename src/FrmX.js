@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { FrmXContext } from "./FrmXContext"
 import _ from "lodash"
-import { makeRecursiveKeyList } from './utils/objectUtils'
+import { makeRecursiveKeyList, isParentObject } from './utils/objectUtils'
 
 export default function FrmX({
   initialValues = {},
@@ -18,7 +18,6 @@ export default function FrmX({
 }) {
   const [fields, setFields] = useState(_.cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
-  const [updatedFields, setUpdatedFields] = []
   const [visited, setVisited] = useState({})
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -50,27 +49,20 @@ export default function FrmX({
     const value = target.type === 'checkbox' ? target.checked : target.value
 
     // Check that type of parents for fields whose property name is a number
-    const lastDot = name.lastIndexOf('.')
-    const parentPath = name.slice(0, lastDot > 0 ? lastDot : name.length)
-    const parent = _.get(fields, parentPath)
-    const parentType = typeof parent
-    const isArray = parent instanceof Array && parentType === "object"
-    const isObject = parent instanceof Object && parentType === "object"
-
     // We don't need setWith here as fields are already a clone of initialValues
     setFields(prev => _.set({ ...prev }, name, value))
-    setUpdates(prev => _.setWith({ ...prev }, name, value, isArray ? Array : isObject ? Object : undefined))
+    setUpdates(prev => _.setWith({ ...prev }, name, value, isParentObject(fields, name) ? Object : undefined))
   }
 
   const handleBlur = (e) => {
     const target = e.target
     const name = target.name
-    setVisited(prev => _.set({ ...prev }, name, true))
+    setVisited(prev => _.setWith({ ...prev }, name, true, isParentObject(fields, name) ? Object : undefined))
   }
 
 
   const handleError = (name, isError) => {
-    setErrors(prev => _.set({ ...prev }, name, isError))
+    setErrors(prev => _.setWith({ ...prev }, name, isError, isParentObject(fields, name) ? Object : undefined))
   }
 
   const handleSubmit = (e) => {
@@ -93,19 +85,19 @@ export default function FrmX({
   const resetForm = () => {
     setUpdates({})
     setVisited({})
-    setFields(_ => initialValues)
+    setFields(() => initialValues)
   }
 
   // Functions intended to be used with the useFrmX hook in fields
   const getOneField = (field) => _.get(fields, field)
   const setOneField = (field, value) => {
     setFields(prev => _.set({ ...prev }, field, value))
-    setUpdates(prev => _.set({ ...prev }, field, value))
+    setUpdates(prev => _.setWith({ ...prev }, field, value, isParentObject(fields, name) ? Object : undefined))
   }
   const getOneVisited = (field) => _.get(visited, field)
-  const setOneVisited = (field) => setVisited(prev => _.set({ ...prev }, field, true))
+  const setOneVisited = (field) => setVisited(prev => _.setWith({ ...prev }, field, true, isParentObject(fields, name) ? Object : undefined))
   const getOneError = (field) => _.get(errors, field)
-  const setOneError = (field, isError) => setErrors(prev => _.set({ ...prev }, field, isError))
+  const setOneError = (field, isError) => setErrors(prev => _.setWith({ ...prev }, field, isError, isParentObject(fields, name) ? Object : undefined))
   const getIsSubmitting = () => isSubmitting
 
   return <FrmXContext.Provider value={{
