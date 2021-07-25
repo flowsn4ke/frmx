@@ -1,6 +1,6 @@
 import React from 'react'
-import { FrmX, FldX, BtnX, RstX } from 'frmx'
-import { isEmail } from 'validator'
+import { FrmX, FldX, ArrX, BtnX, RstX } from 'frmx'
+import { isEmail, isHexColor } from 'validator'
 import { Box, Button, Checkbox, TextField, Typography } from "@material-ui/core"
 import useStyles from "./styles.js"
 
@@ -9,7 +9,8 @@ const fields = {
   email: "",
   date: "2021-07-11",
   options: {
-    breakfast: "",
+    arr: [""],
+    obj: { 0: "" },
     colors: {
       main: "#ffbb00"
     },
@@ -17,10 +18,7 @@ const fields = {
   },
   newPassword: "",
   confirmedPassword: "",
-  arr: [""],
-  obj: {
-    0: ""
-  }
+  objInArr: []
 }
 
 const isTrue = val => val
@@ -29,7 +27,9 @@ const validationMethods = {
   email: isEmail,
   options: {
     checked: isTrue,
-    breakfast: (str) => str.length > 10
+    colors: {
+      main: isHexColor
+    }
   }
 }
 
@@ -70,11 +70,11 @@ export default function Demo() {
           <TextField className={classes.input} variant="outlined" label="Breakfast" />
         </FldX>
 
-        <FldX field="obj.0">
+        <FldX field="options.obj.0">
           <TextField className={classes.input} variant="outlined" label="Field Object" />
         </FldX>
 
-        <FldX field="arr.0">
+        <FldX field="options.arr.0">
           <TextField className={classes.input} variant="outlined" label="Field Array" />
         </FldX>
 
@@ -87,6 +87,22 @@ export default function Demo() {
             <Checkbox className={classes.checkbox} />
           </FldX>
         </Box>
+
+        <ArrX startWithOneMore field="objInArr" model={{ name: "", email: "" }}>
+          {({ field, items, addItem, removeItem }) => <Box>
+            {items.map((item, i) => <Box key={`unique-id-${i}`}>
+              <FldX field={`${field}.${i}.name`}>
+                <TextField className={classes.input} variant="outlined" label="Name" />
+              </FldX>
+              <FldX field={`${field}.${i}.email`}>
+                <TextField className={classes.input} variant="outlined" label="Email" />
+              </FldX>
+
+              <Button onClick={() => removeItem(i)}>Remove</Button>
+            </Box>)}
+            <Button onClick={addItem}>Add Person</Button>
+          </Box>}
+        </ArrX>
 
         <BtnX>
           <Button variant="contained" className={classes.input}>Submit</Button>

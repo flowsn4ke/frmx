@@ -39,7 +39,7 @@ The state is automatically passed on to the nearest FrmX ancestor through React'
 
 ## API
 
-**frmx** exposes **four components** that cover 90% of cases. Because having a hammer doesn't make everything a nail, it also exposes a **a hook** that covers the 10% remaining.
+**frmx** exposes **five components** that cover 90% of cases. Because having a hammer doesn't make everything a nail, it also exposes a **a hook** that covers the 10% remaining.
 
 ### Quick Start
 
@@ -146,6 +146,46 @@ autoCapitalizeOff
 Note: **Use only "." notation, even for array elements**, otherwise you will run into bugs. For instance, to access the string `"baz"` in `{a: ["bar", {b: "baz"}]}}`, you would give the field `"a.1.b"`.
 
 Note: `<FldX/>` can have only one child element, which can have some other elements nested into it, of course.
+
+### ArrX Component
+
+A simple wrapper that exposes function to make working with array a breeze. It's meant to manipulate one of FrmX fields which is an array. It uses render props to pass down a few utilities, such as adding / removing elements. It expects a model to add new fields.
+
+If you pass a method to validate an array, the validation method will be the same for all array items. You can use the `disableIf` prop on `<FrmX/>` should you wish to target a specific array element by index.
+
+It accepts `<FldX/>` fields as descendents that can reuse the `field` prop from `<ArrX/>` for convenience and to avoid mistakes.
+
+```js
+<FrmX
+initialValues={{arr:[]}}
+onSubmit={formData => doSmthg(formData)}
+>
+  <ArrX
+  // A prop to add one element from the start into the array so we can start editing
+  startWithOneMore
+  // The path corresponding to the array we want to edit
+  field="arr"
+  // The initial values for each new element in the array
+  model={{ name: "", email: "" }}
+  >
+    {({ field, items, addItem, removeItem }) => // Here we get back some self-explanatory utilities
+      <Box>
+
+        {items.map((item, i) => <Box key={`unique-id-${i}`}>
+        <FldX field={`${field}.${i}.name`}>
+          <TextField className={classes.input} variant="outlined" label="Name" />
+        </FldX>
+        <FldX field={`${field}.${i}.email`}>
+          <TextField className={classes.input} variant="outlined" label="Email" />
+        </FldX>
+
+        <Button onClick={() => removeItem(i)}>Remove</Button>
+      </Box>)}
+    <Button onClick={addItem}>Add Person</Button>
+    </Box>}
+  </ArrX>
+</FrmX>
+```
 
 ### BtnX Component
 
