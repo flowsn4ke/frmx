@@ -14,6 +14,12 @@ const fields = {
       main: "#ffbb00"
     },
     checked: true
+  },
+  newPassword: "",
+  confirmedPassword: "",
+  obj: {
+    1: "",
+    2: "",
   }
 }
 
@@ -39,6 +45,7 @@ export default function Demo() {
         initialValues={fields}
         onSubmit={values => alert(JSON.stringify(values, null, 2))}
         // disableSubmitIfInvalid
+        disabledIf={formData => formData.name === formData.options.breakfast}
         disableIfNoUpdates
         // onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
@@ -63,6 +70,14 @@ export default function Demo() {
           <TextField className={classes.input} variant="outlined" label="Breakfast" />
         </FldX>
 
+        <FldX field="obj.1">
+          <TextField className={classes.input} variant="outlined" label="Field 1" />
+        </FldX>
+
+        <FldX field="obj.2">
+          <TextField className={classes.input} variant="outlined" label="Field 2" />
+        </FldX>
+
         <FldX field="options.colors.main" type="color">
           <input className={classes.input} />
         </FldX>
@@ -72,7 +87,6 @@ export default function Demo() {
             <Checkbox className={classes.checkbox} />
           </FldX>
         </Box>
-
 
         <BtnX>
           <Button variant="contained" className={classes.input}>Submit</Button>

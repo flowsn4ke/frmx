@@ -2,14 +2,18 @@ import React, { cloneElement, Children, Fragment } from "react"
 import { useFrmX } from "./FrmXContext"
 
 export default function BtnX({
-  disabled: disabledPlus,
+  disabled: localyDisabled,
   children,
   ...rest
 }) {
-  const { isSubmitting, isValidForm, disableSubmitIfInvalid, updates, disableIfNoUpdates } = useFrmX()
+  const { isSubmitting, isValidForm, disableSubmitIfInvalid, updates, disableIfNoUpdates, isConditionnallyDisabled } = useFrmX()
 
   const props = {
-    disabled: (!isValidForm && disableSubmitIfInvalid) || (disableIfNoUpdates && !Object.keys(updates).length) || isSubmitting || disabledPlus,
+    disabled: (!isValidForm && disableSubmitIfInvalid) ||
+      (disableIfNoUpdates && !Object.keys(updates).length) ||
+      isConditionnallyDisabled ||
+      localyDisabled ||
+      isSubmitting,
     type: "submit",
     ...rest
   }

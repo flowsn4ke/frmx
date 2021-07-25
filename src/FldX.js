@@ -28,8 +28,8 @@ export default function FldX({
   } = useFrmX()
 
   const isError = () => {
-    const method = _.get(schemaValidation, field)
-    if (method) return !method(_.get(fields, field))
+    const isValid = _.get(schemaValidation, field)
+    if (isValid) return !isValid(_.get(fields, field))
     else return false
   }
 

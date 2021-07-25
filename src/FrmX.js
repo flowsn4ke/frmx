@@ -9,6 +9,7 @@ export default function FrmX({
   className,
   children,
   onInvalidSubmit,
+  disabledIf,
   schemaValidation,
   updatesOnly = false,
   autoCompleteOff = false,
@@ -17,6 +18,7 @@ export default function FrmX({
 }) {
   const [fields, setFields] = useState(_.cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
+  const [updatedFields, setUpdatedFields] = []
   const [visited, setVisited] = useState({})
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -38,13 +40,26 @@ export default function FrmX({
     return isValid
   }, [fields, updates])
 
+  const isConditionnallyDisabled = useMemo(() => {
+    return !!disabledIf ? disabledIf(fields) : false
+  }, [fields, updates])
+
   const handleChange = (e) => {
     const target = e.target
     const name = target.name
     const value = target.type === 'checkbox' ? target.checked : target.value
 
-    setUpdates(prev => _.set({ ...prev }, name, value))
+    // Check that type of parents for fields whose property name is a number
+    const lastDot = name.lastIndexOf('.')
+    const parentPath = name.slice(0, lastDot > 0 ? lastDot : name.length)
+    const parent = _.get(fields, parentPath)
+    const parentType = typeof parent
+    const isArray = parent instanceof Array && parentType === "object"
+    const isObject = parent instanceof Object && parentType === "object"
+
+    // We don't need setWith here as fields are already a clone of initialValues
     setFields(prev => _.set({ ...prev }, name, value))
+    setUpdates(prev => _.setWith({ ...prev }, name, value, isArray ? Array : isObject ? Object : undefined))
   }
 
   const handleBlur = (e) => {
@@ -113,6 +128,7 @@ export default function FrmX({
     isValidForm,
     disableSubmitIfInvalid,
     schemaValidation,
+    isConditionnallyDisabled,
     resetForm
   }}>
     <form className={className} onSubmit={handleSubmit} noValidate autoComplete={autoCompleteOff ? "off" : "on"}>
