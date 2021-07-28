@@ -1,8 +1,14 @@
-import React from 'react'
-import { FrmX, FldX, ArrX, BtnX, RstX } from 'frmx'
-import { isEmail, isHexColor } from 'validator'
-import { Box, Button, Checkbox, TextField, Typography } from "@material-ui/core"
-import useStyles from "./styles.js"
+import React from "react";
+import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx";
+import { isEmail, isHexColor } from "validator";
+import {
+  Box,
+  Button,
+  Checkbox,
+  TextField,
+  Typography
+} from "@material-ui/core";
+import useStyles from "./styles.js";
 
 const fields = {
   name: "",
@@ -19,9 +25,9 @@ const fields = {
   newPassword: "",
   confirmedPassword: "",
   objInArr: []
-}
+};
 
-const isTrue = val => val
+const isTrue = (val) => val;
 
 const validationMethods = {
   email: isEmail,
@@ -31,22 +37,22 @@ const validationMethods = {
       main: isHexColor
     }
   }
-}
+};
 
 export default function Demo() {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Box className={classes.container}>
-
       <FrmX
         className={classes.formContainer}
         updatesOnly
         initialValues={fields}
-        onSubmit={values => alert(JSON.stringify(values, null, 2))}
+        onSubmit={(values) => console.log(values)}
+        onReset={(values) => console.log(values)}
         // disableSubmitIfInvalid
-        disabledIf={formData => formData.name === formData.options.breakfast}
-        disableIfNoUpdates
+        // disabledIf={(formData) => formData.name === formData.newPassword}
+        // disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
       >
@@ -54,28 +60,44 @@ export default function Demo() {
           Some Meaningful Form
         </Typography>
 
-        <FldX field="date" type="date" >
-          <TextField className={classes.input} variant="outlined" label="Date" />
+        <FldX field="date" type="date">
+          <TextField
+            className={classes.input}
+            variant="outlined"
+            label="Date"
+          />
         </FldX>
 
         <FldX field="name" type="text">
-          <TextField className={classes.input} variant="outlined" label="Name" />
+          <TextField
+            className={classes.input}
+            variant="outlined"
+            label="Name"
+          />
         </FldX>
 
         <FldX field="email" type="text" isErrorProp="error">
-          <TextField className={classes.input} variant="outlined" label="me@email.com" />
-        </FldX>
-
-        <FldX field="options.breakfast" type="text">
-          <TextField className={classes.input} variant="outlined" label="Breakfast" />
+          <TextField
+            className={classes.input}
+            variant="outlined"
+            label="me@email.com"
+          />
         </FldX>
 
         <FldX field="options.obj.0">
-          <TextField className={classes.input} variant="outlined" label="Field Object" />
+          <TextField
+            className={classes.input}
+            variant="outlined"
+            label="Field Object"
+          />
         </FldX>
 
         <FldX field="options.arr.0">
-          <TextField className={classes.input} variant="outlined" label="Field Array" />
+          <TextField
+            className={classes.input}
+            variant="outlined"
+            label="Field Array"
+          />
         </FldX>
 
         <FldX field="options.colors.main" type="color">
@@ -89,31 +111,45 @@ export default function Demo() {
         </Box>
 
         <ArrX startWithOneMore field="objInArr" model={{ name: "", email: "" }}>
-          {({ field, items, addItem, removeItem }) => <Box>
-            {items.map((item, i) => <Box key={`unique-id-${i}`}>
-              <FldX field={`${field}.${i}.name`}>
-                <TextField className={classes.input} variant="outlined" label="Name" />
-              </FldX>
-              <FldX field={`${field}.${i}.email`}>
-                <TextField className={classes.input} variant="outlined" label="Email" />
-              </FldX>
+          {({ field, items, addItem, removeItem }) => (
+            <Box>
+              {items.map((item, i) => (
+                <Box key={`unique-id-${i}`}>
+                  <FldX field={`${field}.${i}.name`}>
+                    <TextField
+                      className={classes.input}
+                      variant="outlined"
+                      label="Name"
+                    />
+                  </FldX>
+                  <FldX field={`${field}.${i}.email`}>
+                    <TextField
+                      className={classes.input}
+                      variant="outlined"
+                      label="Email"
+                    />
+                  </FldX>
 
-              <Button onClick={() => removeItem(i)}>Remove</Button>
-            </Box>)}
-            <Button onClick={addItem}>Add Person</Button>
-          </Box>}
+                  <Button onClick={() => removeItem(i)}>Remove</Button>
+                </Box>
+              ))}
+              <Button onClick={addItem}>Add Person</Button>
+            </Box>
+          )}
         </ArrX>
 
         <BtnX>
-          <Button variant="contained" className={classes.input}>Submit</Button>
+          <Button variant="contained" className={classes.input}>
+            Submit
+          </Button>
         </BtnX>
 
         <RstX>
-          <Button variant="contained" className={classes.input}>Reset</Button>
+          <Button variant="contained" className={classes.input}>
+            Reset
+          </Button>
         </RstX>
-
       </FrmX>
-
-    </Box >
-  )
+    </Box>
+  );
 }

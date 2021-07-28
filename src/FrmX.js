@@ -6,6 +6,7 @@ import { makeRecursiveKeyList, isParentObject } from './utils/objectUtils'
 export default function FrmX({
   initialValues = {},
   onSubmit,
+  onReset,
   className,
   children,
   onInvalidSubmit,
@@ -83,6 +84,7 @@ export default function FrmX({
   }
 
   const resetForm = () => {
+    if (onReset) onReset(updatesOnly ? updates : fields)
     setUpdates({})
     setVisited({})
     setFields(() => initialValues)

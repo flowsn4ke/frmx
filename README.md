@@ -91,9 +91,11 @@ FrmX needs only two props to do its job, `initialValues` and `onSubmit`. There i
 initialValues={{foo:"bar"}}
 // What to do with the form data
 onSubmit={formData => doSmthgWith(formData)}
+// Something to do with the values when you reset - or anything else
+onReset={formData => console.log("Reset!")}
+// Pass any classes to style the form
 className={"I style directly the html form tag"}
-// You will get back an object that reflects
-// the difference between the intial state and the edited state
+// Get back the difference between the intial state and the edited state
 updatesOnly
 // Disable autocomplete
 autoCompleteOff
