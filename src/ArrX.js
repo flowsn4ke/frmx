@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react"
 import { useFrmX } from "./FrmXContext"
-import _ from "lodash"
+import { cloneDeep } from "lodash"
 
 // TODO: Update the codepen demo
 export default function ArrX({
@@ -12,13 +12,13 @@ export default function ArrX({
   const { setOneField, getOneField } = useFrmX()
 
   const addItem = () => {
-    const newArr = _.cloneDeep(getOneField(field))
+    const newArr = cloneDeep(getOneField(field))
     newArr.push(model)
     setOneField(field, newArr)
   }
 
   const removeItem = (index) => {
-    const newArr = _.cloneDeep(getOneField(field))
+    const newArr = cloneDeep(getOneField(field))
     setOneField(field, newArr.filter((item, i) => i !== index))
   }
 

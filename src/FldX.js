@@ -1,6 +1,6 @@
 import React, { cloneElement, Children, Fragment } from "react"
 import { useFrmX } from "./FrmXContext"
-import _ from "lodash"
+import { get } from "lodash"
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -28,15 +28,15 @@ export default function FldX({
   } = useFrmX()
 
   const isError = () => {
-    const isValid = _.get(schemaValidation, field)
-    if (isValid) return !isValid(_.get(fields, field))
+    const isValid = get(schemaValidation, field)
+    if (isValid) return !isValid(get(fields, field))
     else return false
   }
 
   const onChange = (e) => {
     handleChange(e)
 
-    if (_.get(visited, field)) {
+    if (get(visited, field)) {
       handleError(field, isError())
     }
   }
@@ -54,8 +54,8 @@ export default function FldX({
     onChange,
     required: required,
     disabled: isSubmitting,
-    [type === "checkbox" ? "checked" : "value"]: _.get(fields, field),
-    ...(isErrorProp ? { [isErrorProp]: _.get(errors, field) } : {}),
+    [type === "checkbox" ? "checked" : "value"]: get(fields, field),
+    ...(isErrorProp ? { [isErrorProp]: get(errors, field) } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
