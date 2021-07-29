@@ -6,7 +6,7 @@ export default makeStyles({
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    height: "100vh",
+    minHeight: "100vh",
     width: "100vw",
     backgroundColor: "mistyrose",
     margin: 0,

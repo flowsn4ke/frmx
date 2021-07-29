@@ -1,6 +1,6 @@
 {
   "name": "frmx",
-  "version": "3.0.3",
+  "version": "3.3.1",
   "description": "A minimalistic approach to forms in react",
   "keywords": [
     "react",
@@ -27,7 +27,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "build": "microbundle-crl --no-compress --format modern,cjs && rm dist/*.map",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",

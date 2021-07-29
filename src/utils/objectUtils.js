@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 export const makeRecursiveKeyList = (obj, stack = '', validationMethods = []) => {
 
   for (let property in obj) {
@@ -10,4 +12,12 @@ export const makeRecursiveKeyList = (obj, stack = '', validationMethods = []) =>
     }
   }
   return validationMethods
+}
+
+export const isParentObject = (obj, path) => {
+  const lastDot = path.lastIndexOf('.')
+  const parentPath = path.slice(0, lastDot > 0 ? lastDot : path.length)
+  const parent = _.get(obj, parentPath)
+  const parentType = typeof parent
+  return parent instanceof Object && parentType === "object" && !(parent instanceof Array)
 }
