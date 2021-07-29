@@ -43,6 +43,10 @@ export default function FrmX({
     const name = target.name
     const value = target.type === 'checkbox' ? target.checked : target.value
 
+    // split on the points and iterate to recreate object from fields
+    // if _.has() returns nothing? Or change diff model?
+    // use setWith once the type of the field is figured out either from fields
+
     setUpdates(prev => _.set({ ...prev }, name, value))
     setFields(prev => _.set({ ...prev }, name, value))
   }
