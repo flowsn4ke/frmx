@@ -107,6 +107,12 @@ disableSubmitIfInvalid
 schemaValidation={{foo: (str) => str.length > 0}}
 // A callback that will be called upon invalid submit. Use either that OR disableSubmitIfInvalid
 onInvalidSubmit={() => alert("invalid form")}
+// This prop allows you to render a <div> tag instead of a <form>.
+// This allows for nested forms that control fields, for instance
+renderDiv
+// This will clear the form after submit if the form was valid and submitted
+// However, there is no way to check the submit was successful as of now
+clearAfterSubmit
 // Any other props will be spread on to the form tag
 {...rest}
 />
