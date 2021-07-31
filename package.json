@@ -1,6 +1,6 @@
 {
   "name": "frmx",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "A minimalistic approach to forms in react",
   "keywords": [
     "react",
@@ -39,7 +39,8 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
@@ -58,8 +59,6 @@
     "microbundle-crl": "^0.13.10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1"
   },
   "files": [
