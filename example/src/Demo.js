@@ -1,6 +1,6 @@
 import React from "react";
-import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx";
-import { isEmail, isHexColor } from "validator";
+import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx"
+import { isEmail, isHexColor } from "validator"
 import {
   Box,
   Button,
@@ -50,6 +50,8 @@ export default function Demo() {
         initialValues={fields}
         onSubmit={(values) => console.log(values)}
         onReset={(values) => console.log(values)}
+        renderDiv
+        // clearAfterSubmit
         // disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
         // disableIfNoUpdates
@@ -137,6 +139,28 @@ export default function Demo() {
             </Box>
           )}
         </ArrX>
+
+        <FrmX
+          initialValues={{
+            name: "Hello"
+          }}
+          onSubmit={formData => console.log("Nesteeeeed")}
+        >
+          <FldX field="name" type="text">
+            <TextField
+              className={classes.input}
+              variant="outlined"
+              label="Name"
+            />
+          </FldX>
+
+          <BtnX>
+            <Button variant="contained" className={classes.input}>
+              Submit Nested Form
+            </Button>
+          </BtnX>
+
+        </FrmX>
 
         <BtnX>
           <Button variant="contained" className={classes.input}>

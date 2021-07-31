@@ -13,8 +13,8 @@
     "@material-ui/core": "^4.12.1",
     "frmx": "link:..",
     "lodash": "^4.17.21",
-    "react": "link:../node_modules/react",
-    "react-dom": "link:../node_modules/react-dom",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-scripts": "link:../node_modules/react-scripts",
     "validator": "^13.6.0"
   },

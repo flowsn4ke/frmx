@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { FrmXContext } from "./FrmXContext"
-import _ from "lodash"
 import { get, set, setWith, cloneDeep } from "lodash"
 import { makeRecursiveKeyList, isParentObject } from './utils/objectUtils'
 
@@ -13,10 +12,12 @@ export default function FrmX({
   onInvalidSubmit,
   disabledIf,
   schemaValidation,
-  updatesOnly = false,
-  autoCompleteOff = false,
-  disableSubmitIfInvalid = false,
-  disableIfNoUpdates = false
+  updatesOnly,
+  autoCompleteOff,
+  disableSubmitIfInvalid,
+  disableIfNoUpdates,
+  renderDiv,
+  clearAfterSubmit
 }) {
   const [fields, setFields] = useState(cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
@@ -67,6 +68,13 @@ export default function FrmX({
     setErrors(prev => setWith({ ...prev }, name, isError, isParentObject(fields, name) ? Object : undefined))
   }
 
+  const resetForm = () => {
+    setUpdates({})
+    setVisited({})
+    setFields(() => initialValues)
+    if (onReset) onReset(updatesOnly ? updates : fields)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -77,18 +85,12 @@ export default function FrmX({
       setUpdates({})
       setVisited({})
       onSubmit(updatesOnly ? updates : fields)
+      if (clearAfterSubmit) resetForm()
     }
     // Add check that the button does have the id we gave it (random Id, nanoID)
     // before submitting, avoiding conflicts with other buttons in the form with type of "submit"?
 
     setIsSubmitting(false)
-  }
-
-  const resetForm = () => {
-    if (onReset) onReset(updatesOnly ? updates : fields)
-    setUpdates({})
-    setVisited({})
-    setFields(() => initialValues)
   }
 
   // Functions intended to be used with the useFrmX hook in fields
@@ -119,15 +121,31 @@ export default function FrmX({
     handleChange,
     handleBlur,
     handleError,
+    handleSubmit,
     isSubmitting,
     isValidForm,
     disableSubmitIfInvalid,
     schemaValidation,
     isConditionnallyDisabled,
-    resetForm
+    resetForm,
+    renderDiv
   }}>
-    <form className={className} onSubmit={handleSubmit} noValidate autoComplete={autoCompleteOff ? "off" : "on"}>
-      {children}
-    </form>
+    {(() => {
+      if (!renderDiv) {
+        return <form
+          className={className}
+          onSubmit={handleSubmit}
+          noValidate
+          autoComplete={autoCompleteOff ? "off" : "on"}
+        >
+          {children}
+        </form>
+      } else {
+        return <div className={className}>
+          {children}
+        </div>
+      }
+    })()}
+
   </FrmXContext.Provider>
 };
