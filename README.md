@@ -96,6 +96,7 @@ onReset={formData => console.log("Reset!")}
 // Pass any classes to style the form
 className={"I style directly the html form tag"}
 // Get back the difference between the intial state and the edited state
+// The form will be regarded as invalid if there are no updates
 updatesOnly
 // Disable autocomplete
 autoCompleteOff

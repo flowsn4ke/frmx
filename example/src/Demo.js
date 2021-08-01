@@ -36,8 +36,11 @@ const validationMethods = {
     colors: {
       main: isHexColor
     }
+  },
+  objInArr: {
+    name: s => s.length > 3
   }
-};
+}
 
 export default function Demo() {
   const classes = useStyles();
@@ -50,7 +53,6 @@ export default function Demo() {
         initialValues={fields}
         onSubmit={(values) => console.log(values)}
         onReset={(values) => console.log(values)}
-        renderDiv
         // clearAfterSubmit
         // disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
@@ -112,12 +114,12 @@ export default function Demo() {
           </FldX>
         </Box>
 
-        <ArrX startWithOneMore field="objInArr" model={{ name: "", email: "" }}>
+        <ArrX field="objInArr" model={{ name: "", email: "" }}>
           {({ field, items, addItem, removeItem }) => (
             <Box>
               {items.map((item, i) => (
                 <Box key={`unique-id-${i}`}>
-                  <FldX field={`${field}.${i}.name`}>
+                  <FldX field={`${field}.${i}.name`} isErrorProp="error">
                     <TextField
                       className={classes.input}
                       variant="outlined"
@@ -141,10 +143,9 @@ export default function Demo() {
         </ArrX>
 
         <FrmX
-          initialValues={{
-            name: "Hello"
-          }}
-          onSubmit={formData => console.log("Nesteeeeed")}
+          initialValues={{ name: "I'm a nested form" }}
+          onSubmit={formData => console.log("Nested Form Submit")}
+          renderDiv
         >
           <FldX field="name" type="text">
             <TextField

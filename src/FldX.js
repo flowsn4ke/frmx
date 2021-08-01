@@ -1,6 +1,7 @@
-import React, { cloneElement, Children, Fragment } from "react"
+import React, { cloneElement, Children, Fragment, useMemo, useEffect, useCallback } from "react"
 import { useFrmX } from "./FrmXContext"
 import { get } from "lodash"
+import { useArrX } from "./ArrXContext"
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -15,10 +16,8 @@ export default function FldX({
   children,
   ...rest
 }) {
-  // TODO: Add a set required so that form is disabled when a field is required?
   const {
     fields,
-    errors,
     visited,
     handleChange,
     handleBlur,
@@ -27,23 +26,47 @@ export default function FldX({
     schemaValidation
   } = useFrmX()
 
-  const isError = () => {
-    const isValid = get(schemaValidation, field)
-    if (isValid) return !isValid(get(fields, field))
-    else return false
-  }
+  const arrx = useArrX()
 
-  const onChange = (e) => {
-    handleChange(e)
+  const visitedOnce = useMemo(() => {
+    return get(visited, field)
+  }, [get(visited, field)])
 
-    if (get(visited, field)) {
-      handleError(field, isError())
+  const getValidationMethod = useCallback(() => {
+    const isInsideArray = !!arrx
+    let validationPath
+
+    if (isInsideArray) {
+      const relPath = field.slice(arrx.validationPath.length)
+      const arrIndexLength = relPath.match(/^.\d+/)[0].length
+      const start = arrx.validationPath
+      const end = relPath.slice(arrIndexLength)
+      validationPath = start + end
+    } else {
+      validationPath = field
     }
-  }
 
-  const onBlur = (e) => {
+    return get(schemaValidation, validationPath)
+  }, [schemaValidation])
+
+  useEffect(() => {
+    const method = getValidationMethod()
+    return handleError(field, method ? !method(get(fields, field)) : false)
+  }, [])
+
+  const isError = useMemo(() => {
+    const method = getValidationMethod()
+    return method ? !method(get(fields, field)) : false
+  }, [get(fields, field), get(visited, field)])
+
+  const onChange = e => {
+    handleChange(e)
+    handleError(field, isError)
+  }
+  const onBlur = e => {
     handleBlur(e)
-    handleError(field, isError())
+    handleChange(e)
+    handleError(field, isError)
   }
 
   const props = {
@@ -55,15 +78,13 @@ export default function FldX({
     required: required,
     disabled: isSubmitting,
     [type === "checkbox" ? "checked" : "value"]: get(fields, field),
-    ...(isErrorProp ? { [isErrorProp]: get(errors, field) } : {}),
+    ...(isErrorProp ? { [isErrorProp]: isError && visitedOnce ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
   }
 
   return <Fragment>
-    {Children.only(children) && Children.map(children, child => {
-      return cloneElement(child, props)
-    })}
+    {Children.only(children) && Children.map(children, child => cloneElement(child, props))}
   </Fragment>
 };
