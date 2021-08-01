@@ -9,10 +9,12 @@ import {
   Typography
 } from "@material-ui/core";
 import useStyles from "./styles.js";
+import PhoneInput from "./components/PhoneInput.js";
 
 const fields = {
   name: "",
   email: "",
+  phoneNumber: "",
   date: "2021-07-11",
   options: {
     arr: [""],
@@ -80,7 +82,13 @@ export default function Demo() {
           />
         </FldX>
 
-        <FldX field="email" type="text" isErrorProp="error">
+        <PhoneInput
+          field="phoneNumber"
+          className={classes.input}
+          placeholder="Enter your number"
+        />
+
+        <FldX field="email" isErrorProp="error">
           <TextField
             className={classes.input}
             variant="outlined"
