@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
 import { FrmXContext } from "./FrmXContext"
 import { get, set, setWith, cloneDeep } from "lodash"
 import { isParentObject } from './utils/objectUtils'
@@ -22,14 +22,14 @@ export default function FrmX({
 }) {
   const [fields, setFields] = useState(cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
-  const [visited, setVisited] = useState({})
-  const [errors, setErrors] = useState([])
+  const [visited, setVisited] = useState(new Set())
+  const [errors, setErrors] = useState(new Set())
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
 
   const isValidForm = useMemo(() => {
-    return errors.length < 1
+    return errors.size < 1
   }, [schemaValidation, fields, errors, visited, updates])
 
   const isConditionnallyDisabled = useMemo(() => {
@@ -37,11 +37,14 @@ export default function FrmX({
   }, [fields, updates])
 
   const handleError = (field, isError) => {
-    if (isError) setErrors(prev => {
-      if (!prev.includes(field)) prev.push(field)
-      return prev
-    })
-    else setErrors(prev => prev.filter(path => path !== field))
+    const next = new Set(errors)
+    if (isError && !errors.has(field)) {
+      next.add(field)
+      setErrors(next)
+    } else if (!isError && errors.has(field)) {
+      next.delete(field)
+      setErrors(next)
+    }
   }
 
   const handleChange = (e, arrx = undefined) => {
@@ -58,15 +61,9 @@ export default function FrmX({
     handleError(field, validationMethod ? !validationMethod(value) : false)
   }
 
-  const handleBlur = (e) => {
-    const target = e.target
-    const field = target.name
-    setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, field) ? Object : undefined))
-  }
-
   const resetForm = () => {
     setUpdates({})
-    setVisited({})
+    setVisited(new Set())
     setFields(() => cloneDeep(initialValues))
     if (onReset) onReset(updatesOnly ? updates : fields)
   }
@@ -79,8 +76,8 @@ export default function FrmX({
       onInvalidSubmit()
     } else {
       setUpdates({})
-      setVisited({})
-      setErrors([])
+      setVisited(new Set())
+      setErrors(new Set())
       onSubmit(updatesOnly ? updates : fields)
       if (clearAfterSubmit) resetForm()
     }
@@ -94,15 +91,20 @@ export default function FrmX({
     setFields(prev => set({ ...prev }, field, value))
     setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
   }
-  const getOneVisited = (field) => get(visited, field)
-  const setOneVisited = (field) => setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, field) ? Object : undefined))
-  const getOneError = (field) => errors.includes(field)
+
+  const getOneVisited = (field) => visited.has(field)
+  const setOneVisited = (field) => {
+    if (!visited.has(field)) {
+      const next = new Set(visited)
+      next.add(field)
+      setVisited(next)
+    }
+  }
+
+  const getOneError = (field) => errors.has(field)
   const getIsSubmitting = () => isSubmitting
 
   return <FrmXContext.Provider value={{
-    fields,
-    visited,
-    handleBlur,
     handleChange,
     hasUpdates,
     setOneField,
@@ -138,6 +140,5 @@ export default function FrmX({
         </div>
       }
     })()}
-
   </FrmXContext.Provider>
-};
+}

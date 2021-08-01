@@ -1,6 +1,5 @@
-import React, { cloneElement, Children, Fragment, useMemo, useEffect, useCallback } from "react"
+import React, { cloneElement, Children, Fragment, useEffect } from "react"
 import { useFrmX } from "./FrmXContext"
-import { get } from "lodash"
 import { useArrX } from "./ArrXContext"
 import { getValidationMethod } from "./utils/getValidationMethod"
 
@@ -18,13 +17,12 @@ export default function FldX({
   ...rest
 }) {
   const {
-    fields,
     getOneField,
     getOneVisited,
     getOneError,
     setOneError,
     handleChange,
-    handleBlur,
+    setOneVisited,
     isSubmitting,
     schemaValidation
   } = useFrmX()
@@ -33,7 +31,7 @@ export default function FldX({
 
   useEffect(() => {
     const method = getValidationMethod(arrx, field, schemaValidation)
-    setOneError(field, method ? !method(get(fields, field)) : false)
+    setOneError(field, method ? !method(getOneField(field)) : false)
     return () => setOneError(field, false)
   }, [])
 
@@ -42,7 +40,7 @@ export default function FldX({
   }
 
   const onBlur = e => {
-    handleBlur(e)
+    setOneVisited(field)
     handleChange(e, arrx)
   }
 
