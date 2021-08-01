@@ -31,10 +31,6 @@ export default function FldX({
 
   const arrx = useArrX()
 
-  const visitedOnce = useMemo(() => {
-    return getOneVisited(field)
-  }, [getOneVisited(field)])
-
   useEffect(() => {
     const method = getValidationMethod(arrx, field, schemaValidation)
     setOneError(field, method ? !method(get(fields, field)) : false)
@@ -59,7 +55,7 @@ export default function FldX({
     required: required,
     disabled: isSubmitting,
     [type === "checkbox" ? "checked" : "value"]: getOneField(field),
-    ...(isErrorProp ? { [isErrorProp]: getOneError(field) && visitedOnce ? true : false } : {}),
+    ...(isErrorProp ? { [isErrorProp]: getOneError(field) && getOneVisited(field) ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest

@@ -41,7 +41,7 @@ export default function FrmX({
       if (!prev.includes(field)) prev.push(field)
       return prev
     })
-    else return setErrors(prev => prev.filter(path => path !== field))
+    else setErrors(prev => prev.filter(path => path !== field))
   }
 
   const handleChange = (e, arrx = undefined) => {
@@ -53,29 +53,29 @@ export default function FrmX({
     // We don't need setWith here as fields are already a clone of initialValues
     setFields(prev => set({ ...prev }, field, value))
     setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
-    const method = getValidationMethod(arrx, field, schemaValidation)
-    handleError(field, method ? !method(value) : false)
+
+    const validationMethod = getValidationMethod(arrx, field, schemaValidation)
+    handleError(field, validationMethod ? !validationMethod(value) : false)
   }
 
-  const handleBlur = e => {
+  const handleBlur = (e) => {
     const target = e.target
     const field = target.name
     setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, field) ? Object : undefined))
   }
 
-  const resetForm = e => {
-    e.preventDefault()
+  const resetForm = () => {
     setUpdates({})
     setVisited({})
     setFields(() => cloneDeep(initialValues))
     if (onReset) onReset(updatesOnly ? updates : fields)
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (!isValidForm && onInvalidSubmit || updatesOnly && Object.keys(updates).length < 1) {
+    if ((!isValidForm || updatesOnly && Object.keys(updates).length < 1) && onInvalidSubmit) {
       onInvalidSubmit()
     } else {
       setUpdates({})
@@ -89,14 +89,14 @@ export default function FrmX({
   }
 
   // Functions intended to be used with the useFrmX hook in fields
-  const getOneField = field => get(fields, field)
+  const getOneField = (field) => get(fields, field)
   const setOneField = (field, value) => {
     setFields(prev => set({ ...prev }, field, value))
     setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
   }
-  const getOneVisited = field => get(visited, field)
-  const setOneVisited = field => setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, field) ? Object : undefined))
-  const getOneError = field => errors.includes(field)
+  const getOneVisited = (field) => get(visited, field)
+  const setOneVisited = (field) => setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, field) ? Object : undefined))
+  const getOneError = (field) => errors.includes(field)
   const getIsSubmitting = () => isSubmitting
 
   return <FrmXContext.Provider value={{

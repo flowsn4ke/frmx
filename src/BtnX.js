@@ -23,12 +23,7 @@ export default function BtnX({
       (disableIfNoUpdates && !hasUpdates) ||
       isConditionnallyDisabled ||
       localyDisabled,
-    ...(renderDiv ? {
-      onClick: handleSubmit,
-      type: "button"
-    } : {
-      type: "submit"
-    }),
+    ...(renderDiv ? { onClick: handleSubmit, type: "button" } : { type: "submit" }),
     ...rest
   }
 
