@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { FrmXContext } from "./FrmXContext"
 import { get, set, setWith, cloneDeep } from "lodash"
 import { isParentObject } from './utils/objectUtils'
+import { getValidationMethod } from "./utils/getValidationMethod"
 
 export default function FrmX({
   initialValues = {},
@@ -25,28 +26,15 @@ export default function FrmX({
   const [errors, setErrors] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const isValidForm = useMemo(() => errors.length > 0, [schemaValidation, errors, visited])
+  const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
+
+  const isValidForm = useMemo(() => {
+    return errors.length < 1
+  }, [schemaValidation, fields, errors, visited, updates])
 
   const isConditionnallyDisabled = useMemo(() => {
     return !!disabledIf ? disabledIf(fields) : false
   }, [fields, updates])
-
-  const handleChange = e => {
-    const target = e.target
-    const name = target.name
-    const value = target.type === 'checkbox' ? target.checked : target.value
-
-    // Check that type of parents for fields whose property name is a number
-    // We don't need setWith here as fields are already a clone of initialValues
-    setFields(prev => set({ ...prev }, name, value))
-    setUpdates(prev => setWith({ ...prev }, name, value, isParentObject(fields, name) ? Object : undefined))
-  }
-
-  const handleBlur = e => {
-    const target = e.target
-    const name = target.name
-    setVisited(prev => setWith({ ...prev }, name, true, isParentObject(fields, name) ? Object : undefined))
-  }
 
   const handleError = (field, isError) => {
     if (isError) setErrors(prev => {
@@ -56,7 +44,27 @@ export default function FrmX({
     else return setErrors(prev => prev.filter(path => path !== field))
   }
 
-  const resetForm = () => {
+  const handleChange = (e, arrx = undefined) => {
+    const target = e.target
+    const field = target.name
+    const value = target.type === 'checkbox' ? target.checked : target.value
+
+    // Check that type of parents for fields whose property name is a number
+    // We don't need setWith here as fields are already a clone of initialValues
+    setFields(prev => set({ ...prev }, field, value))
+    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
+    const method = getValidationMethod(arrx, field, schemaValidation)
+    handleError(field, method ? !method(value) : false)
+  }
+
+  const handleBlur = e => {
+    const target = e.target
+    const field = target.name
+    setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, field) ? Object : undefined))
+  }
+
+  const resetForm = e => {
+    e.preventDefault()
     setUpdates({})
     setVisited({})
     setFields(() => cloneDeep(initialValues))
@@ -67,7 +75,7 @@ export default function FrmX({
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (isValidForm && onInvalidSubmit || updatesOnly && Object.keys(updates).length < 1) {
+    if (!isValidForm && onInvalidSubmit || updatesOnly && Object.keys(updates).length < 1) {
       onInvalidSubmit()
     } else {
       setUpdates({})
@@ -93,20 +101,18 @@ export default function FrmX({
 
   return <FrmXContext.Provider value={{
     fields,
+    visited,
+    handleBlur,
+    handleChange,
+    hasUpdates,
     setOneField,
     getOneField,
-    visited,
     getOneVisited,
     setOneVisited,
     getOneError,
     setOneError: handleError,
     getIsSubmitting,
-    errorz: errors,
-    updates,
     disableIfNoUpdates,
-    handleChange,
-    handleBlur,
-    handleError,
     handleSubmit,
     isSubmitting,
     isValidForm,

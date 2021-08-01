@@ -10,7 +10,7 @@ export default function BtnX({
     isSubmitting,
     isValidForm,
     disableSubmitIfInvalid,
-    updates,
+    hasUpdates,
     disableIfNoUpdates,
     isConditionnallyDisabled,
     renderDiv,
@@ -18,11 +18,11 @@ export default function BtnX({
   } = useFrmX()
 
   const props = {
-    disabled: (!isValidForm && disableSubmitIfInvalid) ||
-      (disableIfNoUpdates && !Object.keys(updates).length) ||
+    disabled: isSubmitting ||
+      (!isValidForm && disableSubmitIfInvalid) ||
+      (disableIfNoUpdates && !hasUpdates) ||
       isConditionnallyDisabled ||
-      localyDisabled ||
-      isSubmitting,
+      localyDisabled,
     ...(renderDiv ? {
       onClick: handleSubmit,
       type: "button"

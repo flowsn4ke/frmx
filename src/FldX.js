@@ -2,6 +2,7 @@ import React, { cloneElement, Children, Fragment, useMemo, useEffect, useCallbac
 import { useFrmX } from "./FrmXContext"
 import { get } from "lodash"
 import { useArrX } from "./ArrXContext"
+import { getValidationMethod } from "./utils/getValidationMethod"
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -18,10 +19,12 @@ export default function FldX({
 }) {
   const {
     fields,
-    visited,
+    getOneField,
+    getOneVisited,
+    getOneError,
+    setOneError,
     handleChange,
     handleBlur,
-    handleError,
     isSubmitting,
     schemaValidation
   } = useFrmX()
@@ -29,44 +32,22 @@ export default function FldX({
   const arrx = useArrX()
 
   const visitedOnce = useMemo(() => {
-    return get(visited, field)
-  }, [get(visited, field)])
-
-  const getValidationMethod = useCallback(() => {
-    const isInsideArray = !!arrx
-    let validationPath
-
-    if (isInsideArray) {
-      const relPath = field.slice(arrx.validationPath.length)
-      const arrIndexLength = relPath.match(/^.\d+/)[0].length
-      const start = arrx.validationPath
-      const end = relPath.slice(arrIndexLength)
-      validationPath = start + end
-    } else {
-      validationPath = field
-    }
-
-    return get(schemaValidation, validationPath)
-  }, [schemaValidation])
+    return getOneVisited(field)
+  }, [getOneVisited(field)])
 
   useEffect(() => {
-    const method = getValidationMethod()
-    return handleError(field, method ? !method(get(fields, field)) : false)
+    const method = getValidationMethod(arrx, field, schemaValidation)
+    setOneError(field, method ? !method(get(fields, field)) : false)
+    return () => setOneError(field, false)
   }, [])
 
-  const isError = useMemo(() => {
-    const method = getValidationMethod()
-    return method ? !method(get(fields, field)) : false
-  }, [get(fields, field), get(visited, field)])
-
   const onChange = e => {
-    handleChange(e)
-    handleError(field, isError)
+    handleChange(e, arrx)
   }
+
   const onBlur = e => {
     handleBlur(e)
-    handleChange(e)
-    handleError(field, isError)
+    handleChange(e, arrx)
   }
 
   const props = {
@@ -77,8 +58,8 @@ export default function FldX({
     onChange,
     required: required,
     disabled: isSubmitting,
-    [type === "checkbox" ? "checked" : "value"]: get(fields, field),
-    ...(isErrorProp ? { [isErrorProp]: isError && visitedOnce ? true : false } : {}),
+    [type === "checkbox" ? "checked" : "value"]: getOneField(field),
+    ...(isErrorProp ? { [isErrorProp]: getOneError(field) && visitedOnce ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
