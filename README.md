@@ -298,7 +298,6 @@ Field values will bubble up to the neirest `<FrmX>` form you defined. You can in
 - [  ] Opt-in value trimming on a per field basis
 - [  ] Write examples (hook usage, form nesting etc.)
 - [  ] Write tests
-- [  ] Create a demo playground
 
 ## Roadmap
 
