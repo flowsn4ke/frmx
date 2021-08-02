@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { FrmXContext } from "./FrmXContext"
-import _ from "lodash"
 import { get, set, setWith, cloneDeep } from "lodash"
-import { makeRecursiveKeyList, isParentObject } from './utils/objectUtils'
+import { isParentObject } from './utils/objectUtils'
+import { getValidationMethod } from "./utils/getValidationMethod"
 
 export default function FrmX({
   initialValues = {},
@@ -13,121 +13,132 @@ export default function FrmX({
   onInvalidSubmit,
   disabledIf,
   schemaValidation,
-  updatesOnly = false,
-  autoCompleteOff = false,
-  disableSubmitIfInvalid = false,
-  disableIfNoUpdates = false
+  updatesOnly,
+  autoCompleteOff,
+  disableSubmitIfInvalid,
+  disableIfNoUpdates,
+  renderDiv,
+  clearAfterSubmit
 }) {
   const [fields, setFields] = useState(cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
-  const [visited, setVisited] = useState({})
-  const [errors, setErrors] = useState({})
+  const [visited, setVisited] = useState(new Set())
+  const [errors, setErrors] = useState(new Set())
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Also update saved values in the form to untouched values after submission
-  const validationMethodsPaths = makeRecursiveKeyList(schemaValidation)
+  const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
 
-  // Add check for errors if
   const isValidForm = useMemo(() => {
-    let isValid = true
-
-    if (updatesOnly && Object.keys(updates).length < 1) isValid = false
-
-    validationMethodsPaths.forEach(path => {
-      const method = get(schemaValidation, path)
-      if (!method(get(fields, path))) isValid = false
-    })
-
-    return isValid
-  }, [fields, updates])
+    return errors.size < 1
+  }, [schemaValidation, fields, errors, visited, updates])
 
   const isConditionnallyDisabled = useMemo(() => {
     return !!disabledIf ? disabledIf(fields) : false
   }, [fields, updates])
 
-  const handleChange = (e) => {
+  const handleError = (field, isError) => {
+    const next = new Set(errors)
+    if (isError && !errors.has(field)) {
+      next.add(field)
+      setErrors(next)
+    } else if (!isError && errors.has(field)) {
+      next.delete(field)
+      setErrors(next)
+    }
+  }
+
+  const handleChange = (e, arrx = undefined) => {
     const target = e.target
-    const name = target.name
+    const field = target.name
     const value = target.type === 'checkbox' ? target.checked : target.value
 
     // Check that type of parents for fields whose property name is a number
     // We don't need setWith here as fields are already a clone of initialValues
-    setFields(prev => set({ ...prev }, name, value))
-    setUpdates(prev => setWith({ ...prev }, name, value, isParentObject(fields, name) ? Object : undefined))
+    setFields(prev => set({ ...prev }, field, value))
+    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
+
+    const validationMethod = getValidationMethod(arrx, field, schemaValidation)
+    handleError(field, validationMethod ? !validationMethod(value) : false)
   }
 
-  const handleBlur = (e) => {
-    const target = e.target
-    const name = target.name
-    setVisited(prev => setWith({ ...prev }, name, true, isParentObject(fields, name) ? Object : undefined))
-  }
-
-
-  const handleError = (name, isError) => {
-    setErrors(prev => setWith({ ...prev }, name, isError, isParentObject(fields, name) ? Object : undefined))
+  const resetForm = () => {
+    setUpdates({})
+    setVisited(new Set())
+    setFields(() => cloneDeep(initialValues))
+    if (onReset) onReset(updatesOnly ? updates : fields)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (!isValidForm && onInvalidSubmit) {
+    if ((!isValidForm || updatesOnly && Object.keys(updates).length < 1) && onInvalidSubmit) {
       onInvalidSubmit()
     } else {
       setUpdates({})
-      setVisited({})
+      setVisited(new Set())
+      setErrors(new Set())
       onSubmit(updatesOnly ? updates : fields)
+      if (clearAfterSubmit) resetForm()
     }
-    // Add check that the button does have the id we gave it (random Id, nanoID)
-    // before submitting, avoiding conflicts with other buttons in the form with type of "submit"?
 
     setIsSubmitting(false)
-  }
-
-  const resetForm = () => {
-    if (onReset) onReset(updatesOnly ? updates : fields)
-    setUpdates({})
-    setVisited({})
-    setFields(() => initialValues)
   }
 
   // Functions intended to be used with the useFrmX hook in fields
   const getOneField = (field) => get(fields, field)
   const setOneField = (field, value) => {
     setFields(prev => set({ ...prev }, field, value))
-    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, name) ? Object : undefined))
+    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
   }
-  const getOneVisited = (field) => get(visited, field)
-  const setOneVisited = (field) => setVisited(prev => setWith({ ...prev }, field, true, isParentObject(fields, name) ? Object : undefined))
-  const getOneError = (field) => get(errors, field)
-  const setOneError = (field, isError) => setErrors(prev => setWith({ ...prev }, field, isError, isParentObject(fields, name) ? Object : undefined))
+
+  const getOneVisited = (field) => visited.has(field)
+  const setOneVisited = (field) => {
+    if (!visited.has(field)) {
+      const next = new Set(visited)
+      next.add(field)
+      setVisited(next)
+    }
+  }
+
+  const getOneError = (field) => errors.has(field)
   const getIsSubmitting = () => isSubmitting
 
   return <FrmXContext.Provider value={{
-    fields,
+    handleChange,
+    hasUpdates,
     setOneField,
     getOneField,
-    visited,
     getOneVisited,
     setOneVisited,
     getOneError,
-    setOneError,
+    setOneError: handleError,
     getIsSubmitting,
-    errors,
-    updates,
     disableIfNoUpdates,
-    handleChange,
-    handleBlur,
-    handleError,
+    handleSubmit,
     isSubmitting,
     isValidForm,
     disableSubmitIfInvalid,
     schemaValidation,
     isConditionnallyDisabled,
-    resetForm
+    resetForm,
+    renderDiv
   }}>
-    <form className={className} onSubmit={handleSubmit} noValidate autoComplete={autoCompleteOff ? "off" : "on"}>
-      {children}
-    </form>
+    {(() => {
+      if (!renderDiv) {
+        return <form
+          className={className}
+          onSubmit={handleSubmit}
+          noValidate
+          autoComplete={autoCompleteOff ? "off" : "on"}
+        >
+          {children}
+        </form>
+      } else {
+        return <div className={className}>
+          {children}
+        </div>
+      }
+    })()}
   </FrmXContext.Provider>
-};
+}

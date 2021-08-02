@@ -1,6 +1,7 @@
-import React, { cloneElement, Children, Fragment } from "react"
+import React, { cloneElement, Children, Fragment, useEffect } from "react"
 import { useFrmX } from "./FrmXContext"
-import { get } from "lodash"
+import { useArrX } from "./ArrXContext"
+import { getValidationMethod } from "./utils/getValidationMethod"
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -15,35 +16,32 @@ export default function FldX({
   children,
   ...rest
 }) {
-  // TODO: Add a set required so that form is disabled when a field is required?
   const {
-    fields,
-    errors,
-    visited,
+    getOneField,
+    getOneVisited,
+    getOneError,
+    setOneError,
     handleChange,
-    handleBlur,
-    handleError,
+    setOneVisited,
     isSubmitting,
     schemaValidation
   } = useFrmX()
 
-  const isError = () => {
-    const isValid = get(schemaValidation, field)
-    if (isValid) return !isValid(get(fields, field))
-    else return false
+  const arrx = useArrX()
+
+  useEffect(() => {
+    const method = getValidationMethod(arrx, field, schemaValidation)
+    setOneError(field, method ? !method(getOneField(field)) : false)
+    return () => setOneError(field, false)
+  }, [])
+
+  const onChange = e => {
+    handleChange(e, arrx)
   }
 
-  const onChange = (e) => {
-    handleChange(e)
-
-    if (get(visited, field)) {
-      handleError(field, isError())
-    }
-  }
-
-  const onBlur = (e) => {
-    handleBlur(e)
-    handleError(field, isError())
+  const onBlur = e => {
+    setOneVisited(field)
+    handleChange(e, arrx)
   }
 
   const props = {
@@ -54,16 +52,14 @@ export default function FldX({
     onChange,
     required: required,
     disabled: isSubmitting,
-    [type === "checkbox" ? "checked" : "value"]: get(fields, field),
-    ...(isErrorProp ? { [isErrorProp]: get(errors, field) } : {}),
+    [type === "checkbox" ? "checked" : "value"]: getOneField(field),
+    ...(isErrorProp ? { [isErrorProp]: getOneError(field) && getOneVisited(field) ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
   }
 
   return <Fragment>
-    {Children.only(children) && Children.map(children, child => {
-      return cloneElement(child, props)
-    })}
+    {Children.only(children) && Children.map(children, child => cloneElement(child, props))}
   </Fragment>
 };

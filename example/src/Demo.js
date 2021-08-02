@@ -1,6 +1,6 @@
 import React from "react";
-import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx";
-import { isEmail, isHexColor } from "validator";
+import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx"
+import { isEmail, isHexColor } from "validator"
 import {
   Box,
   Button,
@@ -9,10 +9,12 @@ import {
   Typography
 } from "@material-ui/core";
 import useStyles from "./styles.js";
+import PhoneInput from "./components/PhoneInput.js";
 
 const fields = {
   name: "",
   email: "",
+  phoneNumber: "",
   date: "2021-07-11",
   options: {
     arr: [""],
@@ -36,8 +38,11 @@ const validationMethods = {
     colors: {
       main: isHexColor
     }
+  },
+  objInArr: {
+    name: s => s.length > 3
   }
-};
+}
 
 export default function Demo() {
   const classes = useStyles();
@@ -49,11 +54,12 @@ export default function Demo() {
         updatesOnly
         initialValues={fields}
         onSubmit={(values) => console.log(values)}
-        onReset={(values) => console.log(values)}
-        // disableSubmitIfInvalid
+        onReset={(values) => console.log("reset")}
+        // clearAfterSubmit
+        disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
         // disableIfNoUpdates
-        onInvalidSubmit={() => alert("Invalid form!")}
+        // onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
       >
         <Typography variant="h4" className={classes.input}>
@@ -76,7 +82,13 @@ export default function Demo() {
           />
         </FldX>
 
-        <FldX field="email" type="text" isErrorProp="error">
+        <PhoneInput
+          field="phoneNumber"
+          className={classes.input}
+          placeholder="Enter your number"
+        />
+
+        <FldX field="email" isErrorProp="error">
           <TextField
             className={classes.input}
             variant="outlined"
@@ -110,12 +122,12 @@ export default function Demo() {
           </FldX>
         </Box>
 
-        <ArrX startWithOneMore field="objInArr" model={{ name: "", email: "" }}>
+        <ArrX field="objInArr" model={{ name: "", email: "" }}>
           {({ field, items, addItem, removeItem }) => (
             <Box>
               {items.map((item, i) => (
                 <Box key={`unique-id-${i}`}>
-                  <FldX field={`${field}.${i}.name`}>
+                  <FldX field={`${field}.${i}.name`} isErrorProp="error">
                     <TextField
                       className={classes.input}
                       variant="outlined"
@@ -137,6 +149,27 @@ export default function Demo() {
             </Box>
           )}
         </ArrX>
+
+        <FrmX
+          initialValues={{ name: "I'm a nested form" }}
+          onSubmit={formData => console.log("Nested Form Submit")}
+          renderDiv
+        >
+          <FldX field="name" type="text">
+            <TextField
+              className={classes.input}
+              variant="outlined"
+              label="Name"
+            />
+          </FldX>
+
+          <BtnX>
+            <Button variant="contained" className={classes.input}>
+              Submit Nested Form
+            </Button>
+          </BtnX>
+
+        </FrmX>
 
         <BtnX>
           <Button variant="contained" className={classes.input}>

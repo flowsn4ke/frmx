@@ -5,11 +5,11 @@ export default function RstX({
   children,
   ...rest
 }) {
-  const { resetForm, updates } = useFrmX()
+  const { resetForm, hasUpdates } = useFrmX()
 
   const props = {
     type: "button",
-    disabled: !Object.keys(updates).length,
+    disabled: !hasUpdates,
     onClick: resetForm,
     ...rest
   }

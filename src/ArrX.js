@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react"
 import { useFrmX } from "./FrmXContext"
 import { cloneDeep } from "lodash"
+import { ArrXContext } from "./ArrXContext"
 
 // TODO: Update the codepen demo
 export default function ArrX({
@@ -9,11 +10,14 @@ export default function ArrX({
   model = "",
   children
 }) {
-  const { setOneField, getOneField } = useFrmX()
+  const {
+    setOneField,
+    getOneField,
+  } = useFrmX()
 
   const addItem = () => {
     const newArr = cloneDeep(getOneField(field))
-    newArr.push(model)
+    newArr.push(cloneDeep(model))
     setOneField(field, newArr)
   }
 
@@ -26,7 +30,14 @@ export default function ArrX({
     if (startWithOneMore) addItem()
   }, [])
 
-  return <Fragment>
-    {children({ field, items: getOneField(field), removeItem, addItem })}
-  </Fragment>
+  return <ArrXContext.Provider value={{
+    validationPath: field
+  }}>
+    {children({
+      field,
+      items: getOneField(field),
+      removeItem,
+      addItem
+    })}
+  </ArrXContext.Provider>
 };

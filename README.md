@@ -96,6 +96,7 @@ onReset={formData => console.log("Reset!")}
 // Pass any classes to style the form
 className={"I style directly the html form tag"}
 // Get back the difference between the intial state and the edited state
+// The form will be regarded as invalid if there are no updates
 updatesOnly
 // Disable autocomplete
 autoCompleteOff
@@ -107,6 +108,12 @@ disableSubmitIfInvalid
 schemaValidation={{foo: (str) => str.length > 0}}
 // A callback that will be called upon invalid submit. Use either that OR disableSubmitIfInvalid
 onInvalidSubmit={() => alert("invalid form")}
+// This prop allows you to render a <div> tag instead of a <form>.
+// This allows for nested forms that control fields, for instance
+renderDiv
+// This will clear the form after submit if the form was valid and submitted
+// However, there is no way to check the submit was successful as of now
+clearAfterSubmit
 // Any other props will be spread on to the form tag
 {...rest}
 />
@@ -291,7 +298,6 @@ Field values will bubble up to the neirest `<FrmX>` form you defined. You can in
 - [  ] Opt-in value trimming on a per field basis
 - [  ] Write examples (hook usage, form nesting etc.)
 - [  ] Write tests
-- [  ] Create a demo playground
 
 ## Roadmap
 
