@@ -26,6 +26,25 @@ export default function FrmX({
   const [errors, setErrors] = useState(new Set())
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Functions intended to be used with the useFrmX hook in fields
+  const getOneField = (field) => get(fields, field)
+  const setOneField = (field, value) => {
+    setFields(prev => set({ ...prev }, field, value))
+    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
+  }
+
+  const getOneVisited = (field) => visited.has(field)
+  const setOneVisited = (field) => {
+    if (!visited.has(field)) {
+      const next = new Set(visited)
+      next.add(field)
+      setVisited(next)
+    }
+  }
+
+  const getOneError = (field) => errors.has(field)
+  const getIsSubmitting = () => isSubmitting
+
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
 
   const isValidForm = useMemo(() => {
@@ -56,7 +75,7 @@ export default function FrmX({
     // We don't need setWith here as fields are already a clone of initialValues
     setFields(prev => set({ ...prev }, field, value))
     setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
-
+    setOneVisited(field)
     const validationMethod = getValidationMethod(arrx, field, schemaValidation)
     handleError(field, validationMethod ? !validationMethod(value) : false)
   }
@@ -84,25 +103,6 @@ export default function FrmX({
 
     setIsSubmitting(false)
   }
-
-  // Functions intended to be used with the useFrmX hook in fields
-  const getOneField = (field) => get(fields, field)
-  const setOneField = (field, value) => {
-    setFields(prev => set({ ...prev }, field, value))
-    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
-  }
-
-  const getOneVisited = (field) => visited.has(field)
-  const setOneVisited = (field) => {
-    if (!visited.has(field)) {
-      const next = new Set(visited)
-      next.add(field)
-      setVisited(next)
-    }
-  }
-
-  const getOneError = (field) => errors.has(field)
-  const getIsSubmitting = () => isSubmitting
 
   return <FrmXContext.Provider value={{
     handleChange,
