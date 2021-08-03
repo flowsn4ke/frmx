@@ -35,14 +35,8 @@ export default function FldX({
     return () => setOneError(field, false)
   }, [])
 
-  const onChange = e => {
-    handleChange(e, arrx)
-  }
-
-  const onBlur = e => {
-    setOneVisited(field)
-    handleChange(e, arrx)
-  }
+  const onChange = e => handleChange(e, arrx)
+  const onBlur = e => setOneVisited(field)
 
   const props = {
     name: field,
