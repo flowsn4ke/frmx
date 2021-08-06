@@ -9,6 +9,7 @@ export default function FrmX({
   onSubmit,
   onReset,
   className,
+  style,
   children,
   onInvalidSubmit,
   disabledIf,
@@ -128,6 +129,7 @@ export default function FrmX({
       if (!renderDiv) {
         return <form
           className={className}
+          style={style}
           onSubmit={handleSubmit}
           noValidate
           autoComplete={autoCompleteOff ? "off" : "on"}
@@ -135,7 +137,7 @@ export default function FrmX({
           {children}
         </form>
       } else {
-        return <div className={className}>
+        return <div className={className} style={style}>
           {children}
         </div>
       }
