@@ -29,21 +29,50 @@ export default function FrmX({
   // Functions intended to be used with the useFrmX hook in fields
   const getOneField = (field) => get(fields, field)
   const setOneField = (field, value) => {
-    setFields(prev => set({ ...prev }, field, value))
-    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
+    setFields(prev => {
+      if (value !== get(prev, field)) {
+        return set({ ...prev }, field, value)
+      } else {
+        return prev
+      }
+    })
+    setUpdates(prev => {
+      if (value !== get(updates, value)) {
+        return setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined)
+      } else {
+        return prev
+      }
+    })
   }
 
   const getOneVisited = (field) => visited.has(field)
   const setOneVisited = (field) => {
-    if (!visited.has(field)) {
-      const next = new Set(visited)
-      next.add(field)
-      setVisited(next)
-    }
+    setVisited(prev => {
+      if (!prev.has(field)) {
+        const next = new Set(visited)
+        next.add(field)
+        return next
+      } else {
+        return prev
+      }
+    })
   }
 
   const getOneError = (field) => errors.has(field)
-  const getIsSubmitting = () => isSubmitting
+  const setOneError = (field, isError) => {
+    setErrors(prev => {
+      const next = new Set(errors)
+      if (isError && !prev.has(field)) {
+        next.add(field)
+        return next
+      } else if (!isError && prev.has(field)) {
+        next.delete(field)
+        return next
+      } else {
+        return prev
+      }
+    })
+  }
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
 
@@ -55,30 +84,7 @@ export default function FrmX({
     return !!disabledIf ? disabledIf(fields) : false
   }, [fields, updates])
 
-  const handleError = (field, isError) => {
-    const next = new Set(errors)
-    if (isError && !errors.has(field)) {
-      next.add(field)
-      setErrors(next)
-    } else if (!isError && errors.has(field)) {
-      next.delete(field)
-      setErrors(next)
-    }
-  }
 
-  const handleChange = (e, arrx = undefined) => {
-    const target = e.target
-    const field = target.name
-    const value = target.type === 'checkbox' ? target.checked : target.value
-
-    // Check that type of parents for fields whose property name is a number
-    // We don't need setWith here as fields are already a clone of initialValues
-    setFields(prev => set({ ...prev }, field, value))
-    setUpdates(prev => setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined))
-    setOneVisited(field)
-    const validationMethod = getValidationMethod(arrx, field, schemaValidation)
-    handleError(field, validationMethod ? !validationMethod(value) : false)
-  }
 
   const resetForm = () => {
     setUpdates({})
@@ -105,15 +111,13 @@ export default function FrmX({
   }
 
   return <FrmXContext.Provider value={{
-    handleChange,
     hasUpdates,
     setOneField,
     getOneField,
     getOneVisited,
     setOneVisited,
     getOneError,
-    setOneError: handleError,
-    getIsSubmitting,
+    setOneError,
     disableIfNoUpdates,
     handleSubmit,
     isSubmitting,

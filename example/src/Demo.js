@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Slider,
   TextField,
   Typography
 } from "@material-ui/core";
@@ -22,6 +23,7 @@ const fields = {
     colors: {
       main: "#ffbb00"
     },
+    slider: 10,
     checked: true
   },
   newPassword: "",
@@ -72,6 +74,10 @@ export default function Demo() {
             variant="outlined"
             label="Date"
           />
+        </FldX>
+
+        <FldX field="options.slider" type="range" min="1" max="100">
+          <input />
         </FldX>
 
         <FldX field="name" type="text">

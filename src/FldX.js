@@ -1,4 +1,4 @@
-import React, { cloneElement, Children, Fragment, useEffect } from "react"
+import React, { cloneElement, Children, Fragment, useEffect, useMemo } from "react"
 import { useFrmX } from "./FrmXContext"
 import { useArrX } from "./ArrXContext"
 import { getValidationMethod } from "./utils/getValidationMethod"
@@ -18,10 +18,10 @@ export default function FldX({
 }) {
   const {
     getOneField,
+    setOneField,
     getOneVisited,
     getOneError,
     setOneError,
-    handleChange,
     setOneVisited,
     isSubmitting,
     schemaValidation
@@ -29,17 +29,24 @@ export default function FldX({
 
   const arrx = useArrX()
 
+  const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
+
   useEffect(() => {
-    const method = getValidationMethod(arrx, field, schemaValidation)
-    setOneError(field, method ? !method(getOneField(field)) : false)
+    setOneError(field, validationMethod ? !validationMethod(getOneField(field)) : false)
     return () => setOneError(field, false)
   }, [])
 
-  const onChange = e => handleChange(e, arrx)
+  const onChange = e => {
+    const value = type === "checkbox" ? e.target.checked : e.target.value
+    setOneField(field, value)
+    const isError = !!validationMethod ? !validationMethod(value) : false
+    setOneError(field, isError)
+  }
   const onBlur = e => setOneVisited(field)
 
   const props = {
     name: field,
+    id: field,
     "aria-label": field,
     type,
     onBlur,
