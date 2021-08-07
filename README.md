@@ -147,6 +147,11 @@ required
 autoCorrectOff
 // A boolean to disable autocapitalize
 autoCapitalizeOff
+// Pass a custom function to get back the value from the onChange args
+// Useful for instance when interacting with material ui components
+// As they often pass the new value through the second argument
+// Example: <FldX ... getValueFromArgs={args => args[1].value}>...</FldX>
+getValueFromArgs
 // Any other props will be spread on to the underlying field
 {...rest}
 />
@@ -225,10 +230,10 @@ Once in a while you might encounter components that have weird props for managin
 // defaults to "text"
 type="email"
 // defaults to "onChange"
-onChangeProp="whenIChangeI"
+onChangeProp="whenIChangeIDoSomething"
 // defaults to "value" or "checked" for checkboxes
 valueProp="myValueIs"
-// defaults to "error" when nothing is passed
+// no defaults
 isErrorProp="ifThisIHaveAnError"
 >
     <MyComponent>

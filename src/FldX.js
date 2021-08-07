@@ -7,6 +7,7 @@ import { cloneDeep } from "lodash"
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
   field,
+  getValueFromArgs,
   type = "text",
   valueProp = "value",
   onChangeProp = "onChange",
@@ -37,8 +38,8 @@ export default function FldX({
 
   useEffect(() => setOneError(field, isError), [setOneError, field, isError])
 
-  const onChange = (e) => {
-    const val = type === "checkbox" ? e.target.checked : e.target.value
+  const onChange = (...args) => {
+    const val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     setOneField(field, val)
   }
 

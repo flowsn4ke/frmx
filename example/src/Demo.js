@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Slider,
   TextField,
   Typography
 } from "@material-ui/core";
@@ -75,8 +76,8 @@ export default function Demo() {
           />
         </FldX>
 
-        <FldX field="options.slider" type="range" min="1" max="100">
-          <input />
+        <FldX field="options.slider" type="range" getValueFromArgs={args => args[1]}>
+          <Slider valueLabelDisplay="auto" />
         </FldX>
 
         <FldX field="name" type="text">
