@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { FrmXContext } from "./FrmXContext"
 import { get, set, setWith, cloneDeep } from "lodash"
 import { isParentObject } from './utils/objectUtils'
-import { getValidationMethod } from "./utils/getValidationMethod"
 
 export default function FrmX({
   initialValues = {},
@@ -28,8 +27,8 @@ export default function FrmX({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Functions intended to be used with the useFrmX hook in fields
-  const getOneField = (field) => get(fields, field)
-  const setOneField = (field, value) => {
+  const getOneField = useCallback((field) => get(fields, field), [get, fields])
+  const setOneField = useCallback((field, value) => {
     setFields(prev => {
       if (value !== get(prev, field)) {
         return set({ ...prev }, field, value)
@@ -44,10 +43,10 @@ export default function FrmX({
         return prev
       }
     })
-  }
+  }, [setFields, setUpdates, get, set, setWith])
 
-  const getOneVisited = (field) => visited.has(field)
-  const setOneVisited = (field) => {
+  const getOneVisited = useCallback((field) => visited.has(field), [visited])
+  const setOneVisited = useCallback((field) => {
     setVisited(prev => {
       if (!prev.has(field)) {
         const next = new Set(visited)
@@ -57,10 +56,10 @@ export default function FrmX({
         return prev
       }
     })
-  }
+  }, [setVisited])
 
-  const getOneError = (field) => errors.has(field)
-  const setOneError = (field, isError) => {
+  const getOneError = useCallback((field) => errors.has(field), [errors])
+  const setOneError = useCallback((field, isError) => {
     setErrors(prev => {
       const next = new Set(errors)
       if (isError && !prev.has(field)) {
@@ -73,19 +72,11 @@ export default function FrmX({
         return prev
       }
     })
-  }
+  }, [setErrors])
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
-
-  const isValidForm = useMemo(() => {
-    return errors.size < 1
-  }, [schemaValidation, fields, errors, visited, updates])
-
-  const isConditionnallyDisabled = useMemo(() => {
-    return !!disabledIf ? disabledIf(fields) : false
-  }, [fields, updates])
-
-
+  const isValidForm = useMemo(() => errors.size < 1, [schemaValidation, fields, errors, visited, updates])
+  const isConditionnallyDisabled = useMemo(() => !!disabledIf ? disabledIf(fields) : false, [fields, updates])
 
   const resetForm = () => {
     setUpdates({})
