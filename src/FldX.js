@@ -21,29 +21,28 @@ export default function FldX({
     getOneField,
     setOneField,
     setOneError,
+    getOneVisited,
     setOneVisited,
     isSubmitting,
     schemaValidation
   } = useFrmX()
 
-  const [fieldVal, setFieldVal] = useState(cloneDeep(getOneField(field)))
-  const [fieldVisited, setFieldVisited] = useState(false)
+  const value = useMemo(() => getOneField(field), [getOneField, field])
+  const visited = useMemo(() => getOneVisited(field), [getOneVisited, field])
 
   const arrx = useArrX()
 
   const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
-  const isError = useMemo(() => !!validationMethod ? !validationMethod(fieldVal) : false, [fieldVal])
+  const isError = useMemo(() => !!validationMethod ? !validationMethod(value) : false, [value])
 
   useEffect(() => setOneError(field, isError), [setOneError, field, isError])
 
   const onChange = (e) => {
-    const value = type === "checkbox" ? e.target.checked : e.target.value
-    setFieldVal(value)
-    setOneField(field, value)
+    const val = type === "checkbox" ? e.target.checked : e.target.value
+    setOneField(field, val)
   }
 
   const onBlur = () => {
-    setFieldVisited(true)
     setOneVisited(field)
   }
 
@@ -54,14 +53,14 @@ export default function FldX({
     onChange,
     required,
     disabled: isSubmitting,
-    [type === "checkbox" ? "checked" : "value"]: fieldVal,
-    ...(isErrorProp ? { [isErrorProp]: isError && fieldVisited ? true : false } : {}),
+    [type === "checkbox" ? "checked" : "value"]: value,
+    ...(isErrorProp ? { [isErrorProp]: isError && visited ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
-  }), [fieldVal, fieldVisited, isError, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
+  }), [value, visited, isError, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
 
   return useMemo(() => {
     return Children.only(children) && Children.map(children, child => cloneElement(child, props))
-  }, [fieldVal, fieldVisited, isError, isSubmitting])
+  }, [value, visited, isError, isSubmitting])
 }

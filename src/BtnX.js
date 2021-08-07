@@ -1,4 +1,4 @@
-import React, { cloneElement, Children, Fragment } from "react"
+import { cloneElement, Children, useMemo } from "react"
 import { useFrmX } from "./FrmXContext"
 
 export default function BtnX({
@@ -29,5 +29,5 @@ export default function BtnX({
     ...rest
   }
 
-  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
-};
+  return useMemo(() => Children.only(children) && Children.map(children, child => cloneElement(child, props)), [disabled])
+}

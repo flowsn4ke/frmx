@@ -1,4 +1,4 @@
-import React, { cloneElement, Children, Fragment } from "react"
+import { cloneElement, Children, useMemo } from "react"
 import { useFrmX } from "./FrmXContext"
 
 export default function RstX({
@@ -14,9 +14,5 @@ export default function RstX({
     ...rest
   }
 
-  return <Fragment>
-    {Children.only(children) && Children.map(children, child => {
-      return cloneElement(child, props)
-    })}
-  </Fragment>
-};
+  return useMemo(() => Children.only(children) && Children.map(children, child => cloneElement(child, props)), [hasUpdates])
+}
