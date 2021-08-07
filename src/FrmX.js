@@ -60,6 +60,7 @@ export default function FrmX({
 
   const getOneError = useCallback((field) => errors.has(field), [errors])
   const setOneError = useCallback((field, isError) => {
+    console.log(field, isError);
     setErrors(prev => {
       const next = new Set(errors)
       if (isError && !prev.has(field)) {

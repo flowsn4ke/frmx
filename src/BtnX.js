@@ -17,11 +17,11 @@ export default function BtnX({
     handleSubmit
   } = useFrmX()
 
-  const disabled = isSubmitting ||
+  const disabled = !!(isSubmitting ||
     (!isValidForm && disableSubmitIfInvalid) ||
     (disableIfNoUpdates && !hasUpdates) ||
     isConditionnallyDisabled ||
-    localyDisabled
+    localyDisabled)
 
   const props = {
     disabled,
@@ -29,9 +29,5 @@ export default function BtnX({
     ...rest
   }
 
-  return <Fragment>
-    {Children.only(children) && Children.map(children, child => {
-      return cloneElement(child, props)
-    })}
-  </Fragment>
+  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
 };

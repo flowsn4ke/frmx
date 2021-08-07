@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Slider,
   TextField,
   Typography
 } from "@material-ui/core";
