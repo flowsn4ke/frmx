@@ -14,7 +14,7 @@
 - Assumes nothing about inputs and their nesting / styling
 - Provide field-based validation
 - Allow for creating highly reusable inputs
-- Keep frmx as lightweight as possible (~40kb as of today)
+- Keep frmx as lightweight as possible (~21kb as of today)
 - Keep schema validation framework agnostic, bring any functions you'd like
 
 Overall, the goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
