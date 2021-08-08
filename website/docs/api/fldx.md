@@ -37,6 +37,8 @@ autoCapitalizeOff
 // As they often pass the new value through the second argument
 // Example: <FldX ... getValueFromArgs={args => args[1].value}>...</FldX>
 getValueFromArgs
+// Pass this prop if you want the input to be trimmed
+trim
 // Any other props will be spread on to the underlying field
 {...rest}
 />

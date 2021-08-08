@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useFrmX } from 'frmx'
 import parsePhoneNumber, { AsYouType } from 'libphonenumber-js'
 import Flag from 'react-flagkit'
@@ -64,7 +64,7 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
     return getOneError(field) && getOneVisited(field)
   }, [field, getOneError, getOneVisited])
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const newDisplayVal = new AsYouType(country).input(e.target.value)
     setPhoneNumber(newDisplayVal)
     const n = parsePhoneNumber(newDisplayVal, country)
@@ -74,12 +74,23 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
       setOneError(field, !n.isValid())
       setOneField(field, n.number)
     }
-  }
+  }, [
+    setOneField,
+    setOneError,
+    setPhoneNumber,
+    setCountry,
+    country,
+    field
+  ])
 
-  const handleBlur = (e) => {
+  const handleBlur = useCallback((e) => {
     handleChange(e)
     setOneVisited(field)
-  }
+  }, [
+    handleChange,
+    setOneVisited,
+    field
+  ])
 
   const closeMenu = () => setAnchorEl(null)
 
@@ -126,5 +137,17 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
           closeMenu()
         }}>{c.name}</MenuItem>)}
     </Menu>
-  </>, [phoneNumber])
+  </>, [
+    phoneNumber,
+    anchorEl,
+    className,
+    classes.countrySelect,
+    classes.dropDownIcon,
+    classes.input,
+    classes.root,
+    country,
+    handleBlur,
+    handleChange,
+    placeholder
+  ])
 }
