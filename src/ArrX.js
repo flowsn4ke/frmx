@@ -1,9 +1,7 @@
-import React, { Fragment, useEffect } from "react"
-import { useFrmX } from "./FrmXContext"
+import React, { useEffect } from "react"
+import { useFrmX, ArrXContext } from "./Contexts"
 import { cloneDeep } from "lodash"
-import { ArrXContext } from "./ArrXContext"
 
-// TODO: Update the codepen demo
 export default function ArrX({
   startWithOneMore = false,
   field,
@@ -28,11 +26,9 @@ export default function ArrX({
 
   useEffect(() => {
     if (startWithOneMore) addItem()
-  }, [])
+  }, [startWithOneMore, addItem])
 
-  return <ArrXContext.Provider value={{
-    validationPath: field
-  }}>
+  return <ArrXContext.Provider value={{ validationPath: field }}>
     {children({
       field,
       items: getOneField(field),

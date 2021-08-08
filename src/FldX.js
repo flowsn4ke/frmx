@@ -1,6 +1,5 @@
 import { cloneElement, Children, useEffect, useMemo, useState } from "react"
-import { useFrmX } from "./FrmXContext"
-import { useArrX } from "./ArrXContext"
+import { useFrmX, useArrX } from "./Contexts"
 import { getValidationMethod } from "./utils/getValidationMethod"
 
 // TODO: Trim values when submitting based on prop && if type is text
