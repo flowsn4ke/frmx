@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import { useFrmX } from 'frmx';
+import React, { useMemo, useState } from 'react'
+import { useFrmX } from 'frmx'
 import parsePhoneNumber, { AsYouType } from 'libphonenumber-js'
 import Flag from 'react-flagkit'
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Divider, InputBase, ButtonBase, Menu, MenuItem } from '@material-ui/core';
-import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons';
-import clsx from "clsx"
+import { makeStyles } from '@material-ui/core/styles'
+import { Box, Divider, InputBase, ButtonBase, Menu, MenuItem } from '@material-ui/core'
+import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons'
+import clsx from 'clsx'
 
 const countries = [
   { code: "FR", prefix: "+33", name: "France" },
@@ -85,7 +85,7 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
 
   const classes = useStyles({ isFocused, isHovered, isError })
 
-  return <>
+  return useMemo(() => <>
     <Box className={clsx(classes.root, className)}>
       <ButtonBase
         className={classes.countrySelect}
@@ -126,5 +126,5 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
           closeMenu()
         }}>{c.name}</MenuItem>)}
     </Menu>
-  </>
+  </>, [phoneNumber])
 }

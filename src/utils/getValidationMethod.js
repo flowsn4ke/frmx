@@ -1,4 +1,4 @@
-import { get } from "lodash"
+import get from "lodash-es/get"
 
 export const getValidationMethod = (arrx, field, schemaValidation) => {
   let validationPath

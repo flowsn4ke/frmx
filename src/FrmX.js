@@ -1,6 +1,10 @@
-import React, { useState, useMemo, useCallback } from "react";
-import { FrmXContext } from "./Contexts"
-import { get, set, setWith, cloneDeep } from "lodash"
+import React, { useState, useMemo, useCallback } from 'react'
+import get from 'lodash-es/get'
+import set from 'lodash-es/set'
+import setWith from 'lodash-es/setWith'
+import cloneDeep from 'lodash-es/cloneDeep'
+
+import { FrmXContext } from './Contexts'
 import { isParentObject } from './utils/objectUtils'
 
 export default function FrmX({

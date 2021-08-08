@@ -1,6 +1,7 @@
-import React, { useEffect } from "react"
-import { useFrmX, ArrXContext } from "./Contexts"
-import { cloneDeep } from "lodash"
+import React, { useEffect } from 'react'
+import cloneDeep from 'lodash-es/cloneDeep'
+
+import { useFrmX, ArrXContext } from './Contexts'
 
 export default function ArrX({
   startWithOneMore = false,

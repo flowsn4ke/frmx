@@ -1,6 +1,6 @@
 {
   "name": "frmx",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "description": "A minimalistic approach to forms in react",
   "keywords": [
     "react",
@@ -30,7 +30,7 @@
     "build": "microbundle-crl --no-compress --format modern,cjs && rm dist/*.map",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
-    "test": "run-s test:unit test:lint test:build",
+    "test": "run-s test:unit test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
@@ -65,6 +65,6 @@
     "dist"
   ],
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash-es": "^4.17.21"
   }
 }

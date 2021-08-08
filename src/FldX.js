@@ -1,6 +1,7 @@
-import { cloneElement, Children, useEffect, useMemo, useState } from "react"
-import { useFrmX, useArrX } from "./Contexts"
-import { getValidationMethod } from "./utils/getValidationMethod"
+import { cloneElement, Children, useEffect, useMemo } from 'react'
+
+import { useFrmX, useArrX } from './Contexts'
+import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
