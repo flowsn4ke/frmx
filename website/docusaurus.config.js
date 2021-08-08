@@ -5,13 +5,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: 'frmx',
   tagline: 'Simple, Performant, Lightweight React Forms',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://frmx.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'theolouvel',
+  projectName: 'frmx',
   themeConfig: {
     navbar: {
       title: 'frmx',
