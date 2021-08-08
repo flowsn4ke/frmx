@@ -10,6 +10,7 @@ export default function FldX({
   type = "text",
   valueProp = "value",
   onChangeProp = "onChange",
+  trim,
   isErrorProp,
   autoCorrectOff = false,
   autoCapitalizeOff = false,
@@ -38,8 +39,8 @@ export default function FldX({
   useEffect(() => setOneError(field, isError), [setOneError, field, isError])
 
   const onChange = (...args) => {
-    const val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
-    setOneField(field, val)
+    let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
+    setOneField(field, !!trim && typeof val === 'string' ? val.trim() : val)
   }
 
   const onBlur = () => {

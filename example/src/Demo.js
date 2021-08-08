@@ -94,7 +94,7 @@ export default function Demo() {
           placeholder="Enter your number"
         />
 
-        <FldX field="email" isErrorProp="error">
+        <FldX field="email" isErrorProp="error" trim>
           <TextField
             className={classes.input}
             variant="outlined"
