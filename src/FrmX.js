@@ -53,7 +53,7 @@ export default function FrmX({
   const setOneVisited = useCallback((field) => {
     setVisited(prev => {
       if (!prev.has(field)) {
-        const next = new Set(visited)
+        const next = new Set(prev)
         next.add(field)
         return next
       } else {
@@ -65,7 +65,7 @@ export default function FrmX({
   const getOneError = useCallback((field) => errors.has(field), [errors])
   const setOneError = useCallback((field, isError) => {
     setErrors(prev => {
-      const next = new Set(errors)
+      const next = new Set(prev)
       if (isError && !prev.has(field)) {
         next.add(field)
         return next
@@ -79,7 +79,11 @@ export default function FrmX({
   }, [setErrors])
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
-  const isValidForm = useMemo(() => errors.size < 1, [schemaValidation, fields, errors, visited, updates])
+  const isValidForm = useMemo(() => {
+    // console.log(errors)
+
+    return errors.size < 1
+  }, [schemaValidation, fields, errors, visited, updates])
   const isConditionnallyDisabled = useMemo(() => !!disabledIf ? disabledIf(fields) : false, [fields, updates])
 
   const resetForm = () => {
