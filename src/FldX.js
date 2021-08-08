@@ -1,8 +1,7 @@
-import React, { cloneElement, Children, useEffect, useMemo, useState } from "react"
+import { cloneElement, Children, useEffect, useMemo, useState } from "react"
 import { useFrmX } from "./FrmXContext"
 import { useArrX } from "./ArrXContext"
 import { getValidationMethod } from "./utils/getValidationMethod"
-import { cloneDeep } from "lodash"
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -48,7 +47,6 @@ export default function FldX({
   }
 
   const props = useMemo(() => ({
-    "aria-label": field,
     type,
     onBlur,
     onChange,

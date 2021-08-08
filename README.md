@@ -7,18 +7,17 @@
 
 ## Mantras
 
-- frmx starts from the shape of the data you need back
-- frmx handles all of your form state
-- frmx does all the heavy, repetitive & cumbersome lifting for you
-- frmx assumes nothing about your inputs and their nesting / styling
-- frmx provides field-based validation
-- frmx allows you to create highly reusable inputs
-- frmx's API is simple
-- frmx is lightweight and has only one dependency, lodash
-- frmx enforces best practices
-- schema validation is framework agnostic, bring any functions you'd like
+- Start from the shape of the data we need back
+- Form state management is abstracted away
+- Provide defaults that cover 90% of the cases
+- Keep the API as simple as possible
+- Assumes nothing about inputs and their nesting / styling
+- Provide field-based validation
+- Allow for creating highly reusable inputs
+- Keep frmx as lightweight as possible (~40kb as of today)
+- Keep schema validation framework agnostic, bring any functions you'd like
 
-The goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
+Overall, the goal is to allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
 
 ```js
 <FrmX
