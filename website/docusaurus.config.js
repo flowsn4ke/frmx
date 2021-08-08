@@ -17,7 +17,7 @@ module.exports = {
       title: 'frmx',
       logo: {
         alt: 'frmx logo',
-        src: 'img/logo.svg',
+        src: 'img/frmx.svg',
       },
       items: [
         {
