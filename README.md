@@ -1,4 +1,4 @@
-# Minimalistic, Lightweight and Versatile React Forms
+# Simple, Performant, Lightweight React Forms
 
 **frmx** is lightweight and eliminates most of the boilerplate code and headaches when building forms in React, without assuming anything about the shape of your form data or the shape of your component.
 
