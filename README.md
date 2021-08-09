@@ -8,7 +8,7 @@
 
 ## Docs
 
-**[Check the documentation here](https://frmx-docs.vercel.app/)**
+**[Check the documentation here](https://frmx.io/)**
 
 ## Goal
 
