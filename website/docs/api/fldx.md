@@ -6,40 +6,36 @@ sidebar_position: 2
 
 # FldX Component
 
-A glance at all the props FldX consumes:
+## FldX Props
+
+
+| Name                    | Type           | Default       |  Description |
+|----------               | -------------  | ------------- |  ------------- |
+| autoCapitalizeOff | boolean | false | Disable autocapitalize |
+| autoCorrectOff | boolean | false | Disable autocorrect |
+| field | string | undefined |  The field that should be controlled by frmx. You can target nested fields like so `"a.nested.field"` (lodash notation). |
+| getValueFromArgs | function | `(args) => args[0].target.value` | Pass a custom function to get back the value from the onChange args. Useful for instance when interacting with material ui components as they often pass the `newValue` through the second argument. Example: `<FldX ... getValueFromArgs={args => args[1].value}>...</FldX>` |
+| isErrorProp | string | undefined | The name of the prop used by the underlying component to trigger an error state based on a boolean. |
+| onChangeProp | string | "onChange" | The name of the prop used to update the component with its value. |
+| valueProp | string | "value" | The name of the component that holds the field's value. |
+| type | string | "text" | The type of your input. |
+| trim | boolean | false | Pass this prop if you want the input to be trimmed. The user won't be able to type whitespaces at the beginning or the end of the input field. |
+| ...rest                 | any            | undefined     |  Any other props will be spread on to the `<form>` / `<div>` tag |
+
+## Example Usage
 
 ```jsx
 <FldX
-// A boolean to disable autocapitalize
 autoCapitalizeOff
-// A boolean to disable autocorrect
 autoCorrectOff
-// You can target nested fields like so
 field="a.nested.field"
-// Pass a custom function to get back the value from the onChange args
-// Useful for instance when interacting with material ui components
-// As they often pass the new value through the second argument
-// Example: <FldX ... getValueFromArgs={args => args[1].value}>...</FldX>
 getValueFromArgs
-// The name of the prop used by the underlying component
-// to trigger an error state. Defaults to "error"
 isErrorProp
-// The name of the prop used to update the component with its value
-// Defaults to "onChange"
 onChangeProp
-// The name of the component that holds the field's value
-// Defaults to "value"
 valueProp
-// A boolean that indicates wether or not this is required
-// Before submitting the form
 required
-// The type of your input, defaults to "text"
 type="text"
-// Pass this prop if you want the input to be trimmed
 trim
-// Any other props will be spread on to the underlying field
-// A function to check the input is valid
-validate={(value) => typeof value === "string"}
 {...rest}
 />
 ```
@@ -52,4 +48,4 @@ Use only "." notation, even for array elements, otherwise you will run into bugs
 
 ### Child(ren)
 
-<FldX/> can have only one child element, which can have some other elements nested into it, of course.
+`<FldX/>` can have only one child element.

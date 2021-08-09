@@ -8,40 +8,60 @@ sidebar_position: 6
 
 The `useFrmX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context.
 
-You can destructure all values frmx interacts with, like so:
+
+## useFrmX values
+
+In some rare cases, you might not be able to use FldX because of some input wrapper for instance (which happens with some Material UI fields).
+
+In those cases you can use the `useFrmX` hook to manually update and get back the values for this specific field.
+
+To do so, you can destructure all values frmx interacts with like so (assuming you're inside a `<FrmX></FrmX>` provider):
+
+| Name                    | Type           |    Description |
+|----------               | -------------  |  ------------- |
+| getOneError | function | function that returns if the field has an error. Ex: `const isError = getOneError(field)` |
+| getOneField | function | function that returns a field value. Ex: `const value = getOneField(field)` |
+| getOneVisited | function | function returning a boolean, Ex: `const isVisited = getOneVisited(field)` |
+| handleSubmit | function | the function implementing all frmx submitting logic |
+| hasUpdates | boolean | boolean keeping track of wether or not the form was updated |
+| isSubmitting | boolean | boolean keeping track of wether the form is submitting or not |
+| isValidForm | boolean | boolean keeping track of wether the form is valid or not |
+| resetForm | function | the function that resets the form to the initialValues state |
+| setOneError | function | function accepting a boolean. Ex: `setOneError(field, true)` |
+| setOneField | function | function that allows you to set a field value. Ex: `setOneField(field, value)` |
+| setOneVisited | function | function to mark a field as visited. Ex: `setOneVisited(field)` |
+
+**Note**: You can also test wether or not you're inside a `<FrmX></FrmX>` provider by not destructuring values right away, like so:
+
+```js
+const frmx = useFrmX()
+
+if (!!frmx) {
+  // ...do stuff here
+  const { getOneError } = frmx
+  frmx.handleSubmit()
+}
+```
+
+## Example Usage
 
 ```jsx
 const {
-  // function that returns if the field has an error  => ex: getOneError(field)
   getOneError,
-  // function that returns a field value => ex: const value = getOneField(field)
   getOneField,
-  // function returning a boolean => ex: getOneVisited(field)
   getOneVisited,
-  // The function implementing all frmx submitting logic
   handleSubmit,
-  // boolean keeping track of wether or not the form was updated
   hasUpdates,
-  // a boolean value
   isSubmitting,
-  // yet another boolean value
   isValidForm,
-  // the function that resets the form to the initialValues state
   resetForm,
-  // function that accepts a boolean  => ex: setOneError(field, true)
   setOneError,
-  // function that allows you to set a field value=> ex: setOneField(field, value)
   setOneField,
-  // function to mark a field as visited  => ex: setOneVisited(field)
   setOneVisited,
 } = useFrmX()
 ```
 
 ## Example Usage
-
-In some rare cases, you might not be able to use FldX because of some input wrapper for instance (which happens with some Material UI fields).
-
-In those cases you can use the `useFrmX` hook to manually update and get back the values for this specific field:
 
 ```jsx
 import { FrmX, FldX, BtnX, useFrmX } from "frmx"

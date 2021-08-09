@@ -6,7 +6,17 @@ sidebar_position: 5
 
 # ArrX Component
 
-`<ArrX/>` controls a `field` and helps you handle arrays in forms:
+`<ArrX/>` controls a `field` and helps you handle arrays in forms.
+
+## FldX Props
+
+| Name                    | Type           | Default       |  Description |
+|----------               | -------------  | ------------- |  ------------- |
+| startWithOneMore | boolean | false | Add one empty element in the array on mount (using the provided model) |
+| field | string | undefined |  The field that should be controlled by frmx. You can target nested fields like so `"a.nested.field"` (lodash notation). |
+| model | object | `""` | The structure of one array element, which can be of any type you need |
+
+## Example Usage
 
 ```jsx
 export default function MyComponent() {
@@ -21,11 +31,8 @@ export default function MyComponent() {
       onSubmit={formData => console.log(formData)}
     >
       <ArrX
-      // Add one empty element in the array on mount (using the provided model)
       startWithOneMore
-      // the field containing the array
       field="arr"
-      // The structure of one array element
       model={{ name: "", email: "" }}
       >
         {({ field, items, addItem, removeItem, disabled }) => (

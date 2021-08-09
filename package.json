@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/theolouvel/frmx/issues"
   },
-  "homepage": "https://frmx.io/",
+  "homepage": "https://frmx.io",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
