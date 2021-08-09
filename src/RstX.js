@@ -6,11 +6,11 @@ export default function RstX({
   children,
   ...rest
 }) {
-  const { resetForm, hasUpdates } = useFrmX()
+  const { resetForm, hasUpdates, disabled, isSubmitting } = useFrmX()
 
   const props = {
     type: "button",
-    disabled: !hasUpdates,
+    disabled: !hasUpdates || disabled || isSubmitting,
     onClick: resetForm,
     ...rest
   }
