@@ -6,7 +6,7 @@ sidebar_position: 1
 
 # Quick Start
 
-frmx is **lightweight** (~21kb), **performant** and proposes a **simple API** while aiming to **eliminate most of the boilerplate code** and headaches when building forms in React, without assuming anything about the shape of your form data or the nesting of your components or the schema validation. Out of the box, frmx
+frmx is **lightweight** (~21kb minified / ~7kb gzipped), **performant** and proposes a **simple API** while aiming to **eliminate most of the boilerplate code** and headaches when building forms in React, without assuming anything about the shape of your form data or the nesting of your components or the schema validation. Out of the box, frmx
 
 ## Simple Form State
 
