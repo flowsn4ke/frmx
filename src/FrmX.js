@@ -8,21 +8,22 @@ import { FrmXContext } from './Contexts'
 import { isParentObject } from './utils/objectUtils'
 
 export default function FrmX({
-  initialValues = {},
-  onSubmit,
-  onReset,
-  className,
-  style,
-  children,
-  onInvalidSubmit,
-  disabledIf,
-  schemaValidation,
-  updatesOnly,
   autoCompleteOff,
-  disableSubmitIfInvalid,
+  onSubmit,
+  children,
+  className,
+  clearAfterSubmit,
+  disabled,
+  disabledIf,
   disableIfNoUpdates,
+  disableSubmitIfInvalid,
+  initialValues = {},
+  onInvalidSubmit,
+  onReset,
   renderDiv,
-  clearAfterSubmit
+  schemaValidation,
+  style,
+  updatesOnly,
 }) {
   const [fields, setFields] = useState(cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
@@ -79,12 +80,8 @@ export default function FrmX({
   }, [setErrors])
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
-  const isValidForm = useMemo(() => {
-    // console.log(errors)
-
-    return errors.size < 1
-  }, [schemaValidation, fields, errors, visited, updates])
-  const isConditionnallyDisabled = useMemo(() => !!disabledIf ? disabledIf(fields) : false, [fields, updates])
+  const isValidForm = useMemo(() => errors.size < 1, [schemaValidation, fields, errors, visited, updates])
+  const isConditionnallyDisabled = useMemo(() => !!disabled || (!!disabledIf ? disabledIf(fields) : false), [fields, updates, disabled])
 
   const resetForm = () => {
     setUpdates({})
@@ -97,8 +94,9 @@ export default function FrmX({
     e.preventDefault()
     setIsSubmitting(true)
 
-    if ((!isValidForm || updatesOnly && Object.keys(updates).length < 1) && onInvalidSubmit) {
-      onInvalidSubmit()
+    if (((updatesOnly || disableIfNoUpdates) && !hasUpdates) ||
+      disableSubmitIfInvalid && !isValidForm) {
+      if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
       setUpdates({})
       setVisited(new Set())
@@ -106,27 +104,27 @@ export default function FrmX({
       onSubmit(updatesOnly ? updates : fields)
       if (clearAfterSubmit) resetForm()
     }
-
     setIsSubmitting(false)
   }
 
   return <FrmXContext.Provider value={{
-    hasUpdates,
-    setOneField,
-    getOneField,
-    getOneVisited,
-    setOneVisited,
-    getOneError,
-    setOneError,
+    disabled,
     disableIfNoUpdates,
+    disableSubmitIfInvalid,
     handleSubmit,
+    hasUpdates,
+    isConditionnallyDisabled,
     isSubmitting,
     isValidForm,
-    disableSubmitIfInvalid,
-    schemaValidation,
-    isConditionnallyDisabled,
+    getOneField,
+    getOneVisited,
+    getOneError,
+    renderDiv,
     resetForm,
-    renderDiv
+    setOneError,
+    setOneField,
+    setOneVisited,
+    schemaValidation,
   }}>
     {(() => {
       if (!renderDiv) {

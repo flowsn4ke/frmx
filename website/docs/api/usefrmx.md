@@ -12,28 +12,28 @@ You can destructure all values frmx interacts with, like so:
 
 ```jsx
 const {
-  // boolean keeping track of wether or not the form was updated
-  hasUpdates,
-  // function that allows you to set a field value=> ex: setOneField(field, value)
-  setOneField,
+  // function that returns if the field has an error  => ex: getOneError(field)
+  getOneError,
   // function that returns a field value => ex: const value = getOneField(field)
   getOneField,
   // function returning a boolean => ex: getOneVisited(field)
   getOneVisited,
-  // function to mark a field as visited  => ex: setOneVisited(field)
-  setOneVisited,
-  // function that returns if the field has an error  => ex: getOneError(field)
-  getOneError,
-  // function that accepts a boolean  => ex: setOneError(field, true)
-  setOneError,
   // The function implementing all frmx submitting logic
   handleSubmit,
+  // boolean keeping track of wether or not the form was updated
+  hasUpdates,
   // a boolean value
   isSubmitting,
   // yet another boolean value
   isValidForm,
   // the function that resets the form to the initialValues state
   resetForm,
+  // function that accepts a boolean  => ex: setOneError(field, true)
+  setOneError,
+  // function that allows you to set a field value=> ex: setOneField(field, value)
+  setOneField,
+  // function to mark a field as visited  => ex: setOneVisited(field)
+  setOneVisited,
 } = useFrmX()
 ```
 

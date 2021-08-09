@@ -8,21 +8,32 @@ export default function BtnX({
   ...rest
 }) {
   const {
+    disabled: formIsDisabled,
+    disableIfNoUpdates,
+    disableSubmitIfInvalid,
     isSubmitting,
     isValidForm,
-    disableSubmitIfInvalid,
     hasUpdates,
-    disableIfNoUpdates,
     isConditionnallyDisabled,
     renderDiv,
     handleSubmit
   } = useFrmX()
 
-  const disabled = !!(isSubmitting ||
+  const disabled = useMemo(() => !!(isSubmitting ||
     (!isValidForm && disableSubmitIfInvalid) ||
     (disableIfNoUpdates && !hasUpdates) ||
     isConditionnallyDisabled ||
-    localyDisabled)
+    localyDisabled || formIsDisabled),
+    [
+      disableIfNoUpdates,
+      disableSubmitIfInvalid,
+      formIsDisabled,
+      hasUpdates,
+      isConditionnallyDisabled,
+      isSubmitting,
+      isValidForm,
+      localyDisabled,
+    ])
 
   const props = {
     disabled,

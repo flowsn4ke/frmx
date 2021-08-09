@@ -10,8 +10,9 @@ export default function ArrX({
   children
 }) {
   const {
-    setOneField,
+    disabled,
     getOneField,
+    setOneField,
   } = useFrmX()
 
   const addItem = () => {
@@ -34,7 +35,8 @@ export default function ArrX({
       field,
       items: getOneField(field),
       removeItem,
-      addItem
+      addItem,
+      disabled,
     })}
   </ArrXContext.Provider>
 };

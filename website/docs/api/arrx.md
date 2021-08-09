@@ -28,7 +28,7 @@ export default function MyComponent() {
       // The structure of one array element
       model={{ name: "", email: "" }}
       >
-        {({ field, items, addItem, removeItem }) => (
+        {({ field, items, addItem, removeItem, disabled }) => (
           <div>
             {items.map((item, i) => (
               <div key={`unique-id-${i}`}>
@@ -41,10 +41,10 @@ export default function MyComponent() {
                   <input />
                 </FldX>
 
-                <button onClick={() => removeItem(i)}>Remove</button>
+                <button disabled={disabled} onClick={() => removeItem(i)}>Remove</button>
               </div>
             ))}
-            <button onClick={addItem}>Add Person</button>
+            <button disabled={disabled} onClick={addItem}>Add Person</button>
           </div>
         )}
       </ArrX>

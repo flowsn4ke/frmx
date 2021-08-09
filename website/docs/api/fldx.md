@@ -10,12 +10,17 @@ A glance at all the props FldX consumes:
 
 ```jsx
 <FldX
+// A boolean to disable autocapitalize
+autoCapitalizeOff
+// A boolean to disable autocorrect
+autoCorrectOff
 // You can target nested fields like so
 field="a.nested.field"
-// The type of your input, defaults to "text"
-type="text"
-// A function to check the input is valid
-validate={(value) => typeof value === "string"}
+// Pass a custom function to get back the value from the onChange args
+// Useful for instance when interacting with material ui components
+// As they often pass the new value through the second argument
+// Example: <FldX ... getValueFromArgs={args => args[1].value}>...</FldX>
+getValueFromArgs
 // The name of the prop used by the underlying component
 // to trigger an error state. Defaults to "error"
 isErrorProp
@@ -28,18 +33,13 @@ valueProp
 // A boolean that indicates wether or not this is required
 // Before submitting the form
 required
-// A boolean to disable autocorrect
-autoCorrectOff
-// A boolean to disable autocapitalize
-autoCapitalizeOff
-// Pass a custom function to get back the value from the onChange args
-// Useful for instance when interacting with material ui components
-// As they often pass the new value through the second argument
-// Example: <FldX ... getValueFromArgs={args => args[1].value}>...</FldX>
-getValueFromArgs
+// The type of your input, defaults to "text"
+type="text"
 // Pass this prop if you want the input to be trimmed
 trim
 // Any other props will be spread on to the underlying field
+// A function to check the input is valid
+validate={(value) => typeof value === "string"}
 {...rest}
 />
 ```

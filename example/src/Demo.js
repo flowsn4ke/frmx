@@ -57,6 +57,7 @@ export default function Demo() {
         initialValues={fields}
         onSubmit={(values) => console.log(values)}
         onReset={(values) => console.log("reset")}
+        // disabled
         // clearAfterSubmit
         disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
@@ -129,7 +130,7 @@ export default function Demo() {
         </Box>
 
         <ArrX field="objInArr" model={{ name: "", email: "" }}>
-          {({ field, items, addItem, removeItem }) => (
+          {({ field, items, addItem, removeItem, disabled }) => (
             <Box>
               {items.map((item, i) => (
                 <Box key={`unique-id-${i}`}>
@@ -148,10 +149,10 @@ export default function Demo() {
                     />
                   </FldX>
 
-                  <Button onClick={() => removeItem(i)}>Remove</Button>
+                  <Button disabled={disabled} onClick={() => removeItem(i)}>Remove</Button>
                 </Box>
               ))}
-              <Button onClick={addItem}>Add Person</Button>
+              <Button disabled={disabled} onClick={addItem}>Add Person</Button>
             </Box>
           )}
         </ArrX>

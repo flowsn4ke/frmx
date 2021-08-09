@@ -19,13 +19,14 @@ export default function FldX({
   ...rest
 }) {
   const {
+    disabled,
     getOneField,
-    setOneField,
-    setOneError,
     getOneVisited,
-    setOneVisited,
     isSubmitting,
-    schemaValidation
+    schemaValidation,
+    setOneError,
+    setOneField,
+    setOneVisited,
   } = useFrmX()
 
   const value = useMemo(() => getOneField(field), [getOneField, field])
@@ -52,7 +53,7 @@ export default function FldX({
     onBlur,
     onChange,
     required,
-    disabled: isSubmitting,
+    disabled: isSubmitting || disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: isError && visited ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
