@@ -48,7 +48,7 @@ export default function FrmX({
         return prev
       }
     })
-  }, [setFields, setUpdates, get, set, setWith])
+  }, [setFields, setUpdates, get, set, setWith, fields])
 
   const getOneVisited = useCallback((field) => visited.has(field), [visited])
   const setOneVisited = useCallback((field) => {
@@ -61,7 +61,7 @@ export default function FrmX({
         return prev
       }
     })
-  }, [setVisited])
+  }, [setVisited, visited])
 
   const getOneError = useCallback((field) => errors.has(field), [errors])
   const setOneError = useCallback((field, isError) => {
@@ -77,10 +77,13 @@ export default function FrmX({
         return prev
       }
     })
-  }, [setErrors])
+  }, [setErrors, errors])
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
-  const isValidForm = useMemo(() => errors.size < 1, [schemaValidation, fields, errors, visited, updates])
+  const isValidForm = useMemo(() => {
+    console.log("updating errors: ", errors);
+    return errors.size < 1
+  }, [schemaValidation, fields, errors, visited, updates])
   const isConditionnallyDisabled = useMemo(() => !!disabled || (!!disabledIf ? disabledIf(fields) : false), [fields, updates, disabled])
 
   const resetForm = () => {
@@ -94,8 +97,7 @@ export default function FrmX({
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (((updatesOnly || disableIfNoUpdates) && !hasUpdates) ||
-      disableSubmitIfInvalid && !isValidForm) {
+    if (((updatesOnly || disableIfNoUpdates) && !hasUpdates) || ((disableSubmitIfInvalid || onInvalidSubmit) && !isValidForm)) {
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
       setUpdates({})

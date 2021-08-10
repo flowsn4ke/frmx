@@ -1,4 +1,4 @@
-import { cloneElement, Children, useMemo } from 'react'
+import { cloneElement, Children } from 'react'
 
 import { useFrmX } from './Contexts'
 
@@ -19,21 +19,11 @@ export default function BtnX({
     handleSubmit
   } = useFrmX()
 
-  const disabled = useMemo(() => !!(isSubmitting ||
+  const disabled = !!(isSubmitting ||
     (!isValidForm && disableSubmitIfInvalid) ||
     (disableIfNoUpdates && !hasUpdates) ||
     isConditionnallyDisabled ||
-    localyDisabled || formIsDisabled),
-    [
-      disableIfNoUpdates,
-      disableSubmitIfInvalid,
-      formIsDisabled,
-      hasUpdates,
-      isConditionnallyDisabled,
-      isSubmitting,
-      isValidForm,
-      localyDisabled,
-    ])
+    localyDisabled || formIsDisabled)
 
   const props = {
     disabled,
@@ -41,5 +31,5 @@ export default function BtnX({
     ...rest
   }
 
-  return useMemo(() => Children.only(children) && Children.map(children, child => cloneElement(child, props)), [disabled])
+  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
 }

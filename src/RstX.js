@@ -15,5 +15,5 @@ export default function RstX({
     ...rest
   }
 
-  return useMemo(() => Children.only(children) && Children.map(children, child => cloneElement(child, props)), [hasUpdates])
+  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
 }

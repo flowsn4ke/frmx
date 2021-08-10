@@ -59,10 +59,10 @@ export default function Demo() {
         onReset={(values) => console.log("reset")}
         // disabled
         // clearAfterSubmit
-        disableSubmitIfInvalid
+        // disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
         // disableIfNoUpdates
-        // onInvalidSubmit={() => alert("Invalid form!")}
+        onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
       >
         <Typography variant="h4" className={classes.input}>
