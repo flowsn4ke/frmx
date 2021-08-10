@@ -80,10 +80,7 @@ export default function FrmX({
   }, [setErrors, errors])
 
   const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
-  const isValidForm = useMemo(() => {
-    console.log("updating errors: ", errors);
-    return errors.size < 1
-  }, [schemaValidation, fields, errors, visited, updates])
+  const isValidForm = useMemo(() => errors.size < 1, [schemaValidation, fields, errors, visited, updates])
   const isConditionnallyDisabled = useMemo(() => !!disabled || (!!disabledIf ? disabledIf(fields) : false), [fields, updates, disabled])
 
   const resetForm = () => {

@@ -37,12 +37,7 @@ export default function FldX({
   const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
   const isError = useMemo(() => !!validationMethod ? !validationMethod(value) : false, [value])
 
-  useEffect(() => {
-
-    setOneError(field, isError)
-
-    console.log("running");
-  }, [setOneError, field, isError, value])
+  useEffect(() => setOneError(field, isError), [setOneError, field, isError, value])
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
