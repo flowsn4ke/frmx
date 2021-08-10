@@ -10,7 +10,7 @@
 
 **[Check the documentation here](https://frmx.io/)**
 
-## Goal
+## Vision
 
 Overall, the goal is to start from the data you need and allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
 
