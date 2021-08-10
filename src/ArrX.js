@@ -28,7 +28,7 @@ export default function ArrX({
 
   useEffect(() => {
     if (startWithOneMore) addItem()
-  }, [startWithOneMore, addItem])
+  }, [])
 
   return <ArrXContext.Provider value={{ validationPath: field }}>
     {children({
