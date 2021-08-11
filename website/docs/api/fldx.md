@@ -11,15 +11,18 @@ sidebar_position: 2
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
+| afterChange             | function       | undefined     |  Middleware that will be called with the field name and its new value after each change: `afterChange(field, newValue)` |
 | autoCapitalizeOff | boolean | false | Disable autocapitalize |
 | autoCorrectOff | boolean | false | Disable autocorrect |
+| disabled | boolean | undefined | Programmatically disable a field. Ex: `disabled={someCondition === true}` |
 | field | string | undefined |  The field that should be controlled by frmx. You can target nested fields like so `"a.nested.field"` (lodash notation). |
 | getValueFromArgs | function | `(args) => args[0].target.value` | Pass a custom function to get back the value from the onChange args. Useful for instance when interacting with material ui components as they often pass the `newValue` through the second argument. Example: `<FldX ... getValueFromArgs={args => args[1].value}>...</FldX>` |
 | isErrorProp | string | undefined | The name of the prop used by the underlying component to trigger an error state based on a boolean. |
 | onChangeProp | string | "onChange" | The name of the prop used to update the component with its value. |
-| valueProp | string | "value" | The name of the component that holds the field's value. |
 | type | string | "text" | The type of your input. |
 | trim | boolean | false | Pass this prop if you want the input to be trimmed. The user won't be able to type whitespaces at the beginning or the end of the input field. |
+| valueProp | string | "value" | The name of the component that holds the field's value. |
+| visibilityController | object | undefined | An object containing the path of another field and the value it must have in order for the field to be visible. Ex: `visibilityController={ field: "options.checked", value: true}` |
 | ...rest                 | any            | undefined     |  Any other props will be spread on to the `<form>` / `<div>` tag |
 
 ## Example Usage

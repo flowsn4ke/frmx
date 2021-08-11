@@ -5,17 +5,20 @@ import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
-  field,
-  getValueFromArgs,
-  type = "text",
-  valueProp = "value",
-  onChangeProp = "onChange",
-  trim,
-  isErrorProp,
+  afterChange,
   autoCorrectOff = false,
   autoCapitalizeOff = false,
-  required,
   children,
+  disabled: manuallyDisabled,
+  field,
+  getValueFromArgs,
+  isErrorProp,
+  onChangeProp = "onChange",
+  required,
+  trim,
+  type = "text",
+  valueProp = "value",
+  visibilityController,
   ...rest
 }) {
   const {
@@ -29,6 +32,14 @@ export default function FldX({
     setOneVisited,
   } = useFrmX()
 
+  const visible = useMemo(() => {
+    if (!!visibilityController) {
+      const { field, value } = visibilityController
+      return !!(getOneField(field) === value)
+    } else {
+      return true
+    }
+  }, [getOneField, visibilityController])
   const value = useMemo(() => getOneField(field), [getOneField, field])
   const visited = useMemo(() => getOneVisited(field), [getOneVisited, field])
 
@@ -41,7 +52,8 @@ export default function FldX({
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
-    setOneField(field, !!trim && typeof val === 'string' ? val.trim() : val)
+    setOneField(field, !!trim && typeof val === 'string' ? val.trim() : val, afterChange)
+    if (!!afterChange) afterChange(field, val)
   }
 
   const onBlur = () => {
@@ -53,7 +65,7 @@ export default function FldX({
     onBlur,
     onChange,
     required,
-    disabled: isSubmitting || disabled,
+    disabled: isSubmitting || disabled || manuallyDisabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: isError && visited ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
@@ -62,6 +74,6 @@ export default function FldX({
   }), [value, visited, isError, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
 
   return useMemo(() => {
-    return Children.only(children) && Children.map(children, child => cloneElement(child, props))
-  }, [value, visited, isError, isSubmitting])
+    return visible ? Children.only(children) && Children.map(children, child => cloneElement(child, props)) : null
+  }, [value, visited, isError, isSubmitting, visible])
 }

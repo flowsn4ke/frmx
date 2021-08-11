@@ -52,6 +52,7 @@ export default function Demo() {
   return (
     <Box className={classes.container}>
       <FrmX
+        // afterChange={console.log}
         className={classes.formContainer}
         updatesOnly
         initialValues={fields}
@@ -59,7 +60,7 @@ export default function Demo() {
         onReset={(values) => console.log("reset")}
         // disabled
         // clearAfterSubmit
-        // disableSubmitIfInvalid
+        disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
         // disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
@@ -81,7 +82,7 @@ export default function Demo() {
           <Slider valueLabelDisplay="auto" />
         </FldX>
 
-        <FldX field="name" type="text">
+        <FldX field="name" type="text" afterChange={console.log}>
           <TextField
             className={classes.input}
             variant="outlined"
@@ -95,7 +96,7 @@ export default function Demo() {
           placeholder="Enter your number"
         />
 
-        <FldX field="email" isErrorProp="error" trim>
+        <FldX field="email" isErrorProp="error" trim visibilityController={{ field: "options.checked", value: true }}>
           <TextField
             className={classes.input}
             variant="outlined"

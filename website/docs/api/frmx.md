@@ -12,6 +12,7 @@ FrmX needs only two props to do its job, initialValues and onSubmit. There is, h
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
+| afterChange             | function       | undefined     |  Middleware that will be called with all the form data every time it changes `afterChange(field, newFormData)` |
 | autoCompleteOff         | boolean        | false         |  Disable autocomplete |
 | className               | string         | undefined     |  Pass any classes to style the form tag (or div if you chose to render a div) |
 | clearAfterSubmit        | boolean        | false         |  Does what it says, clears the form back to initialValues after submit |
