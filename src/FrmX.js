@@ -8,6 +8,7 @@ import { FrmXContext } from './Contexts'
 import { isParentObject } from './utils/objectUtils'
 
 export default function FrmX({
+  afterChange,
   autoCompleteOff,
   onSubmit,
   children,
@@ -35,18 +36,13 @@ export default function FrmX({
   const getOneField = useCallback((field) => get(fields, field), [get, fields])
   const setOneField = useCallback((field, value) => {
     setFields(prev => {
-      if (value !== get(prev, field)) {
-        return set({ ...prev }, field, value)
-      } else {
-        return prev
-      }
+      const next = set({ ...prev }, field, value)
+      if (!!afterChange) afterChange(next)
+      return next
     })
     setUpdates(prev => {
-      if (value !== get(updates, value)) {
-        return setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined)
-      } else {
-        return prev
-      }
+      const next = setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined)
+      return next
     })
   }, [setFields, setUpdates, get, set, setWith, fields])
 

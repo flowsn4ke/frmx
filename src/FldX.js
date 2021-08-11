@@ -5,6 +5,7 @@ import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
+  afterChange,
   field,
   getValueFromArgs,
   type = "text",
@@ -41,7 +42,8 @@ export default function FldX({
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
-    setOneField(field, !!trim && typeof val === 'string' ? val.trim() : val)
+    setOneField(field, !!trim && typeof val === 'string' ? val.trim() : val, afterChange)
+    if (!!afterChange) afterChange(field, val)
   }
 
   const onBlur = () => {

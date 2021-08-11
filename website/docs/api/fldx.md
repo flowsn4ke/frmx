@@ -11,6 +11,7 @@ sidebar_position: 2
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
+| afterChange             | function       | undefined     |  Middleware that will be called with the field name and its new value after each change: `afterChange(field, newValue)` |
 | autoCapitalizeOff | boolean | false | Disable autocapitalize |
 | autoCorrectOff | boolean | false | Disable autocorrect |
 | field | string | undefined |  The field that should be controlled by frmx. You can target nested fields like so `"a.nested.field"` (lodash notation). |

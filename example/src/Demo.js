@@ -52,6 +52,7 @@ export default function Demo() {
   return (
     <Box className={classes.container}>
       <FrmX
+        afterChange={console.log}
         className={classes.formContainer}
         updatesOnly
         initialValues={fields}
@@ -81,7 +82,7 @@ export default function Demo() {
           <Slider valueLabelDisplay="auto" />
         </FldX>
 
-        <FldX field="name" type="text">
+        <FldX field="name" type="text" afterChange={console.log}>
           <TextField
             className={classes.input}
             variant="outlined"
