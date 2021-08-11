@@ -94,7 +94,10 @@ export default function FrmX({
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (((updatesOnly || disableIfNoUpdates) && !hasUpdates) || ((disableSubmitIfInvalid || onInvalidSubmit) && !isValidForm)) {
+    if (
+      ((updatesOnly || disableIfNoUpdates) && !hasUpdates) ||
+      ((disableSubmitIfInvalid || onInvalidSubmit) && !isValidForm)
+    ) {
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
       setUpdates({})
