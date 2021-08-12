@@ -24,7 +24,7 @@ export default function BtnX({
   const [errors, setErrors] = useState(0)
 
   useEffect(() => {
-    on(`form-error-${formId}-total`, total => {
+    on(`form-${formId}-total-errors`, total => {
       setErrors(prev => total !== prev ? total.detail : prev)
     })
   })

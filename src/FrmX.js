@@ -51,13 +51,13 @@ export default function FrmX({
   const xErrors = useRef(new Set())
   const xIsSubmitting = useRef(false)
   const formId = useRef(nanoid())
-  const diffAlg = useRef(getDiffAlg(diff))
+  const diffAlg = useRef(getDiffAlg(diff || updatesOnly ? 'shallow' : ''))
 
   // Functions intended to be used with the useFrmX hook in fields
   const getOneField = (field) => get(xFields.current, field)
   const setOneField = (field, value) => {
     set(xFields.current, field, value)
-    if (!!afterChange) afterChange(xFields)
+    if (!!afterChange) afterChange(xFields.current)
   }
 
   const getOneVisited = (field) => xVisited.current.has(field)
@@ -69,10 +69,10 @@ export default function FrmX({
   const setOneError = (field, isError) => {
     if (isError && !xErrors.current.has(field)) {
       xErrors.current.add(field)
-      trigger(`form-error-${formId.current}-total`, xErrors.current.size)
+      trigger(`form-${formId.current}-total-errors`, xErrors.current.size)
     } else if (!isError && xErrors.current.has(field)) {
       xErrors.current.delete(field)
-      trigger(`form-error-${formId.current}-total`, xErrors.current.size)
+      trigger(`form-${formId.current}-total-errors`, xErrors.current.size)
     }
   }
 
@@ -83,13 +83,14 @@ export default function FrmX({
     if (onReset) onReset(diffAlg.current(xOriginal.current, xFields.current))
     xVisited.current = new Set()
     xFields.current = cloneDeep(xOriginal.current)
+    trigger(`form-${formId.current}-reset`)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     xIsSubmitting.current = true
     if (
-      ((updatesOnly || disableIfNoUpdates) && !hasUpdates()) ||
+      ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) ||
       ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors())
     ) {
       if (!!onInvalidSubmit) onInvalidSubmit()

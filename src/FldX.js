@@ -2,7 +2,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { cloneElement, Children, useEffect, useMemo, useState } from 'react'
 
 import { useFrmX, useArrX } from './Contexts'
-import { trigger } from './utils/events'
+import { on } from './utils/events'
 import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
@@ -25,6 +25,7 @@ export default function FldX({
 }) {
   const {
     disabled,
+    formId,
     getOneField,
     isSubmitting,
     schemaValidation,
@@ -47,6 +48,7 @@ export default function FldX({
   }
 
   useEffect(() => setTimeout(() => handleError(value), 0), [])
+  useEffect(() => on(`form-${formId}-reset`, () => setValue(cloneDeep(getOneField(field)))))
 
   const arrx = useArrX()
 
