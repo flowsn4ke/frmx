@@ -1,20 +1,21 @@
 import React from 'react';
 import clsx from 'clsx';
-import styles from './HomepageFeatures.module.css';
+import styles from './HomepageFeatures.module.css'
+import { FiFeather, FiWatch, FiCheckCircle } from "react-icons/fi"
 
 const FeatureList = [
   {
     title: 'Simple',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: FiCheckCircle,
     description: (
       <>
-        <code>frmx</code> keeps things simple.
+        <code>frmx</code>'s API is simple, yet highly configurable.
       </>
     ),
   },
   {
     title: 'Performant',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: FiWatch,
     description: (
       <>
         <code>frmx</code> only rerenders fields that are being updated through memoization.
@@ -23,7 +24,7 @@ const FeatureList = [
   },
   {
     title: 'Lightweight',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: FiFeather,
     description: (
       <>
         <code>frmx</code> is only ~21kb minified and ~7kb gzipped.
@@ -36,7 +37,7 @@ function Feature({ Svg, title, description }) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} alt={title} />
+        <Svg className={clsx(styles.featureSvg, "secondary")} alt={title} />
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>

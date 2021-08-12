@@ -14,7 +14,7 @@ module.exports = {
   projectName: 'frmx',
   themeConfig: {
     navbar: {
-      title: 'frmx',
+      // title: 'FRMX',
       logo: {
         alt: 'frmx logo',
         src: 'img/frmx.svg',

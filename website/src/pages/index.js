@@ -1,25 +1,26 @@
 import React from 'react'
-import clsx from 'clsx'
 import Layout from '@theme/Layout'
 import Link from '@docusaurus/Link'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
 import styles from './index.module.css'
 import HomepageFeatures from '../components/HomepageFeatures'
+const Logo = require('../../static/img/frmx.svg').default
+import { FiPlay } from "react-icons/fi"
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext()
   return (
     <header className={styles.heroBanner}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
+        <Logo style={{ maxWidth: "400px" }} />
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/quickstart">
-            Get Started - 3min ⏱️
-          </Link>
-        </div>
+        <Link
+          className="button button--secondary button--lg"
+          to="/docs/quickstart">
+          <div className={styles.buttons}>
+            {"Get Started < 5min ⏱️"}
+          </div>
+        </Link>
       </div>
     </header>
   )

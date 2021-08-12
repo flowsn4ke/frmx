@@ -31,3 +31,11 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 table {
   width:100%;
 }
+
+.primary {
+  color: #f25252
+}
+
+.secondary {
+  color: #6AB6D5
+}
