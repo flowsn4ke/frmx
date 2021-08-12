@@ -1,7 +1,7 @@
 {
   "name": "frmx",
   "version": "3.7.0",
-  "description": "A minimalistic approach to forms in react",
+  "description": "Simple, Performant, Lightweight React Forms",
   "keywords": [
     "react",
     "form",
