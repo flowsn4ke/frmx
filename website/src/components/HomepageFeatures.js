@@ -18,7 +18,7 @@ const FeatureList = [
     Svg: FiWatch,
     description: (
       <>
-        <code>frmx</code> only rerenders fields that are being updated through memoization.
+        <code>frmx</code> isolates re-renders. The only thing being rendered at any given point is the field being updated.
       </>
     ),
   },

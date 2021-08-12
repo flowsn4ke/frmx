@@ -91,11 +91,11 @@ export default function Demo() {
           />
         </FldX>
 
-        {/* <PhoneInput
+        <PhoneInput
           field="phoneNumber"
           className={classes.input}
           placeholder="Enter your number"
-        /> */}
+        />
 
         <FldX field="email" isErrorProp="error" trim visibilityController={{ field: "options.checked", value: true, condition: '===' }}>
           <TextField
