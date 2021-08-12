@@ -5,7 +5,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
 import styles from './index.module.css'
 import HomepageFeatures from '../components/HomepageFeatures'
 const Logo = require('../../static/img/frmx.svg').default
-import { FiPlay } from "react-icons/fi"
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext()

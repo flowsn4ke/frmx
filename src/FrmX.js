@@ -90,7 +90,7 @@ export default function FrmX({
     xIsSubmitting.current = true
     if (
       ((updatesOnly || disableIfNoUpdates) && !hasUpdates()) ||
-      ((disableSubmitIfInvalid || onInvalidSubmit) && !isValidForm())
+      ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors())
     ) {
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
