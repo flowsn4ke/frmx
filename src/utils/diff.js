@@ -3,14 +3,6 @@ import isEqual from "lodash-es/isEqual"
 import isArray from "lodash-es/isArray"
 import isObject from "lodash-es/isObject"
 
-export function shallowDiff(prev, next) {
-  return { ...prev, ...next }
-}
-
-export function deepDiffWithFullArrays(prev, next) {
-
-}
-
 export function deepDiff(prev, next) {
   function changes(next, prev) {
     let arr_i = 0
@@ -23,4 +15,20 @@ export function deepDiff(prev, next) {
   }
   return changes(next, prev)
 }
+
+export function shallowDiff(prev, next) {
+  const updates = deepDiff(prev, next)
+  const result = {}
+
+  Object.keys(updates).forEach(key => {
+    result[key] = next[key]
+  })
+
+  return result
+}
+
+export function deepDiffWithFullArrays(prev, next) {
+
+}
+
 

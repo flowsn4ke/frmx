@@ -1,29 +1,29 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useRef } from 'react'
 import get from 'lodash-es/get'
 import set from 'lodash-es/set'
-import setWith from 'lodash-es/setWith'
 import cloneDeep from 'lodash-es/cloneDeep'
+import { nanoid } from 'nanoid'
 
 import { FrmXContext } from './Contexts'
-import { isParentObject } from './utils/objectUtils'
-// import { deepDiffWithFullArrays, shallowDiff, deepDiff } from './utils/diff'
+import { shallowDiff, deepDiff } from './utils/diff'
+import { trigger } from './utils/events'
 
-// const getDiffAlg = (key) => {
-//   switch (key) {
-//     case 'shallow': {
-//       return shallowDiff
-//     }
-//     case 'visited': {
-//       return deepDiffWithFullArrays
-//     }
-//     case 'deep': {
-//       return deepDiff
-//     }
-//     default: {
-//       return fields => fields
-//     }
-//   }
-// }
+const getDiffAlg = (key) => {
+  switch (key) {
+    case 'shallow': {
+      return shallowDiff
+    }
+    // case 'visited': {
+    //   return deepDiffWithFullArrays
+    // }
+    case 'deep': {
+      return deepDiff
+    }
+    default: {
+      return (prev, next) => next
+    }
+  }
+}
 
 export default function FrmX({
   afterChange,
@@ -43,96 +43,75 @@ export default function FrmX({
   schemaValidation,
   style,
   updatesOnly,
-  // diff
+  diff
 }) {
-  const [fields, setFields] = useState(cloneDeep(initialValues))
-  const [updates, setUpdates] = useState({})
-  const [visited, setVisited] = useState(new Set())
-  const [errors, setErrors] = useState(new Set())
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const xOriginal = useRef(cloneDeep(initialValues))
+  const xFields = useRef(cloneDeep(initialValues))
+  const xVisited = useRef(new Set())
+  const xErrors = useRef(new Set())
+  const xIsSubmitting = useRef(false)
+  const formId = useRef(nanoid())
+  const diffAlg = useRef(getDiffAlg(diff))
 
   // Functions intended to be used with the useFrmX hook in fields
-  const getOneField = useCallback((field) => get(fields, field), [get, fields])
-  const setOneField = useCallback((field, value) => {
-    setFields(prev => {
-      const next = set({ ...prev }, field, value)
-      if (!!afterChange) afterChange(next)
-      return next
-    })
-    setUpdates(prev => {
-      const next = setWith({ ...prev }, field, value, isParentObject(fields, field) ? Object : undefined)
-      return next
-    })
-  }, [setFields, setUpdates, get, set, setWith, fields])
+  const getOneField = (field) => get(xFields.current, field)
+  const setOneField = (field, value) => {
+    set(xFields.current, field, value)
+    if (!!afterChange) afterChange(xFields)
+  }
 
-  const getOneVisited = useCallback((field) => visited.has(field), [visited])
-  const setOneVisited = useCallback((field) => {
-    setVisited(prev => {
-      if (!prev.has(field)) {
-        const next = new Set(prev)
-        next.add(field)
-        return next
-      } else {
-        return prev
-      }
-    })
-  }, [setVisited, visited])
+  const getOneVisited = (field) => xVisited.current.has(field)
+  const setOneVisited = (field) => {
+    if (!xVisited.current.has(field)) xVisited.current.add(field)
+  }
 
-  const getOneError = useCallback((field) => errors.has(field), [errors])
-  const setOneError = useCallback((field, isError) => {
-    setErrors(prev => {
-      const next = new Set(prev)
-      if (isError && !prev.has(field)) {
-        next.add(field)
-        return next
-      } else if (!isError && prev.has(field)) {
-        next.delete(field)
-        return next
-      } else {
-        return prev
-      }
-    })
-  }, [setErrors, errors])
+  const getOneError = (field) => xErrors.current.has(field)
+  const setOneError = (field, isError) => {
+    if (isError && !xErrors.current.has(field)) {
+      xErrors.current.add(field)
+      trigger(`form-error-${formId.current}-total`, xErrors.current.size)
+    } else if (!isError && xErrors.current.has(field)) {
+      xErrors.current.delete(field)
+      trigger(`form-error-${formId.current}-total`, xErrors.current.size)
+    }
+  }
 
-  const hasUpdates = useMemo(() => Object.keys(updates).length > 0, [updates])
-  const isValidForm = useMemo(() => errors.size < 1, [schemaValidation, fields, errors, visited, updates])
-  const isConditionnallyDisabled = useMemo(() => !!disabled || (!!disabledIf ? disabledIf(fields) : false), [fields, updates, disabled])
+  const hasUpdates = () => xVisited.current.size > 0
+  const hasErrors = () => xErrors.current.size > 0
 
   const resetForm = () => {
-    setUpdates({})
-    setVisited(new Set())
-    setFields(() => cloneDeep(initialValues))
-    if (onReset) onReset(updatesOnly ? updates : fields)
+    if (onReset) onReset(diffAlg.current(xOriginal.current, xFields.current))
+    xVisited.current = new Set()
+    xFields.current = cloneDeep(xOriginal.current)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
-
+    xIsSubmitting.current = true
     if (
-      ((updatesOnly || disableIfNoUpdates) && !hasUpdates) ||
-      ((disableSubmitIfInvalid || onInvalidSubmit) && !isValidForm)
+      ((updatesOnly || disableIfNoUpdates) && !hasUpdates()) ||
+      ((disableSubmitIfInvalid || onInvalidSubmit) && !isValidForm())
     ) {
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
-      setUpdates({})
-      setVisited(new Set())
-      setErrors(new Set())
-      onSubmit(updatesOnly ? updates : fields)
+      xVisited.current = new Set()
+      xErrors.current = new Set()
+      onSubmit(diffAlg.current(xOriginal.current, xFields.current))
       if (clearAfterSubmit) resetForm()
     }
-    setIsSubmitting(false)
+    xIsSubmitting.current = false
   }
 
   return <FrmXContext.Provider value={{
     disabled,
+    disabledIf,
     disableIfNoUpdates,
     disableSubmitIfInvalid,
+    formId: formId.current,
     handleSubmit,
+    hasErrors,
     hasUpdates,
-    isConditionnallyDisabled,
-    isSubmitting,
-    isValidForm,
+    isSubmitting: xIsSubmitting.current,
     getOneField,
     getOneVisited,
     getOneError,
@@ -142,6 +121,9 @@ export default function FrmX({
     setOneField,
     setOneVisited,
     schemaValidation,
+    xErrors,
+    xFields,
+    xVisited,
   }}>
     {(() => {
       if (!renderDiv) {

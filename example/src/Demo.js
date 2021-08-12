@@ -60,11 +60,12 @@ export default function Demo() {
         onReset={(values) => console.log("reset")}
         // disabled
         // clearAfterSubmit
-        disableSubmitIfInvalid
+        // disableSubmitIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
-        // disableIfNoUpdates
+        disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
+        diff='shallow'
       >
         <Typography variant="h4" className={classes.input}>
           Some Meaningful Form
@@ -96,7 +97,7 @@ export default function Demo() {
           placeholder="Enter your number"
         /> */}
 
-        <FldX field="email" isErrorProp="error" trim visibilityController={{ field: "options.checked", value: true }}>
+        <FldX field="email" isErrorProp="error" trim visibilityController={{ field: "options.checked", value: true, condition: '===' }}>
           <TextField
             className={classes.input}
             variant="outlined"

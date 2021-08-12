@@ -22,7 +22,7 @@ sidebar_position: 2
 | type | string | "text" | The type of your input. |
 | trim | boolean | false | Pass this prop if you want the input to be trimmed. The user won't be able to type whitespaces at the beginning or the end of the input field. |
 | valueProp | string | "value" | The name of the component that holds the field's value. |
-<!-- | visibilityController | object | undefined | An object containing the path of another field and the value it must have in order for the field to be visible. Ex: `visibilityController={ field: "options.checked", value: true}` | -->
+<!-- | visibilityController | object | undefined | An object containing the path of another field, a condition and the value it must have in order for the field to be visible. The condition can be any valid javascript operator. Value defaults to `true` while condition defaults to `'==='`, since this covers most use cases. Ex: `visibilityController={ field: "options.checked", value: true, condition: '==='}` | -->
 | ...rest                 | any            | undefined     |  Any other props will be spread on to the `<form>` / `<div>` tag |
 
 ## Example Usage

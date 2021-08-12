@@ -1,6 +1,8 @@
-import { cloneElement, Children, useEffect, useMemo } from 'react'
+import cloneDeep from 'lodash-es/cloneDeep'
+import { cloneElement, Children, useEffect, useMemo, useState } from 'react'
 
 import { useFrmX, useArrX } from './Contexts'
+import { trigger } from './utils/events'
 import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
@@ -24,7 +26,6 @@ export default function FldX({
   const {
     disabled,
     getOneField,
-    getOneVisited,
     isSubmitting,
     schemaValidation,
     setOneError,
@@ -34,29 +35,45 @@ export default function FldX({
 
   const visible = useMemo(() => {
     if (!!visibilityController) {
-      const { field, value } = visibilityController
-      return !!(getOneField(field) === value)
+      const { field, value = true, condition = "===" } = visibilityController
+      const check = new Function('a', 'b', `return a ${condition} b`)
+      return !!check(getOneField(field), value)
     } else {
       return true
     }
   }, [getOneField, visibilityController])
-  const value = useMemo(() => getOneField(field), [getOneField, field])
-  const visited = useMemo(() => getOneVisited(field), [getOneVisited, field])
+
+  const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
+  const [value, setValue] = useState(cloneDeep(getOneField(field)))
+  const [visited, setVisited] = useState(false)
+  const [error, setError] = useState(false)
+
+
+  const handleError = (newVal) => {
+    if (!!validationMethod) {
+      const isError = !validationMethod(newVal)
+      setError(isError)
+      setOneError(field, isError)
+    }
+  }
+
+  useEffect(() => setTimeout(() => handleError(value), 0), [])
 
   const arrx = useArrX()
 
-  const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
-  const isError = useMemo(() => !!validationMethod ? !validationMethod(value) : false, [value])
-
-  useEffect(() => setOneError(field, isError), [setOneError, field, isError, value])
-
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
-    setOneField(field, !!trim && typeof val === 'string' ? val.trim() : val, afterChange)
+    val = !!trim && typeof val === 'string' ? val.trim() : val
+    setValue(val)
+    setOneField(field, val)
+
+    handleError(val)
+
     if (!!afterChange) afterChange(field, val)
   }
 
   const onBlur = () => {
+    setVisited(true)
     setOneVisited(field)
   }
 
@@ -67,13 +84,13 @@ export default function FldX({
     required,
     disabled: isSubmitting || disabled || manuallyDisabled,
     [type === "checkbox" ? "checked" : "value"]: value,
-    ...(isErrorProp ? { [isErrorProp]: isError && visited ? true : false } : {}),
+    ...(isErrorProp ? { [isErrorProp]: error && visited ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
-  }), [value, visited, isError, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
+  }), [value, visited, error, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
 
   return useMemo(() => {
     return visible ? Children.only(children) && Children.map(children, child => cloneElement(child, props)) : null
-  }, [value, visited, isError, isSubmitting, visible])
+  }, [value, visited, error, isSubmitting, visible])
 }
