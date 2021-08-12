@@ -91,7 +91,8 @@ export default function FrmX({
     xIsSubmitting.current = true
     if (
       ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) ||
-      ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors())
+      ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors()) ||
+      (!!disabledIf && disabledIf(diffAlg.current(xOriginal.current, xFields.current)))
     ) {
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {

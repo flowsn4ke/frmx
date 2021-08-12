@@ -16,6 +16,7 @@ FrmX needs only two props to do its job, initialValues and onSubmit. There is, h
 | autoCompleteOff         | boolean        | false         |  Disable autocomplete |
 | className               | string         | undefined     |  Pass any classes to style the form tag (or div if you chose to render a div) |
 | clearAfterSubmit        | boolean        | false         |  Does what it says, clears the form back to initialValues after submit |
+| diff                    | string         | undefined     |  The diff algorithm you want to use if you need only the updates back from the form. Useful for things like settings etc. You'll get back the difference between the intial state and the edited state instead of all data in both `onReset` and `onSubmit`. Possible values are `"deep"` (recursive, only returns modified object elements and new array items, respecting the array structure, of course), `"shallow"` (if a nested key was updated, all of the first level key contents are returned). If you don't pass the prop or pass it with any other value, you'll get all of the form data back. Warning: The form will be deemed invalid if there are no updates |
 | disabled                | boolean        | false         |  Programatically disable all inputs and buttons |
 | disableIf               | function       | undefined     |  A function to check if form data is valid that takes the form data object as an argument |
 | disableSubmitIfInvalid  | boolean        | false         |  The submit button will be disabled until the form is valid according to your rules |
@@ -25,7 +26,6 @@ FrmX needs only two props to do its job, initialValues and onSubmit. There is, h
 | onSubmit                | function       | undefined     |  A callback that gets called with the form data |
 | schemaValidation        | object         | undefined     |  Accepts any functions you need to validate user input on a per-field basis |
 | renderDiv               | boolean        | false         |  This prop allows you to render a `<div>` tag instead of a `<form>`. Useful for nested forms that control fields, for instance |
-| updatesOnly             | boolean        | false         |  Get back the difference between the intial state and the edited state instead of all data in both `onReset` and `onSubmit`. The form will be deemed invalid if there are no updates |
 | ...rest                 | any            | undefined     |  Any other props will be spread on to the `<form>` / `<div>` tag |
 
 ## Example Usage

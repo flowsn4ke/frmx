@@ -54,7 +54,7 @@ export default function Demo() {
       <FrmX
         // afterChange={console.log}
         className={classes.formContainer}
-        updatesOnly
+        // updatesOnly
         initialValues={fields}
         onSubmit={(values) => console.log(values)}
         onReset={(values) => console.log("reset")}
@@ -65,7 +65,7 @@ export default function Demo() {
         disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
-      // diff='shallow'
+        diff='shallow'
       >
         <Typography variant="h4" className={classes.input}>
           Some Meaningful Form
