@@ -1,4 +1,4 @@
-import { cloneElement, Children, useEffect, useState, useRef } from 'react'
+import { cloneElement, Children, useEffect, useState } from 'react'
 
 import { useFrmX } from './Contexts'
 import { on } from './utils/events'
@@ -15,23 +15,23 @@ export default function BtnX({
     disableSubmitIfInvalid,
     formId,
     isSubmitting,
-    hasUpdates,
     renderDiv,
     handleSubmit,
     xFields,
   } = useFrmX()
 
   const [errors, setErrors] = useState(0)
+  const [touched, setTouched] = useState(false)
 
   useEffect(() => {
-    on(`form-${formId}-total-errors`, total => {
-      setErrors(prev => total !== prev ? total.detail : prev)
-    })
+    on(`form-${formId}-total-errors`, total => setErrors(prev => total !== prev ? total.detail : prev))
+    on(`form-${formId}-first-update`, _e => setTouched(true))
+    on(`form-${formId}-reset`, _e => setTouched(false))
   })
 
   const disabled = !!(isSubmitting ||
     (errors > 0 && disableSubmitIfInvalid) ||
-    // (disableIfNoUpdates && !hasUpdates()) ||
+    (disableIfNoUpdates && !touched) ||
     !!formIsDisabled ||
     (!!disabledIf ? disabledIf(xFields.current) : false) ||
     localyDisabled

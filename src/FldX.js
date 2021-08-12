@@ -8,8 +8,8 @@ import { getValidationMethod } from './utils/getValidationMethod'
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
   afterChange,
-  autoCorrectOff = false,
   autoCapitalizeOff = false,
+  autoCorrectOff = false,
   children,
   disabled: manuallyDisabled,
   field,
@@ -20,7 +20,6 @@ export default function FldX({
   trim,
   type = "text",
   valueProp = "value",
-  visibilityController,
   ...rest
 }) {
   const {
@@ -48,16 +47,19 @@ export default function FldX({
   }
 
   useEffect(() => setTimeout(() => handleError(value), 0), [])
-  useEffect(() => on(`form-${formId}-reset`, () => setValue(cloneDeep(getOneField(field)))))
+  useEffect(() => on(`form-${formId}-reset`, () => {
+    setValue(cloneDeep(getOneField(field)))
+    handleError(value)
+  }))
 
   const arrx = useArrX()
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     val = !!trim && typeof val === 'string' ? val.trim() : val
+
     setValue(val)
     setOneField(field, val)
-
     handleError(val)
 
     if (!!afterChange) afterChange(field, val)

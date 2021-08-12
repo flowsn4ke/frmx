@@ -4,10 +4,10 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { useFrmX, ArrXContext } from './Contexts'
 
 export default function ArrX({
-  startWithOneMore = false,
+  children,
   field,
   model = "",
-  children
+  startWithOneMore = false,
 }) {
   const {
     disabled,

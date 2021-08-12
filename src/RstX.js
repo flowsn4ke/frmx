@@ -1,16 +1,29 @@
-import { cloneElement, Children, useMemo } from 'react'
+import { cloneElement, Children, useState, useEffect } from 'react'
 
 import { useFrmX } from './Contexts'
+import { on } from './utils/events'
 
 export default function RstX({
   children,
   ...rest
 }) {
-  const { resetForm, hasUpdates, disabled, isSubmitting } = useFrmX()
+  const {
+    disabled,
+    formId,
+    isSubmitting,
+    resetForm,
+  } = useFrmX()
+
+  const [touched, setTouched] = useState(false)
+
+  useEffect(() => {
+    on(`form-${formId}-first-update`, _e => setTouched(true))
+    on(`form-${formId}-reset`, _e => setTouched(false))
+  })
 
   const props = {
     type: "button",
-    disabled: !hasUpdates || disabled || isSubmitting,
+    disabled: !touched || disabled || isSubmitting,
     onClick: resetForm,
     ...rest
   }

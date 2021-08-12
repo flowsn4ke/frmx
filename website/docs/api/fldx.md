@@ -19,10 +19,9 @@ sidebar_position: 2
 | getValueFromArgs | function | `(args) => args[0].target.value` | Pass a custom function to get back the value from the onChange args. Useful for instance when interacting with material ui components as they often pass the `newValue` through the second argument. Example: `<FldX ... getValueFromArgs={args => args[1].value}>...</FldX>` |
 | isErrorProp | string | undefined | The name of the prop used by the underlying component to trigger an error state based on a boolean. |
 | onChangeProp | string | "onChange" | The name of the prop used to update the component with its value. |
-| type | string | "text" | The type of your input. |
 | trim | boolean | false | Pass this prop if you want the input to be trimmed. The user won't be able to type whitespaces at the beginning or the end of the input field. |
+| type | string | "text" | The type of your input. |
 | valueProp | string | "value" | The name of the component that holds the field's value. |
-<!-- | visibilityController | object | undefined | An object containing the path of another field, a condition and the value it must have in order for the field to be visible. The condition can be any valid javascript operator. Value defaults to `true` while condition defaults to `'==='`, since this covers most use cases. Ex: `visibilityController={ field: "options.checked", value: true, condition: '==='}` | -->
 | ...rest                 | any            | undefined     |  Any other props will be spread on to the `<form>` / `<div>` tag |
 
 ## Example Usage
@@ -47,7 +46,7 @@ trim
 
 ### Pathname notation
 
-Use only "." notation, even for array elements, otherwise you will run into bugs. For instance, to access the string "baz" in {a: ["bar", {b: "baz"}]}}, you would give the field "a.1.b".
+Use only "." notation, even for array elements, otherwise you might run into bugs. For instance, to access the string "baz" in {a: ["bar", {b: "baz"}]}}, you would give the field "a.1.b".
 
 ### Child(ren)
 
