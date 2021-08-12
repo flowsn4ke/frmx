@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import cloneDeep from 'lodash-es/cloneDeep'
 
 import { useFrmX, ArrXContext } from './Contexts'
@@ -15,16 +15,19 @@ export default function ArrX({
     setOneField,
   } = useFrmX()
 
-  const addItem = useCallback(() => {
-    const newArr = cloneDeep(getOneField(field))
-    newArr.push(cloneDeep(model))
-    setOneField(field, newArr)
-  }, [getOneField, field, setOneField])
+  const [items, setItems] = useState(cloneDeep(getOneField(field)))
 
-  const removeItem = useCallback((index) => {
-    const newArr = cloneDeep(getOneField(field))
-    setOneField(field, newArr.filter((item, i) => i !== index))
-  }, [getOneField, field, setOneField])
+  const addItem = () => {
+    const next = [...items, cloneDeep(model)]
+    setItems(next)
+    setOneField(field, next)
+  }
+
+  const removeItem = (index) => {
+    const next = cloneDeep(items).filter((_item, i) => i !== index)
+    setOneField(field, next)
+    setItems(next)
+  }
 
   useEffect(() => {
     if (startWithOneMore) addItem()
@@ -33,7 +36,7 @@ export default function ArrX({
   return <ArrXContext.Provider value={{ validationPath: field }}>
     {children({
       field,
-      items: getOneField(field),
+      items,
       removeItem,
       addItem,
       disabled,

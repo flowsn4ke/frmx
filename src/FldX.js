@@ -33,21 +33,10 @@ export default function FldX({
     setOneVisited,
   } = useFrmX()
 
-  const visible = useMemo(() => {
-    if (!!visibilityController) {
-      const { field, value = true, condition = "===" } = visibilityController
-      const check = new Function('a', 'b', `return a ${condition} b`)
-      return !!check(getOneField(field), value)
-    } else {
-      return true
-    }
-  }, [getOneField, visibilityController])
-
   const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
   const [visited, setVisited] = useState(false)
   const [error, setError] = useState(false)
-
 
   const handleError = (newVal) => {
     if (!!validationMethod) {
@@ -91,6 +80,6 @@ export default function FldX({
   }), [value, visited, error, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
 
   return useMemo(() => {
-    return visible ? Children.only(children) && Children.map(children, child => cloneElement(child, props)) : null
-  }, [value, visited, error, isSubmitting, visible])
+    return Children.only(children) && Children.map(children, child => cloneElement(child, props))
+  }, [value, visited, error, isSubmitting])
 }
