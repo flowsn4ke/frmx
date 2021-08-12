@@ -6,6 +6,24 @@ import cloneDeep from 'lodash-es/cloneDeep'
 
 import { FrmXContext } from './Contexts'
 import { isParentObject } from './utils/objectUtils'
+// import { deepDiffWithFullArrays, shallowDiff, deepDiff } from './utils/diff'
+
+// const getDiffAlg = (key) => {
+//   switch (key) {
+//     case 'shallow': {
+//       return shallowDiff
+//     }
+//     case 'visited': {
+//       return deepDiffWithFullArrays
+//     }
+//     case 'deep': {
+//       return deepDiff
+//     }
+//     default: {
+//       return fields => fields
+//     }
+//   }
+// }
 
 export default function FrmX({
   afterChange,
@@ -25,6 +43,7 @@ export default function FrmX({
   schemaValidation,
   style,
   updatesOnly,
+  // diff
 }) {
   const [fields, setFields] = useState(cloneDeep(initialValues))
   const [updates, setUpdates] = useState({})
