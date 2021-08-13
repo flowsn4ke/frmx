@@ -9,7 +9,7 @@ module.exports = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
   organizationName: 'theolouvel',
   projectName: 'frmx',
   themeConfig: {
