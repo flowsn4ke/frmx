@@ -1,7 +1,7 @@
-import { cloneElement, Children, useState, useEffect } from 'react'
+import { cloneElement, Children } from 'react'
 
 import { useFrmX } from './Contexts'
-import { off, on } from './utils/events'
+import useDocumentListener from './hooks/useDocumentListener'
 
 export default function RstX({
   children,
@@ -10,28 +10,15 @@ export default function RstX({
   const {
     disabled,
     formId,
-    isSubmitting,
     resetForm,
   } = useFrmX()
 
-  const [touched, setTouched] = useState(false)
-
-  const handleTouched = _e => setTouched(true)
   const handleUntouched = _e => setTouched(false)
-
-  useEffect(() => {
-    on(`form-${formId}-first-update`, handleTouched)
-    on(`form-${formId}-reset`, handleUntouched)
-
-    return () => {
-      off(`form-${formId}-first-update`, handleTouched)
-      off(`form-${formId}-reset`, handleUntouched)
-    }
-  })
+  useDocumentListener(`form-${formId}-reset`, handleUntouched)
 
   const props = {
     type: "button",
-    disabled: !touched || disabled || isSubmitting,
+    ...(disabled ? { disabled } : {}),
     onClick: resetForm,
     ...rest
   }

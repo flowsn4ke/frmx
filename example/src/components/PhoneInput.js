@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useFrmX } from 'frmx'
 import parsePhoneNumber, { AsYouType } from 'libphonenumber-js'
 import Flag from 'react-flagkit'
@@ -7,6 +7,7 @@ import { Box, Divider, InputBase, ButtonBase, Menu, MenuItem } from '@material-u
 import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { cloneDeep } from 'lodash-es'
+import { useWhyDidYouUpdate } from '../hooks/useWhy'
 
 const countries = [
   { code: "FR", prefix: "+33", name: "France" },
@@ -50,9 +51,6 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
   const {
     getOneField,
     setOneField,
-    setOneVisited,
-    getOneVisited,
-    getOneError,
     setOneError
   } = useFrmX()
 
@@ -61,30 +59,63 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
   const [isFocused, setIsFocused] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [error, setError] = useState(false)
 
-  const isError = useMemo(() => {
-    return getOneError(field) && getOneVisited(field)
-  }, [field, getOneError, getOneVisited])
-
-  const handleChange = (e) => {
+  const handleChange = useRef((e) => {
     const newDisplayVal = new AsYouType(country).input(e.target.value)
     setPhoneNumber(newDisplayVal)
     const n = parsePhoneNumber(newDisplayVal, country)
 
     if (!!n) {
       setCountry(n.country)
+      setError(!n.isValid())
       setOneError(field, !n.isValid())
       setOneField(field, n.number)
     }
+  })
+
+  const closeMenu = useRef(() => setAnchorEl(null))
+  const classes = useStyles({ isFocused, isHovered, isError: error })
+
+  const props = {
+    classes,
+    className,
+    setAnchorEl,
+    country,
+    phoneNumber,
+    handleChange: handleChange.current,
+    setIsFocused,
+    setIsHovered,
+    placeholder,
+    anchorEl,
+    closeMenu: closeMenu.current,
+    setCountry,
+    setPhoneNumber,
   }
 
-  const handleBlur = _e => setOneVisited(field)
+  return <InputMarkup {...props} />
+}
 
-  const closeMenu = () => setAnchorEl(null)
+const InputMarkup = (props) => {
+  // useWhyDidYouUpdate("phone-input", props)
 
-  const classes = useStyles({ isFocused, isHovered, isError })
+  const {
+    classes,
+    className,
+    setAnchorEl,
+    country,
+    phoneNumber,
+    handleChange,
+    setIsFocused,
+    setIsHovered,
+    placeholder,
+    anchorEl,
+    closeMenu,
+    setCountry,
+    setPhoneNumber,
+  } = props
 
-  return useMemo(() => <>
+  return <>
     <Box className={clsx(classes.root, className)}>
       <ButtonBase
         className={classes.countrySelect}
@@ -100,10 +131,7 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
           value={phoneNumber}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
-          onBlur={(e) => {
-            setIsFocused(false)
-            handleBlur(e)
-          }}
+          onBlur={() => setIsFocused(false)}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className={classes.input}
@@ -125,17 +153,5 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
           closeMenu()
         }}>{c.name}</MenuItem>)}
     </Menu>
-  </>, [
-    phoneNumber,
-    anchorEl,
-    className,
-    classes.countrySelect,
-    classes.dropDownIcon,
-    classes.input,
-    classes.root,
-    country,
-    handleBlur,
-    handleChange,
-    placeholder
-  ])
+  </>
 }

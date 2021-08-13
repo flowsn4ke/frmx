@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import cloneDeep from 'lodash-es/cloneDeep'
 
 import { useFrmX, ArrXContext } from './Contexts'
-import { off, on } from './utils/events'
+import useDocumentListener from './hooks/useDocumentListener'
 
 export default function ArrX({
   children,
@@ -20,11 +20,7 @@ export default function ArrX({
   const [items, setItems] = useState(cloneDeep(getOneField(field)))
 
   const handleReset = () => setItems(cloneDeep(getOneField(field)))
-
-  useEffect(() => {
-    on(`form-${formId}-reset`, handleReset)
-    return () => off(`form-${formId}-reset`, handleReset)
-  })
+  useDocumentListener(`form-${formId}-reset`, handleReset)
 
   const addItem = () => {
     const next = [...items, cloneDeep(model)]

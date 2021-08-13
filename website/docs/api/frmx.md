@@ -18,11 +18,11 @@ FrmX needs only two props to do its job, initialValues and onSubmit. There is, h
 | clearAfterSubmit        | boolean        | false         |  Does what it says, clears the form back to initialValues after submit |
 | diff                    | string         | undefined     |  The diff algorithm you want to use if you need only the updates back from the form. Useful for things like settings etc. You'll get back the difference between the intial state and the edited state instead of all data in both `onReset` and `onSubmit`. Possible values are `"deep"` (recursive, only returns modified object elements and new array items, respecting the array structure, of course), `"shallow"` (if a nested key was updated, all of the first level key contents are returned). If you don't pass the prop or pass it with any other value, you'll get all of the form data back. Warning: The form will be deemed invalid if there are no updates |
 | disabled                | boolean        | false         |  Programatically disable all inputs and buttons |
-| disableIf               | function       | undefined     |  A function to check if form data is valid that takes the form data object as an argument |
-| disableSubmitIfInvalid  | boolean        | false         |  The submit button will be disabled until one of the form values is updated |
-| disableIfNoUpdates  | boolean        | false         |  The submit button will be disabled until the form is valid according to your rules |
+| disableIf               | function       | undefined     |  A function to check if form data is valid that takes the form data object as an argument. If the function returns `false`, preventing will be aborted and the function passed on to onInvalidSubmit executed instead, if any. |
+| disableSubmitIfInvalid  | boolean        | false         |  Submitting wont work until the form is valid according to your rules. If a function was passed to onInvalidSubmit, it will be executed instead. |
+| disableIfNoUpdates  | boolean        | false         |  Submitting will have no effect until the form data has been changed in any way |
 | initialValues           | object         | undefined     |  The initial form data the form will be populated with |
-| onInvalidSubmit         | function       | undefined     |  A callback that will be called upon invalid submit. Use either that OR disableSubmitIfInvalid |
+| onInvalidSubmit         | function       | undefined     |  A callback that will be called upon invalid submit. |
 | onReset                 | function       | undefined     |  Additional tasks to perform with or without the values upon reset |
 | onSubmit                | function       | undefined     |  A callback that gets called with the form data |
 | schemaValidation        | object         | undefined     |  Accepts any functions you need to validate user input on a per-field basis |

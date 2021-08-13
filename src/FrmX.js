@@ -45,69 +45,68 @@ export default function FrmX({
   style,
   updatesOnly,
 }) {
-  const xOriginal = useRef(cloneDeep(initialValues))
-  const xFields = useRef(cloneDeep(initialValues))
-  const xBlurred = useRef(new Set())
-  const xErrors = useRef(new Set())
-  const xIsSubmitting = useRef(false)
+  const original = useRef(cloneDeep(initialValues))
+  const fields = useRef(cloneDeep(initialValues))
+  const updated = useRef(new Set())
+  const errors = useRef(new Set())
+  const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
   const diffAlg = useRef(getDiffAlg(diff || updatesOnly ? 'shallow' : ''))
-  const touched = useRef(false)
 
-  const hasUpdates = () => xBlurred.current.size > 0 || touched.current
-  const hasErrors = () => xErrors.current.size > 0
+  const hasUpdates = () => updated.current.size > 0
+  const hasErrors = () => errors.current.size > 0
 
   // Functions intended to be used with the useFrmX hook in fields
-  const getOneField = (field) => get(xFields.current, field)
+  const getOneField = (field) => get(fields.current, field)
   const setOneField = (field, value) => {
-    set(xFields.current, field, value)
-    if (!hasUpdates()) {
-      trigger(`form-${formId.current}-first-update`)
-      touched.current = true
-    }
-    if (!!afterChange) afterChange(xFields.current)
+    set(fields.current, field, value)
+    setOneVisited(field)
+    if (!!afterChange) afterChange(fields.current)
   }
 
-  const getOneVisited = (field) => xBlurred.current.has(field)
+  const getOneVisited = (field) => updated.current.has(field)
   const setOneVisited = (field) => {
-    if (!xBlurred.current.has(field)) xBlurred.current.add(field)
+    if (!updated.current.has(field)) updated.current.add(field)
   }
 
-  const getOneError = (field) => xErrors.current.has(field)
+  const getOneError = (field) => errors.current.has(field)
   const setOneError = (field, isError) => {
-    if (isError && !xErrors.current.has(field)) {
-      xErrors.current.add(field)
-      trigger(`form-${formId.current}-total-errors`, xErrors.current.size)
-    } else if (!isError && xErrors.current.has(field)) {
-      xErrors.current.delete(field)
-      trigger(`form-${formId.current}-total-errors`, xErrors.current.size)
+    if (isError && !errors.current.has(field)) {
+      errors.current.add(field)
+      trigger(`form-${formId.current}-total-errors`, errors.current.size)
+    } else if (!isError && errors.current.has(field)) {
+      errors.current.delete(field)
+      trigger(`form-${formId.current}-total-errors`, errors.current.size)
     }
   }
 
   const resetForm = () => {
-    if (onReset) onReset(diffAlg.current(xOriginal.current, xFields.current))
-    xBlurred.current = new Set()
-    xFields.current = cloneDeep(xOriginal.current)
-    touched.current = false
+    if (onReset && hasUpdates()) onReset(diffAlg.current(original.current, fields.current))
+    updated.current = new Set()
+    fields.current = cloneDeep(original.current)
     trigger(`form-${formId.current}-reset`)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    xIsSubmitting.current = true
-    if (
-      ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) ||
+    if (isSubmitting.current === true) return
+
+    if ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) {
+      return
+    } else if (
       ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors()) ||
-      (!!disabledIf && disabledIf(diffAlg.current(xOriginal.current, xFields.current)))
+      (!!disabledIf && disabledIf(diffAlg.current(original.current, fields.current)))
     ) {
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
-      xBlurred.current = new Set()
-      xErrors.current = new Set()
-      onSubmit(diffAlg.current(xOriginal.current, xFields.current))
+      isSubmitting.current = true
+      updated.current = new Set()
+      errors.current = new Set()
+      onSubmit(diffAlg.current(original.current, fields.current))
       if (clearAfterSubmit) resetForm()
     }
-    xIsSubmitting.current = false
+
+    isSubmitting.current = false
   }
 
   return <FrmXContext.Provider value={{
@@ -117,9 +116,6 @@ export default function FrmX({
     disableSubmitIfInvalid,
     formId: formId.current,
     handleSubmit,
-    hasErrors,
-    hasUpdates,
-    isSubmitting: xIsSubmitting.current,
     getOneField,
     getOneVisited,
     getOneError,
@@ -129,8 +125,6 @@ export default function FrmX({
     setOneField,
     setOneVisited,
     schemaValidation,
-    xErrors,
-    xFields,
   }}>
     {(() => {
       if (!renderDiv) {

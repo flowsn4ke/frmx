@@ -2,7 +2,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { cloneElement, Children, useEffect, useMemo, useState } from 'react'
 
 import { useFrmX, useArrX } from './Contexts'
-import { off, on } from './utils/events'
+import useDocumentListener from './hooks/useDocumentListener'
 import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
@@ -11,7 +11,7 @@ export default function FldX({
   autoCapitalizeOff = false,
   autoCorrectOff = false,
   children,
-  disabled: manuallyDisabled,
+  disabled: locallyDisabled,
   field,
   getValueFromArgs,
   isErrorProp,
@@ -23,7 +23,7 @@ export default function FldX({
   ...rest
 }) {
   const {
-    disabled,
+    disabled: formIsDisabled,
     formId,
     getOneField,
     isSubmitting,
@@ -38,27 +38,24 @@ export default function FldX({
   const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
 
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
-  const [visited, setVisited] = useState(false)
+  const [onceValid, setOnceValid] = useState(!validationMethod)
   const [error, setError] = useState(false)
 
   const handleError = (newVal) => {
     if (!!validationMethod) {
       const isError = !validationMethod(newVal)
+      if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
     }
   }
+  useEffect(() => setTimeout(() => handleError(value), 0), [])
 
   const handleReset = () => {
     setValue(cloneDeep(getOneField(field)))
     handleError(value)
   }
-
-  useEffect(() => setTimeout(() => handleError(value), 0), [])
-  useEffect(() => {
-    on(`form-${formId}-reset`, handleReset)
-    return () => off(`form-${formId}-reset`, handleReset)
-  })
+  useDocumentListener(`form-${formId}-reset`, handleReset)
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
@@ -71,25 +68,17 @@ export default function FldX({
     if (!!afterChange) afterChange(field, val)
   }
 
-  const onBlur = () => {
-    setVisited(true)
-    setOneVisited(field)
-  }
-
-  const props = useMemo(() => ({
+  const props = {
     type,
-    onBlur,
     onChange,
     required,
-    disabled: isSubmitting || disabled || manuallyDisabled,
+    disabled: formIsDisabled || locallyDisabled,
     [type === "checkbox" ? "checked" : "value"]: value,
-    ...(isErrorProp ? { [isErrorProp]: error && visited ? true : false } : {}),
+    ...(isErrorProp ? { [isErrorProp]: error && onceValid ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest
-  }), [value, visited, error, field, type, onBlur, onChange, required, isSubmitting, autoCorrectOff, autoCapitalizeOff, rest])
+  }
 
-  return useMemo(() => {
-    return Children.only(children) && Children.map(children, child => cloneElement(child, props))
-  }, [value, visited, error, isSubmitting])
+  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
 }
