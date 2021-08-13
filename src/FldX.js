@@ -2,7 +2,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { cloneElement, Children, useEffect, useMemo, useState } from 'react'
 
 import { useFrmX, useArrX } from './Contexts'
-import { on } from './utils/events'
+import { off, on } from './utils/events'
 import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
@@ -49,11 +49,16 @@ export default function FldX({
     }
   }
 
-  useEffect(() => setTimeout(() => handleError(value), 0), [])
-  useEffect(() => on(`form-${formId}-reset`, () => {
+  const handleReset = () => {
     setValue(cloneDeep(getOneField(field)))
     handleError(value)
-  }))
+  }
+
+  useEffect(() => setTimeout(() => handleError(value), 0), [])
+  useEffect(() => {
+    on(`form-${formId}-reset`, handleReset)
+    return () => off(`form-${formId}-reset`, handleReset)
+  })
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value

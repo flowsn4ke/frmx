@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Box, Divider, InputBase, ButtonBase, Menu, MenuItem } from '@material-ui/core'
 import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons'
 import clsx from 'clsx'
+import { cloneDeep } from 'lodash-es'
 
 const countries = [
   { code: "FR", prefix: "+33", name: "France" },
@@ -46,19 +47,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PhoneInput({ field, className, placeholder = "" }) {
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [country, setCountry] = useState('FR')
-  const [isFocused, setIsFocused] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(null)
-
   const {
+    getOneField,
     setOneField,
     setOneVisited,
     getOneVisited,
     getOneError,
     setOneError
   } = useFrmX()
+
+  const [phoneNumber, setPhoneNumber] = useState(cloneDeep(getOneField(field)))
+  const [country, setCountry] = useState('FR')
+  const [isFocused, setIsFocused] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const isError = useMemo(() => {
     return getOneError(field) && getOneVisited(field)
@@ -84,7 +86,6 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
   ])
 
   const handleBlur = useCallback((e) => {
-    handleChange(e)
     setOneVisited(field)
   }, [
     handleChange,
