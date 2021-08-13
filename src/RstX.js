@@ -1,7 +1,6 @@
 import { cloneElement, Children } from 'react'
 
 import { useFrmX } from './Contexts'
-import useDocumentListener from './hooks/useDocumentListener'
 
 export default function RstX({
   children,
@@ -9,12 +8,8 @@ export default function RstX({
 }) {
   const {
     disabled,
-    formId,
     resetForm,
   } = useFrmX()
-
-  const handleUntouched = _e => setTouched(false)
-  useDocumentListener(`form-${formId}-reset`, handleUntouched)
 
   const props = {
     type: "button",
