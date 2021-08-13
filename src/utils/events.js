@@ -7,12 +7,13 @@ function off(eventType, listener) {
 }
 
 function once(eventType, listener) {
-  on(eventType, handleEventOnce)
+  document.addEventListener(eventType, listener, { once: true })
+  // on(eventType, handleEventOnce)
 
-  function handleEventOnce(event) {
-    listener(event)
-    off(eventType, handleEventOnce)
-  }
+  // function handleEventOnce(event) {
+  //   listener(event)
+  //   off(eventType, handleEventOnce)
+  // }
 }
 
 function trigger(eventType, data) {

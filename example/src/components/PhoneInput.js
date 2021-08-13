@@ -66,32 +66,19 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
     return getOneError(field) && getOneVisited(field)
   }, [field, getOneError, getOneVisited])
 
-  const handleChange = useCallback((e) => {
+  const handleChange = (e) => {
     const newDisplayVal = new AsYouType(country).input(e.target.value)
     setPhoneNumber(newDisplayVal)
     const n = parsePhoneNumber(newDisplayVal, country)
 
-    if (n) {
+    if (!!n) {
       setCountry(n.country)
       setOneError(field, !n.isValid())
       setOneField(field, n.number)
     }
-  }, [
-    setOneField,
-    setOneError,
-    setPhoneNumber,
-    setCountry,
-    country,
-    field
-  ])
+  }
 
-  const handleBlur = useCallback((e) => {
-    setOneVisited(field)
-  }, [
-    handleChange,
-    setOneVisited,
-    field
-  ])
+  const handleBlur = _e => setOneVisited(field)
 
   const closeMenu = () => setAnchorEl(null)
 
