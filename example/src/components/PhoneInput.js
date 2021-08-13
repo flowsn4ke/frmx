@@ -7,7 +7,6 @@ import { Box, Divider, InputBase, ButtonBase, Menu, MenuItem } from '@material-u
 import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { cloneDeep } from 'lodash-es'
-import { useWhyDidYouUpdate } from '../hooks/useWhy'
 
 const countries = [
   { code: "FR", prefix: "+33", name: "France" },
@@ -77,44 +76,6 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
   const closeMenu = useRef(() => setAnchorEl(null))
   const classes = useStyles({ isFocused, isHovered, isError: error })
 
-  const props = {
-    classes,
-    className,
-    setAnchorEl,
-    country,
-    phoneNumber,
-    handleChange: handleChange.current,
-    setIsFocused,
-    setIsHovered,
-    placeholder,
-    anchorEl,
-    closeMenu: closeMenu.current,
-    setCountry,
-    setPhoneNumber,
-  }
-
-  return <InputMarkup {...props} />
-}
-
-const InputMarkup = (props) => {
-  // useWhyDidYouUpdate("phone-input", props)
-
-  const {
-    classes,
-    className,
-    setAnchorEl,
-    country,
-    phoneNumber,
-    handleChange,
-    setIsFocused,
-    setIsHovered,
-    placeholder,
-    anchorEl,
-    closeMenu,
-    setCountry,
-    setPhoneNumber,
-  } = props
-
   return <>
     <Box className={clsx(classes.root, className)}>
       <ButtonBase
@@ -129,7 +90,7 @@ const InputMarkup = (props) => {
         <InputBase
           type="tel"
           value={phoneNumber}
-          onChange={handleChange}
+          onChange={handleChange.current}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onMouseEnter={() => setIsHovered(true)}
@@ -143,14 +104,14 @@ const InputMarkup = (props) => {
       anchorEl={anchorEl}
       keepMounted
       open={!!anchorEl}
-      onClose={closeMenu}
+      onClose={closeMenu.current}
     >
       {countries.map((c, i) => <MenuItem
         key={`country-prefix-${c.name}-${i}`}
         onClick={() => {
           setCountry(c.code)
           setPhoneNumber(c.prefix)
-          closeMenu()
+          closeMenu.current()
         }}>{c.name}</MenuItem>)}
     </Menu>
   </>
