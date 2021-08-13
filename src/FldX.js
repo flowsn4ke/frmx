@@ -33,7 +33,10 @@ export default function FldX({
     setOneVisited,
   } = useFrmX()
 
+  const arrx = useArrX()
+
   const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
+
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
   const [visited, setVisited] = useState(false)
   const [error, setError] = useState(false)
@@ -51,8 +54,6 @@ export default function FldX({
     setValue(cloneDeep(getOneField(field)))
     handleError(value)
   }))
-
-  const arrx = useArrX()
 
   const onChange = (...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
