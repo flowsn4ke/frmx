@@ -1,6 +1,6 @@
 # Simple, Performant, Lightweight React Forms
 
-**frmx** is lightweight (~21kb minified / ~7kb gzipped) and eliminates most of the boilerplate code and headaches when building forms with React, without assuming anything about the shape of your form data or the nesting / styling of your component.
+**frmx** is lightweight (~27kb minified / ~9kb gzipped) and eliminates most of the boilerplate code and headaches when building forms with React, without assuming anything about the shape of your form data or the nesting / styling of your component.
 
 ## CodeSandbox
 

@@ -27,7 +27,7 @@ const FeatureList = [
     Svg: FiFeather,
     description: (
       <>
-        <code>frmx</code> is only ~21kb minified and ~7kb gzipped.
+        <code>frmx</code> is only ~27kb minified and ~9kb gzipped.
       </>
     ),
   },
