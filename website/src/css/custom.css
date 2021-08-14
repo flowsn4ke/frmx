@@ -45,6 +45,7 @@ table {
   display: inline-block;
   position: relative;
   height: 280px;
+  width:100%;
   margin-bottom: 1rem;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
@@ -54,7 +55,10 @@ table {
 }
 
 .app-logo {
-  height: 100%;
+  height: 10vmin;
+  width: 10vmin;
+  min-width: 10vmin;
+  min-height: 10vmin;
   pointer-events: none;
 }
 

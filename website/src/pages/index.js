@@ -12,8 +12,8 @@ function HomepageHeader() {
     <header className={styles.heroBanner}>
       <div className="container">
         <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', height: 110, with: "100%", marginBottom: "1.5rem" }}>
-          <Logo className="app-logo" style={{ marginRight: "2rem" }} />
-          <p style={{ margin: "auto 0px", fontSize: "3em", fontWeight: "bold", width: "50%", maxWidth: "600px", textAlign: "left", lineHeight: "normal" }}>{siteConfig.tagline}</p>
+          <Logo className="app-logo" />
+          <p style={{ margin: "auto 0px auto .5em", fontSize: "4vmin", fontWeight: "bold", maxWidth: "600px", textAlign: "left", lineHeight: "normal" }}>{siteConfig.tagline}</p>
         </div>
         <Link
           className="button button--secondary button--lg"
