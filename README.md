@@ -10,10 +10,6 @@
 
 **[Check the documentation here](https://frmx.io/)**
 
-## How it works
-
-To get both performance and flexibility with a simple API, `frmx` uses React's **context API only to store refs**, expose a few getter / setters methods and give forms a unique id. That way, updating form data doesn't trigger rerendering everything inside the `<FrmX/>` component. All **fields keep track of their own state** and only update the refs as a **side effect**, while various events regarding form validity / submitting / resetting are passed through **synthetic events** that do not trigger rerenders of the context provider itself.
-
 ## Goal
 
 Overall, the goal is to start from the data you need and allow you to write code like this and never worry about wiring state or passing stuff down the prop chain again:
@@ -32,6 +28,10 @@ schemaValidation={{ bar: { baz: str => str.length > 2 } }}
     <CustomSubmitButton />
 </FrmX>
 ```
+
+## How it works
+
+To get both performance and flexibility with a simple API, `frmx` uses React's **context API only to store refs**, expose a few getter / setters methods and give forms a unique id. That way, updating form data doesn't trigger rerendering everything inside the `<FrmX/>` component. All **fields keep track of their own state** and only update the refs as a **side effect**, while various events regarding form validity / submitting / resetting are passed through **synthetic events** that do not trigger rerenders of the context provider itself.
 
 
 
