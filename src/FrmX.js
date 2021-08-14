@@ -5,7 +5,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { nanoid } from 'nanoid'
 
 import { FrmXContext } from './Contexts'
-import { shallowDiff, deepDiff } from './utils/diff'
+import { shallowDiff, diffOnUpdatedKeys, deepDiff } from './utils/diff'
 import { trigger } from './utils/events'
 
 const getDiffAlg = (key) => {
@@ -13,9 +13,9 @@ const getDiffAlg = (key) => {
     case 'shallow': {
       return shallowDiff
     }
-    // case 'visited': {
-    //   return deepDiffWithFullArrays
-    // }
+    case 'keys': {
+      return diffOnUpdatedKeys
+    }
     case 'deep': {
       return deepDiff
     }
@@ -51,7 +51,7 @@ export default function FrmX({
   const errors = useRef(new Set())
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
-  const diffAlg = useRef(getDiffAlg(diff || updatesOnly ? 'shallow' : ''))
+  const diffAlg = useRef(getDiffAlg(!!diff ? diff : updatesOnly ? 'shallow' : ''))
 
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0

@@ -26,11 +26,9 @@ export default function FldX({
     disabled: formIsDisabled,
     formId,
     getOneField,
-    isSubmitting,
     schemaValidation,
     setOneError,
     setOneField,
-    setOneVisited,
   } = useFrmX()
 
   const arrx = useArrX()
@@ -39,6 +37,7 @@ export default function FldX({
 
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
   const [onceValid, setOnceValid] = useState(!validationMethod)
+  const [touched, setTouched] = useState(false)
   const [error, setError] = useState(false)
 
   const handleError = (newVal) => {
@@ -68,13 +67,16 @@ export default function FldX({
     if (!!afterChange) afterChange(field, val)
   }
 
+  const onBlur = () => setTouched(true)
+
   const props = {
     type,
+    onBlur,
     onChange,
     required,
     disabled: formIsDisabled || locallyDisabled,
     [type === "checkbox" ? "checked" : "value"]: value,
-    ...(isErrorProp ? { [isErrorProp]: error && onceValid ? true : false } : {}),
+    ...(isErrorProp ? { [isErrorProp]: error && (onceValid || touched) ? true : false } : {}),
     ...(autoCorrectOff && { autoCorrect: "off" }),
     ...(autoCapitalizeOff && { autoCapitalize: "none" }),
     ...rest

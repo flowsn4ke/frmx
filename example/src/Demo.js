@@ -65,7 +65,7 @@ export default function Demo() {
         disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
-        diff='shallow'
+        diff='keys'
       >
         <Typography variant="h4" className={classes.input}>
           Some Meaningful Form
