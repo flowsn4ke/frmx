@@ -1,21 +1,28 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css'
-import { FiFeather, FiWatch, FiCheckCircle } from "react-icons/fi"
+import {
+  HiOutlinePuzzle,
+  HiOutlineFire,
+  HiOutlineLightningBolt,
+  HiOutlineRefresh,
+  HiOutlineFilter,
+  HiOutlineViewGrid
+} from "react-icons/hi"
 
 const FeatureList = [
   {
     title: 'Simple',
-    Svg: FiCheckCircle,
+    Svg: HiOutlinePuzzle,
     description: (
       <>
-        <code>frmx</code>'s API is simple, yet highly configurable.
+        <code>frmx</code>'s API is simple, yet highly configurable. Fight complexity with simplicity, not with more complexity!
       </>
     ),
   },
   {
     title: 'Performant',
-    Svg: FiWatch,
+    Svg: HiOutlineFire,
     description: (
       <>
         <code>frmx</code> isolates re-renders. The only thing being rendered at any given point is the field being updated.
@@ -24,10 +31,37 @@ const FeatureList = [
   },
   {
     title: 'Lightweight',
-    Svg: FiFeather,
+    Svg: HiOutlineLightningBolt,
     description: (
       <>
         <code>frmx</code> is only ~27kb minified and ~9kb gzipped.
+      </>
+    ),
+  },
+  {
+    title: 'Reusable components',
+    Svg: HiOutlineRefresh,
+    description: (
+      <>
+        <code>frmx</code> allows you to create highly reusable components. Ideal for data-intensive applications.
+      </>
+    ),
+  },
+  {
+    title: 'Opt-in Diffing',
+    Svg: HiOutlineFilter,
+    description: (
+      <>
+        <code>frmx</code> allows you to get back only the data you really need by providing three level of diffing if you opt in for that feature.
+      </>
+    ),
+  },
+  {
+    title: 'Flexible',
+    Svg: HiOutlineViewGrid,
+    description: (
+      <>
+        <code>frmx</code> doesn't dictate your code structure, your components nesting or the shape of yoru data. Programatically create forms!
       </>
     ),
   },
