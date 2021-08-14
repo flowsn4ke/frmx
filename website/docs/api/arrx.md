@@ -8,17 +8,21 @@ sidebar_position: 5
 
 `<ArrX/>` controls a `field` and helps you handle arrays in forms.
 
-## FldX Props
+## ArrX Props
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
 | startWithOneMore | boolean | false | Add one empty element in the array on mount (using the provided model) |
-| field | string | undefined |  The field that should be controlled by frmx. You can target nested fields like so `"a.nested.field"` (lodash notation). |
+| field | string | undefined |  The field containing the array that should be controlled by `<ArrX/>`. You can target nested fields like so `"a.nested.field"` (lodash notation). Don't  |
 | model | object | `""` | The structure of one array element, which can be of any type you need |
 
 ## Example Usage
 
-```jsx
+### Render props
+
+`<ArrX/>` uses render props that allow you to use `<FldX/>` for all the values in one array element, no matter their nesting:
+
+```jsx {17,32}
 export default function MyComponent() {
   const initialValues = { arr: [] }
 
@@ -62,12 +66,12 @@ export default function MyComponent() {
 
 ```
 
-## Notes
-
-### Render props
-
-`<ArrX/>` uses render props that allow you to use `<FldX/>` for all the values in one array element, no matter their nesting.
-
 ### Schema validation
 
-Schema validation only happens if there are some elements present in the array. When writing it, omit the array and write the methods as if you where directly targeting one array element.
+Schema validation only happens if there are some elements present in the array. When writing it, omit the array and write the methods as if you where directly targeting one array element:
+
+```js
+  const initialValues = { arr: [] }
+
+  const schemaValidation = { arr: { name: s => s.length > 3 } }
+```

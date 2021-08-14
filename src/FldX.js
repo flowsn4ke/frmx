@@ -8,15 +8,17 @@ import { getValidationMethod } from './utils/getValidationMethod'
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
   afterChange,
-  autoCapitalizeOff = false,
-  autoCorrectOff = false,
+  autoCapitalizeOn,
+  autoCompleteOff,
+  autoCorrectOn,
   children,
   disabled: locallyDisabled,
   field,
   getValueFromArgs,
+  // TODO: Rename to errorProp in V4
   isErrorProp,
   onChangeProp = "onChange",
-  required,
+  spellCheckOn,
   trim,
   type = "text",
   valueProp = "value",
@@ -73,12 +75,13 @@ export default function FldX({
     type,
     onBlur,
     onChange,
-    required,
     disabled: formIsDisabled || locallyDisabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: error && (onceValid || touched) ? true : false } : {}),
-    ...(autoCorrectOff && { autoCorrect: "off" }),
-    ...(autoCapitalizeOff && { autoCapitalize: "none" }),
+    ...(!autoCorrectOn && { autoCorrect: "off" }),
+    ...(!autoCapitalizeOn && { autoCapitalize: "none" }),
+    ...(!spellCheckOn && { spellCheck: "false" }),
+    ...(autoCompleteOff && { autoComplete: "off" }),
     ...rest
   }
 

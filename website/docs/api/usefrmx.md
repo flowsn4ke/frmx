@@ -9,61 +9,14 @@ sidebar_position: 6
 The `useFrmX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context.
 
 
-## useFrmX values
+## useFrmX
 
-In some rare cases, you might not be able to use FldX because of some input wrapper for instance (which happens with some Material UI fields).
+In some rare cases, you might not be able to use FldX because of some input wrapper for instance (which happens with some Material UI fields). You can then use the `useFrmX` hook to manually update and get back the values for this specific field. This field should maintain its own state and update the values (and) held by frmx as a side effect, like so:
 
-In those cases you can use the `useFrmX` hook to manually update and get back the values for this specific field.
-
-To do so, you can destructure all values frmx interacts with like so (assuming you're inside a `<FrmX></FrmX>` provider):
-
-| Name                    | Type           |    Description |
-|----------               | -------------  |  ------------- |
-| getOneError | function | function that returns if the field has an error. Ex: `const isError = getOneError(field)` |
-| getOneField | function | function that returns a field value. Ex: `const value = getOneField(field)` |
-| getOneVisited | function | function returning a boolean, Ex: `const isVisited = getOneVisited(field)` |
-| handleSubmit | function | the function implementing all frmx submitting logic |
-| hasUpdates | boolean | boolean keeping track of wether or not the form was updated |
-| isSubmitting | boolean | boolean keeping track of wether the form is submitting or not |
-| isValidForm | boolean | boolean keeping track of wether the form is valid or not |
-| resetForm | function | the function that resets the form to the initialValues state |
-| setOneError | function | function accepting a boolean. Ex: `setOneError(field, true)` |
-| setOneField | function | function that allows you to set a field value. Ex: `setOneField(field, value)` |
-| setOneVisited | function | function to mark a field as visited. Ex: `setOneVisited(field)` |
-
-**Note**: You can also test wether or not you're inside a `<FrmX></FrmX>` provider by not destructuring values right away, like so:
-
-```js
-const frmx = useFrmX()
-
-if (!!frmx) {
-  // ...do stuff here
-  const { getOneError } = frmx
-  frmx.handleSubmit()
-}
-```
-
-## Example Usage
+### Example Usage
 
 ```jsx
-const {
-  getOneError,
-  getOneField,
-  getOneVisited,
-  handleSubmit,
-  hasUpdates,
-  isSubmitting,
-  isValidForm,
-  resetForm,
-  setOneError,
-  setOneField,
-  setOneVisited,
-} = useFrmX()
-```
-
-## Example Usage
-
-```jsx
+import React, { useState } from 'react'
 import { FrmX, FldX, BtnX, useFrmX } from "frmx"
 import { TextField, Button } from "@material-ui/core"
 import { WeirdInput } from "some-random-pkg"
@@ -72,23 +25,17 @@ function CustomCheckboX({field}) {
   const {
     getOneField,
     setOneField,
-    getOneVisited,
-    setOneVisited,
-    getOneError,
-    setOneError,
-    getIsSubmitting
   } = useFrmX()
+
+  const [val, setVal] = useState(getOneField(field))
 
   return <>
     <WeirdInput
       iChangeLikeThat={( a, b, c ) => {
-        doSomethingWith(a)
-        doSomethingWith(b)
-        doSomethingWith(c)
+        setVal([ a, b, c])
         setOneField(field, [ a, b, c])
       }}
-      myValue={getOneField(field)}
-      onBluuuurr={() => setOneVisited(field)}
+      myValue={val}
     >
   </>
 }
@@ -116,42 +63,35 @@ export default function MyComponent() {
 }
 ```
 
-**The good news is, once you've created a wrapper around this input, you can reuse it everywhere in your application, and it needs only one prop to operate, the field it should control, that is.**
+**The good news is, once you've created a wrapper around this input, you can reuse it everywhere in your application, and it needs only one prop to operate (the field it should control, that is). It will be automagically linked to the nearest frmx parent through React's Context API**
 
-## Performance considerations
+**Note**: It's also important your remember to do the exact same thing for the error state: Keep track of it locally and update it in frmx as a side effect if you need to validate that input
 
-In order to avoid wasteful rerenders, it is advised you wrap up the return statement in a `useMemo`, adding the field value to the dependency array. `<FrmX/>` automatically handles that for components using the `<FldX/>` component.
+### Full API reference
 
-For instance, rewriting the previous example:
+To do so, you can destructure all values frmx interacts with like so (assuming you're inside a `<FrmX></FrmX>` provider):
 
-```jsx
-import { FrmX, FldX, BtnX, useFrmX } from "frmx"
-import { TextField, Button } from "@material-ui/core"
-import { WeirdInput } from "some-random-pkg"
+| Name                    | Type           |    Description |
+|----------               | -------------  |  ------------- |
+| getOneError | function | function that returns if the field has an error. Ex: `const isError = getOneError(field)` |
+| getOneField | function | function that returns a field value. Ex: `const value = getOneField(field)` |
+| getOneUpdated | function | function returning a boolean, Ex: `const isVisited = getOneVisited(field)` |
+| handleSubmit | function | the function implementing all frmx submitting logic |
+| hasUpdates | function |  Returns a boolean indicating wether or not the form was updated |
+| resetForm | function | the function that resets the form to the initialValues state |
+| setOneError | function | function accepting a boolean. Ex: `setOneError(field, true)` |
+| setOneField | function | function that allows you to set a field value. Ex: `setOneField(field, value)` |
+| setOneUpdated | function | function to mark a field as visited. Ex: `setOneVisited(field)` |
 
-function CustomCheckboX({field}) {
-  const {
-    getOneField,
-    setOneField,
-    setOneVisited,
-  } = useFrmX()
+**Note**: You can also test wether or not you're inside a `<FrmX></FrmX>` provider by not destructuring values right away, like so:
 
-  const value = useMemo(() => getOneField(field), [getOneField, field])
+```js
+const frmx = useFrmX()
 
-  return useMemo(() => {
-    return <>
-    <WeirdInput
-      iChangeLikeThat={( a, b, c ) => {
-        doSomethingWith(a)
-        doSomethingWith(b)
-        doSomethingWith(c)
-        setOneField(field, [ a, b, c])
-      }}
-      myValue={getOneField(field)}
-      onBluuuurr={() => setOneVisited(field)}
-    >
-  </>
-  }, [value])
+if (!!frmx) {
+  // ...do stuff here
+  const { getOneError } = frmx
+  frmx.handleSubmit()
 }
 ```
 

@@ -29,21 +29,21 @@ export default function FrmX({
   afterChange,
   autoCompleteOff,
   children,
-  className,
   clearAfterSubmit,
   diff,
   disabled,
   disabledIf,
   disableIfNoUpdates,
+  // TODO: Rename to disableIfInvalid in v4
   disableSubmitIfInvalid,
   initialValues = {},
   onInvalidSubmit,
   onReset,
   onSubmit,
   renderDiv,
-  schemaValidation,
-  style,
+  schemaValidation = {},
   updatesOnly,
+  ...rest
 }) {
   const original = useRef(cloneDeep(initialValues))
   const fields = useRef(cloneDeep(initialValues))
@@ -56,7 +56,6 @@ export default function FrmX({
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
-  // Functions intended to be used with the useFrmX hook in fields
   const getOneField = (field) => get(fields.current, field)
   const setOneField = (field, value) => {
     set(fields.current, field, value)
@@ -64,8 +63,14 @@ export default function FrmX({
     if (!!afterChange) afterChange(fields.current)
   }
 
+  // TODO: Deprecate [set/get]OneVisited in v4
   const getOneVisited = (field) => updated.current.has(field)
   const setOneVisited = (field) => {
+    if (!updated.current.has(field)) updated.current.add(field)
+  }
+
+  const getOneUpdated = (field) => updated.current.has(field)
+  const setOneUpdated = (field) => {
     if (!updated.current.has(field)) updated.current.add(field)
   }
 
@@ -73,10 +78,8 @@ export default function FrmX({
   const setOneError = (field, isError) => {
     if (isError && !errors.current.has(field)) {
       errors.current.add(field)
-      trigger(`form-${formId.current}-total-errors`, errors.current.size)
     } else if (!isError && errors.current.has(field)) {
       errors.current.delete(field)
-      trigger(`form-${formId.current}-total-errors`, errors.current.size)
     }
   }
 
@@ -111,13 +114,12 @@ export default function FrmX({
 
   return <FrmXContext.Provider value={{
     disabled,
-    disabledIf,
-    disableIfNoUpdates,
-    disableSubmitIfInvalid,
     formId: formId.current,
     handleSubmit,
     getOneField,
     getOneVisited,
+    getOneUpdated,
+    setOneUpdated,
     getOneError,
     renderDiv,
     resetForm,
@@ -129,16 +131,15 @@ export default function FrmX({
     {(() => {
       if (!renderDiv) {
         return <form
-          className={className}
-          style={style}
-          onSubmit={handleSubmit}
           noValidate
           autoComplete={autoCompleteOff ? "off" : "on"}
+          onSubmit={handleSubmit}
+          {...rest}
         >
           {children}
         </form>
       } else {
-        return <div className={className} style={style}>
+        return <div {...rest}>
           {children}
         </div>
       }

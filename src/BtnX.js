@@ -3,7 +3,6 @@ import { useFrmX } from './Contexts'
 
 export default function BtnX({
   disabled: locallyDisabled,
-  disabledIf,
   children,
   ...rest
 }) {
