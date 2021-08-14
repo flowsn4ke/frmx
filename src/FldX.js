@@ -50,7 +50,10 @@ export default function FldX({
       setOneError(field, isError)
     }
   }
-  useEffect(() => setTimeout(() => handleError(value), 0), [])
+  useEffect(() => {
+    handleError(value)
+    return () => setOneError(field, false)
+  }, [])
 
   const handleReset = () => {
     setValue(cloneDeep(getOneField(field)))

@@ -100,6 +100,7 @@ export default function FrmX({
       ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors()) ||
       (!!disabledIf && disabledIf(diffAlg.current(original.current, fields.current)))
     ) {
+      console.log(disableSubmitIfInvalid, hasErrors())
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
       isSubmitting.current = true
