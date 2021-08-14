@@ -39,4 +39,4 @@ The truth is, **using uncontrolled components just reduces the number of things 
 
 Performance can only be mesured in terms of execution time using Chrome's or Firefox's native perfomance tabs, where you can see **there's actually no measurable performance overhead for using controlled components over uncontrolled**.
 
-If anything, this just gives you more opportunities of fine-tuning your code by giving you more ways of analyzing it, which is why this is the recommanded way to do things in React.
+If anything, this just gives you more opportunities of fine-tuning your code by giving you more ways of analyzing it, which is why [it's the recommanded way to do things in React](https://reactjs.org/docs/forms.html#controlled-components).

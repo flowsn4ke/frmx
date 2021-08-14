@@ -7,7 +7,8 @@ import {
   HiOutlineLightningBolt,
   HiOutlineRefresh,
   HiOutlineFilter,
-  HiOutlineViewGrid
+  HiOutlineViewGrid,
+  HiOutlineCubeTransparent
 } from "react-icons/hi"
 
 const FeatureList = [
@@ -39,7 +40,7 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Reusable components',
+    title: 'Reusable inputs',
     Svg: HiOutlineRefresh,
     description: (
       <>
@@ -58,7 +59,7 @@ const FeatureList = [
   },
   {
     title: 'Flexible',
-    Svg: HiOutlineViewGrid,
+    Svg: HiOutlineCubeTransparent,
     description: (
       <>
         <code>frmx</code> doesn't dictate your code structure, your components nesting or the shape of your data!
