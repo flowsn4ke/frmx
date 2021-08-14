@@ -50,8 +50,12 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
   const {
     getOneField,
     setOneField,
-    setOneError
+    setOneError,
+    useResetListener
   } = useFrmX()
+
+  const handleReset = useRef(() => console.log("hi from the reset listener"))
+  useResetListener(handleReset.current)
 
   const [phoneNumber, setPhoneNumber] = useState(cloneDeep(getOneField(field)))
   const [country, setCountry] = useState('FR')

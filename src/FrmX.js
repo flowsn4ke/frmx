@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid'
 import { FrmXContext } from './Contexts'
 import { shallowDiff, diffOnUpdatedKeys, deepDiff } from './utils/diff'
 import { trigger } from './utils/events'
+import useDocumentListener from './hooks/useDocumentListener'
 
 const getDiffAlg = (key) => {
   switch (key) {
@@ -83,6 +84,8 @@ export default function FrmX({
     }
   }
 
+  const useResetListener = (handleReset) => useDocumentListener(`form-${formId.current}-reset`, handleReset)
+
   const resetForm = () => {
     if (onReset && hasUpdates()) onReset(diffAlg.current(original.current, fields.current))
     updated.current = new Set()
@@ -128,6 +131,7 @@ export default function FrmX({
     setOneField,
     setOneVisited,
     schemaValidation,
+    useResetListener,
   }}>
     {(() => {
       if (!renderDiv) {

@@ -82,6 +82,7 @@ To do so, you can destructure all values frmx interacts with like so (assuming y
 | setOneError | function | function accepting a boolean. Ex: `setOneError(field, true)` |
 | setOneField | function | function that allows you to set a field value. Ex: `setOneField(field, value)` |
 | setOneUpdated | function | function to mark a field as visited. Ex: `setOneVisited(field)` |
+| useResetListener | function | If you wish to listen for reset events inside fields you built with hooks to reset them along with the rest of the form, just call this function inside your component and pass it a function to execute upon reset. Ex: `useResetListener(console.log("hi from the reset listener"))` |
 
 **Note**: You can also test wether or not you're inside a `<FrmX></FrmX>` provider by not destructuring values right away, like so:
 

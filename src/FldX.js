@@ -1,8 +1,7 @@
 import cloneDeep from 'lodash-es/cloneDeep'
-import { cloneElement, Children, useEffect, useMemo, useState } from 'react'
+import { cloneElement, Children, useEffect, useMemo, useState, useRef } from 'react'
 
 import { useFrmX, useArrX } from './Contexts'
-import useDocumentListener from './hooks/useDocumentListener'
 import { getValidationMethod } from './utils/getValidationMethod'
 
 // TODO: Trim values when submitting based on prop && if type is text
@@ -26,11 +25,11 @@ export default function FldX({
 }) {
   const {
     disabled: formIsDisabled,
-    formId,
     getOneField,
     schemaValidation,
     setOneError,
     setOneField,
+    useResetListener
   } = useFrmX()
 
   const arrx = useArrX()
@@ -42,42 +41,42 @@ export default function FldX({
   const [touched, setTouched] = useState(false)
   const [error, setError] = useState(false)
 
-  const handleError = (newVal) => {
+  const handleError = useRef((newVal) => {
     if (!!validationMethod) {
       const isError = !validationMethod(newVal)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
     }
-  }
+  })
   useEffect(() => {
-    handleError(value)
+    handleError.current(value)
     return () => setOneError(field, false)
   }, [])
 
-  const handleReset = () => {
+  const handleReset = useRef(() => {
     setValue(cloneDeep(getOneField(field)))
-    handleError(value)
-  }
-  useDocumentListener(`form-${formId}-reset`, handleReset)
+    handleError.current(value)
+  })
+  useResetListener(handleReset.current)
 
-  const onChange = (...args) => {
+  const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     val = !!trim && typeof val === 'string' ? val.trim() : val
 
     setValue(val)
     setOneField(field, val)
-    handleError(val)
+    handleError.current(val)
 
     if (!!afterChange) afterChange(field, val)
-  }
+  })
 
-  const onBlur = () => setTouched(true)
+  const onBlur = useRef(() => setTouched(true))
 
   const props = {
     type,
-    onBlur,
-    onChange,
+    onBlur: onBlur.current,
+    onChange: onChange.current,
     disabled: formIsDisabled || locallyDisabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: error && (onceValid || touched) ? true : false } : {}),
