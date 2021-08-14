@@ -43,7 +43,7 @@ const FeatureList = [
     Svg: HiOutlineRefresh,
     description: (
       <>
-        <code>frmx</code> allows you to create highly reusable components. Ideal for data-intensive applications.
+        <code>frmx</code> allows you to create highly reusable inputs. Ideal for data-intensive applications and to programatically create forms.
       </>
     ),
   },
@@ -61,7 +61,7 @@ const FeatureList = [
     Svg: HiOutlineViewGrid,
     description: (
       <>
-        <code>frmx</code> doesn't dictate your code structure, your components nesting or the shape of yoru data. Programatically create forms!
+        <code>frmx</code> doesn't dictate your code structure, your components nesting or the shape of your data!
       </>
     ),
   },

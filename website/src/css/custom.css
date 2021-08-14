@@ -59,6 +59,8 @@ table {
   width: 10vmin;
   min-width: 10vmin;
   min-height: 10vmin;
+  max-width: 10vmin;
+  max-height: 10vmin;
   pointer-events: none;
 }
 
