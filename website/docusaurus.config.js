@@ -77,7 +77,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Théo Louvel`,
+      copyright: `Copyright © ${new Date().getFullYear()} The frmx contributors`,
     },
     prism: {
       theme: lightCodeTheme,

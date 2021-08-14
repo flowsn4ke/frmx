@@ -4,15 +4,17 @@ import Link from '@docusaurus/Link'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
 import styles from './index.module.css'
 import HomepageFeatures from '../components/HomepageFeatures'
-const Logo = require('../../static/img/frmx.svg').default
+const Logo = require('../../static/img/favicon.svg').default
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext()
   return (
     <header className={styles.heroBanner}>
       <div className="container">
-        <Logo style={{ maxWidth: "400px" }} />
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', height: 110, with: "100%", marginBottom: "1.5rem" }}>
+          <Logo className="app-logo" style={{ marginRight: "2rem" }} />
+          <p style={{ margin: "auto 0px", fontSize: "3em", fontWeight: "bold", width: "50%", maxWidth: "600px", textAlign: "left", lineHeight: "normal" }}>{siteConfig.tagline}</p>
+        </div>
         <Link
           className="button button--secondary button--lg"
           to="/docs/quickstart">

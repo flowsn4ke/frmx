@@ -4,7 +4,7 @@ title: Iterations
 sidebar_position: 5
 ---
 
-`frmx` went through a few iterations in order to reack its current level of performance.
+`frmx` went through a few iterations in order to reach its current level of performance.
 
 ## Version 1
 
