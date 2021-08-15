@@ -23,7 +23,7 @@ export default function useFldX(field) {
     setOneField(field, newVal)
   })
   const handleError = useRef((err) => {
-    const newErr = typeof err === "function" ? val(error) : err
+    const newErr = typeof err === "function" ? err(error) : err
     setError(newErr)
     setOneError(field, newErr)
   })
