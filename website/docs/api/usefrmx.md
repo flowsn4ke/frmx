@@ -4,8 +4,6 @@ title: useFrmX Hook
 sidebar_position: 6
 ---
 
-# useFrmX Hook
-
 The `useFrmX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context.
 
 ## Check out useFldX first

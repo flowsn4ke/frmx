@@ -1,10 +1,8 @@
 ---
-id: usefrmx
-title: useFrmX Hook
+id: usefldx
+title: useFldX Hook
 sidebar_position: 7
 ---
-
-# useFldX Hook
 
 The `useFldX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context. It allows you to handle more complex situations while still managing state for you. The initial value will be the one you provided in the `initialValues` object passed to `<FrmX/>` .
 
