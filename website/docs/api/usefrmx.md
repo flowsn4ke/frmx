@@ -8,6 +8,9 @@ sidebar_position: 6
 
 The `useFrmX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context.
 
+## Check out useFldX first
+
+It's probable that you can get away using the `useFldX` hook, which provides state management out of the box. Please check it out before reaching for `useFrmX`!
 
 ## useFrmX
 

@@ -20,7 +20,8 @@ Out of the box, frmx provides:
 - **Schema validation**
 - Three levels of **diffing** (get only the updates you need)
 - **Five wrapper components** that cover 90% of cases
-- **A hook** that covers the remaining 10%
+- **One hook** that covers the remaining 9%
+- **Another hook** that covers the remaining 1%
 - **Tree shaking**
 
 ## How it works

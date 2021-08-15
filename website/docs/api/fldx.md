@@ -8,7 +8,6 @@ sidebar_position: 2
 
 ## FldX Props
 
-
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
 | afterChange             | function       | undefined     |  Middleware that will be called with the field name and its new value after each change: `afterChange(field, newValue)` |
