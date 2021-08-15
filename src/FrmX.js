@@ -33,6 +33,7 @@ export default function FrmX({
   clearAfterSubmit,
   diff,
   disabled,
+  // TODO: Rename to validIf in v4
   disabledIf,
   disableIfNoUpdates,
   // TODO: Rename to disableIfInvalid in v4
