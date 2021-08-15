@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { useFrmX } from 'frmx'
 import parsePhoneNumber, { AsYouType } from 'libphonenumber-js'
 import Flag from 'react-flagkit'
 import { makeStyles } from '@material-ui/core/styles'
 import { Box, Divider, InputBase, ButtonBase, Menu, MenuItem } from '@material-ui/core'
 import { ArrowDropDown as ArrowDropDownIcon } from '@material-ui/icons'
 import clsx from 'clsx'
-import { cloneDeep } from 'lodash-es'
+import { useFldX } from 'frmx'
 
 const countries = [
   { code: "FR", prefix: "+33", name: "France" },
@@ -48,32 +47,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PhoneInput({ field, className, placeholder = "" }) {
   const {
-    getOneField,
-    setOneField,
-    setOneError,
-    useResetListener
-  } = useFrmX()
+    value,
+    setValue,
+    error,
+    setError,
+    disabled
+  } = useFldX(field)
 
-  const handleReset = useRef(() => console.log("hi from the reset listener"))
-  useResetListener(handleReset.current)
-
-  const [phoneNumber, setPhoneNumber] = useState(cloneDeep(getOneField(field)))
   const [country, setCountry] = useState('FR')
   const [isFocused, setIsFocused] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
-  const [error, setError] = useState(false)
 
   const handleChange = useRef((e) => {
     const newDisplayVal = new AsYouType(country).input(e.target.value)
-    setPhoneNumber(newDisplayVal)
+    setValue(newDisplayVal)
     const n = parsePhoneNumber(newDisplayVal, country)
 
     if (!!n) {
       setCountry(n.country)
       setError(!n.isValid())
-      setOneError(field, !n.isValid())
-      setOneField(field, n.number)
     }
   })
 
@@ -93,7 +86,8 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
       <Box className={classes.input}>
         <InputBase
           type="tel"
-          value={phoneNumber}
+          disabled={disabled}
+          value={value}
           onChange={handleChange.current}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -114,7 +108,7 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
         key={`country-prefix-${c.name}-${i}`}
         onClick={() => {
           setCountry(c.code)
-          setPhoneNumber(c.prefix)
+          setValue(c.prefix)
           closeMenu.current()
         }}>{c.name}</MenuItem>)}
     </Menu>
