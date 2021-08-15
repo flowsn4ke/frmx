@@ -18,12 +18,14 @@ export default function useFldX(field) {
   useResetListener(handleReset.current)
 
   const onChange = useRef((val) => {
-    setValue(val)
-    setOneField(field, val)
+    const newVal = typeof val === "function" ? val(value) : val
+    setValue(newVal)
+    setOneField(field, newVal)
   })
-  const handleError = useRef((isError) => {
-    setError(isError)
-    setOneError(field, isError)
+  const handleError = useRef((err) => {
+    const newErr = typeof err === "function" ? val(error) : err
+    setError(newErr)
+    setOneError(field, newErr)
   })
 
   return {
