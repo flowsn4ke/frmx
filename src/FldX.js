@@ -33,17 +33,16 @@ export default function FldX({
   } = useFrmX()
 
   const arrx = useArrX()
-
-  const validationMethod = useMemo(() => getValidationMethod(arrx, field, schemaValidation), [getValidationMethod, schemaValidation])
+  const validationMethod = useRef(getValidationMethod(arrx, field, schemaValidation))
 
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
-  const [onceValid, setOnceValid] = useState(!validationMethod)
+  const [onceValid, setOnceValid] = useState(!validationMethod.current)
   const [touched, setTouched] = useState(false)
   const [error, setError] = useState(false)
 
   const handleError = useRef((newVal) => {
-    if (!!validationMethod) {
-      const isError = !validationMethod(newVal)
+    if (!!validationMethod.current) {
+      const isError = !validationMethod.current(newVal)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
