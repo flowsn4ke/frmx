@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { deepDiff } from "../utils/diff"
 
-export function useWhy(name, props) {
+export function useWhyDidYouUpdate(name, props) {
   const previousProps = useRef();
   useEffect(() => {
     if (previousProps.current) {
