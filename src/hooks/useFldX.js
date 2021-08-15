@@ -3,13 +3,17 @@ import { useState, useRef } from 'react'
 import { useFrmX } from '../Contexts'
 
 export default function useFldX(field) {
+  const frmx = useFrmX()
+
+  if (!frmx) return undefined
+
   const {
     disabled: formIsDisabled,
     getOneField,
     setOneError,
     setOneField,
     useResetListener,
-  } = useFrmX()
+  } = frmx
 
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
   const [error, setError] = useState(false)
