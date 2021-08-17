@@ -118,6 +118,7 @@ export default function FrmX({
 
   return <FrmXContext.Provider value={{
     disabled,
+    fields: fields.current,
     formId: formId.current,
     handleSubmit,
     getOneField,

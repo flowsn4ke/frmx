@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import cloneDeep from 'lodash-es/cloneDeep'
 
 import { useFrmX, ArrXContext } from './Contexts'
+import { noProviderFor } from './utils/dx'
 
 export default function ArrX({
   children,
@@ -9,12 +10,20 @@ export default function ArrX({
   model = "",
   startWithOneMore,
 }) {
+  const frmx = useFrmX()
+
+  if (!frmx) {
+    noProviderFor('<ArrX/>')
+    if (children) return children
+    else return null
+  }
+
   const {
     disabled,
     getOneField,
     setOneField,
     useResetListener,
-  } = useFrmX()
+  } = frmx
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
 

@@ -1,5 +1,6 @@
-import { cloneElement, Children, useRef } from 'react'
+import { cloneElement, Children, useRef, createElement } from 'react'
 import useFldX from './hooks/useFldX'
+import { devEnvOnly, noProviderFor } from './utils/dx'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -20,13 +21,22 @@ export default function FldX({
   valueProp = "value",
   ...rest
 }) {
+
+  const fldx = useFldX(field, { afterChange, trim, disabled: locallyDisabled, native: true })
+
+  if (!fldx) {
+    noProviderFor('the <FldX/> component')
+    if (children) return children
+    else return null
+  }
+
   const {
     value,
     setValue,
     error,
     disabled,
     onBlur
-  } = useFldX(field, { afterChange, trim, disabled: locallyDisabled })
+  } = fldx
 
   const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value

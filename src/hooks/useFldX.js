@@ -1,15 +1,20 @@
 import cloneDeep from 'lodash-es/cloneDeep'
 import { useState, useRef, useEffect } from 'react'
 import { useArrX, useFrmX } from '../Contexts'
+import { noProviderFor } from '../utils/dx'
 import { getValidationMethod } from '../utils/getValidationMethod'
 
 export default function useFldX(field, config = {}) {
   const frmx = useFrmX()
 
-  if (!frmx) return undefined
+  if (!frmx) {
+    if (!config?.native) noProviderFor('the useFldX() hook')
+    return undefined
+  }
 
   const {
     disabled: formIsDisabled,
+    fields,
     getOneField,
     schemaValidation,
     setOneError,
@@ -27,7 +32,7 @@ export default function useFldX(field, config = {}) {
 
   const handleError = useRef((newVal) => {
     if (!!validationMethod.current) {
-      const isError = !validationMethod.current(newVal)
+      const isError = !validationMethod.current(newVal, fields)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
