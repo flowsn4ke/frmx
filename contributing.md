@@ -1,7 +1,6 @@
-👋 Wanna join? We still need to:
-
-
 # Roadmap
+
+👋 Wanna join? We still need to:
 
 ## Features
 - [ ] Find a performant way to make some fields rely on each other's value. What about a readonly hook for a field to start with?
