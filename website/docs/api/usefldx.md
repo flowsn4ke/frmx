@@ -6,7 +6,13 @@ sidebar_position: 7
 
 # useFldX Hook
 
-The `useFldX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context. It allows you to handle more complex situations while still managing state for you. The initial value will be the one you provided in the `initialValues` object passed to `<FrmX/>` .
+The `useFldX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context. It allows you to handle more complex situations while still managing state for you. The initial value will be the one you provided in the `initialValues` object passed to `<FrmX/>` and data validation will still be handled by frmx.
+
+The same hook is used by `<FldX/>` internally, ensuring coherency accross all your inputs.
+
+If you feel like it's still not flexible enough, you can [check out the `useFrmX` hook](https://www.frmx.io/docs/api/usefrmx).
+
+**Note**: The error returned is a *state of the UI*. Validation still happens internally following the rules you set in hte schemaValidation object you passed to `<FrmX/>`. For it to work correctly, you need to use onBlur. If you can't pass an "onBlur" prop to your input, just call it right after you first set the value.
 
 ### Example Usage
 
@@ -20,7 +26,7 @@ function CustomCheckboX({field}) {
     value,
     setValue,
     error,
-    setError,
+    onBlur,
     disabled
   } = useFldX(field)
 
@@ -29,6 +35,9 @@ function CustomCheckboX({field}) {
       iChangeLikeThat={( a, b, c ) => {
         setValue([ a, b, c])
       }}
+      onBlurr={onBlur}
+      disabled={disabled}
+      error={error}
       myValue={value}
     >
   </>
