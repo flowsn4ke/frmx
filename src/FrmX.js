@@ -35,8 +35,8 @@ export default function FrmX({
   disabled,
   // TODO: Rename to validIf in v4
   disabledIf,
+  // TODO: Rename to disableSubmitIfNoUpdates in v4
   disableIfNoUpdates,
-  // TODO: Rename to disableIfInvalid in v4
   disableSubmitIfInvalid,
   initialValues = {},
   onInvalidSubmit,

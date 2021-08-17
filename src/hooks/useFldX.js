@@ -14,7 +14,7 @@ export default function useFldX(field, config = {}) {
 
   const {
     disabled: formIsDisabled,
-    fields,
+    fields: formFields,
     getOneField,
     schemaValidation,
     setOneError,
@@ -32,7 +32,7 @@ export default function useFldX(field, config = {}) {
 
   const handleError = useRef((newVal) => {
     if (!!validationMethod.current) {
-      const isError = !validationMethod.current(newVal, fields)
+      const isError = !validationMethod.current(newVal, formFields)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
