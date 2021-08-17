@@ -4,8 +4,6 @@ title: ArrX Component
 sidebar_position: 5
 ---
 
-# ArrX Component
-
 `<ArrX/>` controls a `field` and helps you handle arrays in forms.
 
 ## ArrX Props

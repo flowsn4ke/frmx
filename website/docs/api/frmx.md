@@ -4,8 +4,6 @@ title: FrmX Component
 sidebar_position: 1
 ---
 
-# FrmX Component
-
 FrmX needs only two props to do its job, initialValues and onSubmit. There is, however, a number of props you can pass to make your life easier and in order to validate your form data.
 
 ## FrmX Props

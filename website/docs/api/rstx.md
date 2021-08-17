@@ -4,8 +4,6 @@ title: RstX Component
 sidebar_position: 4
 ---
 
-# RstX Component
-
 This wrapper component lets you reset all form fields to their initial state (values of the object you passed in initialValues):
 
 ```jsx

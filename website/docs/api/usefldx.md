@@ -4,8 +4,6 @@ title: useFldX Hook
 sidebar_position: 7
 ---
 
-# useFldX Hook
-
 The `useFldX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context. It allows you to handle more complex situations while still managing state for you. The initial value will be the one you provided in the `initialValues` object passed to `<FrmX/>` and data validation will still be handled by frmx.
 
 The same hook is used by `<FldX/>` internally, ensuring coherency accross all your inputs.
@@ -14,7 +12,7 @@ If you feel like it's still not flexible enough, you can [check out the `useFrmX
 
 **Note**: The error returned is a *state of the UI*. Validation still happens internally following the rules you set in hte schemaValidation object you passed to `<FrmX/>`. For it to work correctly, you need to use onBlur. If you can't pass an "onBlur" prop to your input, just call it right after you first set the value.
 
-### Example Usage
+## Example Usage
 
 ```jsx
 import { FrmX, FldX, BtnX, useFldX } from "frmx"
@@ -68,7 +66,27 @@ export default function MyComponent() {
 
 **The good news is, once you've created a wrapper around this input, you can reuse it everywhere in your application, and it needs only one prop to operate (the field it should control, that is). It will be automagically linked to the nearest frmx parent through React's Context API.**
 
-### Full API reference
+## Configuration Object
+
+You can also pass a configuration object as a second argument to `useFldX`, like so:
+
+```jsx
+const config = {
+  afterChange: val => console.log(val),
+  trim: true,
+  disabled: condition1 && condition2
+}
+
+const {
+  value,
+  setValue,
+  error,
+  disabled,
+  onBlur
+} = useFldX(field, config)
+```
+
+## Full API reference
 
 To do so, you can destructure the following values from `useFldX(field)`:
 
