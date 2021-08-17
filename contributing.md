@@ -34,13 +34,13 @@
 - [ ] Diff algs doc
 - [ ] Write migration guides
 
-## TypeScript
-- [ ] Add TypeScript support
-
 ### Tutorials
 - [ ] Creating reusable components
 - [ ] Manipulating arrays (with validation!)
 - [ ] Create a phone field component
+
+## TypeScript
+- [ ] Add TypeScript support
 
 ## Component libraries integration
 
