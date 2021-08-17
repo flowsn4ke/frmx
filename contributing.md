@@ -37,17 +37,12 @@
 ## TypeScript
 - [ ] Add TypeScript support
 
-### Tutorial
-
+### Tutorials
 - [ ] Creating reusable components
-
-### Examples / Advanced inputs
-
-- [ ] Manipulating arrays (with validation)
-- [ ] Write Material UI example
+- [ ] Manipulating arrays (with validation!)
 - [ ] Create a phone field component
 
-## Component libraries
+## Component libraries integration
 
 ### Material UI
 
