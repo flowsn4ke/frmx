@@ -1,6 +1,8 @@
 import React from "react";
 import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx"
 import { isEmail, isHexColor } from "validator"
+import parsePhoneNumber from 'libphonenumber-js'
+
 import {
   Box,
   Button,
@@ -35,6 +37,11 @@ const isTrue = (val) => val;
 
 const validationMethods = {
   email: isEmail,
+  phoneNumber: val => {
+    const n = parsePhoneNumber(val)
+    if (n && !n?.isValid()) return false
+    else return true
+  },
   options: {
     checked: isTrue,
     colors: {

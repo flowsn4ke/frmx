@@ -1,6 +1,6 @@
 ---
-id: usefrmx
-title: useFrmX Hook
+id: usefldx
+title: useFldX Hook
 sidebar_position: 7
 ---
 

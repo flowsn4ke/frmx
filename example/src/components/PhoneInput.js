@@ -66,7 +66,6 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
 
     if (!!n) {
       setCountry(n.country)
-      setError(!n.isValid())
     }
   })
 

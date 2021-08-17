@@ -4,6 +4,10 @@ import { useArrX, useFrmX } from '../Contexts'
 import { getValidationMethod } from '../utils/getValidationMethod'
 
 export default function useFldX(field, config = {}) {
+  const frmx = useFrmX()
+
+  if (!frmx) return undefined
+
   const {
     disabled: formIsDisabled,
     getOneField,
@@ -11,7 +15,7 @@ export default function useFldX(field, config = {}) {
     setOneError,
     setOneField,
     useResetListener
-  } = useFrmX()
+  } = frmx
 
   const arrx = useArrX()
   const validationMethod = useRef(getValidationMethod(arrx, field, schemaValidation))
