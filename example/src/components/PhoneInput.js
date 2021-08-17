@@ -50,7 +50,6 @@ export default function PhoneInput({ field, className, placeholder = "" }) {
     value,
     setValue,
     error,
-    setError,
     disabled
   } = useFldX(field)
 

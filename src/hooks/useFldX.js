@@ -51,7 +51,7 @@ export default function useFldX(field, config = {}) {
     setOneField(field, val)
     handleError.current(val)
 
-    if (!!config?.afterChange && typeof config?.afterChange === "function") config.afterChange(field, val)
+    if (config?.afterChange && typeof config?.afterChange === "function") config.afterChange(val)
   })
 
   const onBlur = useRef(() => setTouched(true))
