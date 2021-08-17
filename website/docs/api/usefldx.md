@@ -72,7 +72,7 @@ You can also pass a configuration object as a second argument to `useFldX`, like
 
 ```jsx
 const config = {
-  afterChange: val => console.log(val),
+  afterChange: (newValue, fieldName) => console.log(newValue, fieldName),
   trim: true,
   disabled: condition1 && condition2
 }
@@ -88,7 +88,7 @@ const {
 
 ## Full API reference
 
-To do so, you can destructure the following values from `useFldX(field)`:
+You can destructure the following values from `useFldX(field)`:
 
 | Name                    | Type           |    Description |
 |----------               | -------------  |  ------------- |

@@ -8,7 +8,7 @@ sidebar_position: 2
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
-| afterChange             | function       | undefined     |  Middleware that will be called with the field new value after each change: `afterChange(newValue)` |
+| afterChange             | function       | undefined     |  Middleware that will be called with the field new value and its name as a second argument after each change: `afterChange(newValue)`. Ex: `afterChange={(newValue, fieldName) => console.log(newValue)}` |
 | autoCapitalizeOn | boolean | false | Enables autocapitalize |
 | autoCompleteOff | boolean | false | Disables autocomplete for this input |
 | autoCorrectOn | boolean | false | Enables autocorrect |
