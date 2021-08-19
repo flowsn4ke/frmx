@@ -2,7 +2,9 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { useState, useRef, useEffect } from 'react'
 import { useArrX, useFrmX } from '../Contexts'
 import { noProviderFor } from '../utils/dx'
+import { resetEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
+import useDocumentListener from './useDocumentListener'
 
 export default function useFldX(field, config = {}) {
   const frmx = useFrmX()
@@ -15,11 +17,11 @@ export default function useFldX(field, config = {}) {
   const {
     disabled: formIsDisabled,
     fields: formFields,
+    formId,
     getOneField,
     schemaValidation,
     setOneError,
     setOneField,
-    useResetListener
   } = frmx
 
   const arrx = useArrX()
@@ -47,7 +49,7 @@ export default function useFldX(field, config = {}) {
     setValue(cloneDeep(getOneField(field)))
     handleError.current(value)
   })
-  useResetListener(handleReset.current)
+  useDocumentListener(resetEvent(formId), handleReset.current)
 
   const handleChange = useRef((val) => {
     val = typeof val === "function" ? val(value) : val

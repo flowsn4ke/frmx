@@ -1,7 +1,7 @@
 ---
 id: iterations
 title: Iterations
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 `frmx` went through a few iterations in order to reach its current level of performance.

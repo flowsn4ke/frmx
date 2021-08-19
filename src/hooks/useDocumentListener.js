@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { off, on } from "../utils/events"
+import { off, on } from "../events/utils"
 
 export default function useDocumentListener(event, handler) {
   useEffect(() => {

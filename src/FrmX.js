@@ -5,26 +5,9 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { nanoid } from 'nanoid'
 
 import { FrmXContext } from './Contexts'
-import { shallowDiff, diffOnUpdatedKeys, deepDiff } from './utils/diff'
-import { trigger } from './utils/events'
-import useDocumentListener from './hooks/useDocumentListener'
-
-const getDiffAlg = (key) => {
-  switch (key) {
-    case 'shallow': {
-      return shallowDiff
-    }
-    case 'keys': {
-      return diffOnUpdatedKeys
-    }
-    case 'deep': {
-      return deepDiff
-    }
-    default: {
-      return (prev, next) => next
-    }
-  }
-}
+import { getDiffAlg } from './utils/diff'
+import { trigger } from './events/utils'
+import { resetEvent, setEvent } from './events/eventNames'
 
 export default function FrmX({
   afterChange,
@@ -49,6 +32,7 @@ export default function FrmX({
 }) {
   const original = useRef(cloneDeep(initialValues))
   const fields = useRef(cloneDeep(initialValues))
+  const observers = useRef(new Set())
   const updated = useRef(new Set())
   const errors = useRef(new Set())
   const isSubmitting = useRef(false)
@@ -62,7 +46,9 @@ export default function FrmX({
   const setOneField = (field, value) => {
     set(fields.current, field, value)
     setOneVisited(field)
-    if (!!afterChange) afterChange(fields.current)
+
+    observers.current.has(field) && trigger(setEvent(formId.current, field), value)
+    !!afterChange && afterChange(fields.current)
   }
 
   // TODO: Deprecate [set/get]OneVisited in v4
@@ -85,13 +71,13 @@ export default function FrmX({
     }
   }
 
-  const useResetListener = (handleReset) => useDocumentListener(`form-${formId.current}-reset`, handleReset)
+  const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
   const resetForm = () => {
     if (onReset && hasUpdates()) onReset(diffAlg.current(original.current, fields.current))
     updated.current = new Set()
     fields.current = cloneDeep(original.current)
-    trigger(`form-${formId.current}-reset`)
+    trigger(resetEvent(formId.current))
   }
 
   const handleSubmit = (e) => {
@@ -126,13 +112,13 @@ export default function FrmX({
     getOneUpdated,
     setOneUpdated,
     getOneError,
+    registerFieldObserver,
     renderDiv,
     resetForm,
     setOneError,
     setOneField,
     setOneVisited,
     schemaValidation,
-    useResetListener,
   }}>
     {(() => {
       if (!renderDiv) {

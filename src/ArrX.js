@@ -3,6 +3,8 @@ import cloneDeep from 'lodash-es/cloneDeep'
 
 import { useFrmX, ArrXContext } from './Contexts'
 import { noProviderFor } from './utils/dx'
+import { resetEvent } from './events/eventNames'
+import useDocumentListener from './hooks/useDocumentListener'
 
 export default function ArrX({
   children,
@@ -20,9 +22,9 @@ export default function ArrX({
 
   const {
     disabled,
+    formId,
     getOneField,
     setOneField,
-    useResetListener,
   } = frmx
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
@@ -30,7 +32,7 @@ export default function ArrX({
   const [items, setItems] = useState(cloneDeep(getOneField(field)))
 
   const handleReset = useRef(() => setItems(cloneDeep(getOneField(field))))
-  useResetListener(handleReset.current)
+  useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = useRef(() => {
     const next = [...items, cloneDeep(model)]

@@ -1,5 +1,5 @@
 import React from "react";
-import { FrmX, FldX, ArrX, BtnX, RstX } from "frmx"
+import { FrmX, FldX, ArrX, BtnX, RstX, useFldXObserver } from "frmx"
 import { isEmail, isHexColor } from "validator"
 import parsePhoneNumber from 'libphonenumber-js'
 
@@ -128,9 +128,7 @@ export default function Demo() {
           />
         </FldX>
 
-        <FldX field="options.colors.main" type="color">
-          <input className={classes.input} />
-        </FldX>
+        <SomeComponent field="options.colors.main" />
 
         <Box className={classes.checkboxContainer}>
           <FldX field="options.checked" type="checkbox">
@@ -138,33 +136,7 @@ export default function Demo() {
           </FldX>
         </Box>
 
-        <ArrX field="objInArr" model={{ name: "", email: "" }}>
-          {({ field, items, addItem, removeItem, disabled }) => (
-            <Box>
-              {items.map((item, i) => (
-                <Box key={`unique-id-${i}`}>
-                  <FldX field={`${field}.${i}.name`} isErrorProp="error">
-                    <TextField
-                      className={classes.input}
-                      variant="outlined"
-                      label="Name"
-                    />
-                  </FldX>
-                  <FldX field={`${field}.${i}.email`}>
-                    <TextField
-                      className={classes.input}
-                      variant="outlined"
-                      label="Email"
-                    />
-                  </FldX>
-
-                  <Button disabled={disabled} onClick={() => removeItem(i)}>Remove</Button>
-                </Box>
-              ))}
-              <Button disabled={disabled} onClick={addItem}>Add Person</Button>
-            </Box>
-          )}
-        </ArrX>
+        <ArrayStuff field="objInArr" />
 
         <FrmX
           initialValues={{ name: "I'm a nested form" }}
@@ -201,4 +173,49 @@ export default function Demo() {
       </FrmX>
     </Box>
   );
+}
+
+function SomeComponent({ field }) {
+  const classes = useStyles();
+
+  useFldXObserver("options.slider", f => console.log("observer1", f))
+
+  return <FldX field={field} type="color">
+    <input className={classes.input} />
+  </FldX>
+}
+
+function ArrayStuff({ field }) {
+  const classes = useStyles();
+
+  const fieldVal = useFldXObserver("options.slider")
+  console.log("observer2", fieldVal)
+
+  return <ArrX field={field} model={{ name: "", email: "" }}>
+    {({ field, items, addItem, removeItem, disabled }) => (
+      <Box>
+        {items.map((item, i) => (
+          <Box key={`unique-id-${i}`}>
+            <FldX field={`${field}.${i}.name`} isErrorProp="error">
+              <TextField
+                className={classes.input}
+                variant="outlined"
+                label="Name"
+              />
+            </FldX>
+            <FldX field={`${field}.${i}.email`}>
+              <TextField
+                className={classes.input}
+                variant="outlined"
+                label="Email"
+              />
+            </FldX>
+
+            <Button disabled={disabled} onClick={() => removeItem(i)}>Remove</Button>
+          </Box>
+        ))}
+        <Button disabled={disabled} onClick={addItem}>Add Person</Button>
+      </Box>
+    )}
+  </ArrX>
 }
