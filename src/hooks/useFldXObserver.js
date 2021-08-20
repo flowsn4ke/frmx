@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFrmX } from "../Contexts"
 import { noProviderFor } from "../utils/dx";
 import useDocumentListener from "./useDocumentListener";
@@ -11,7 +11,9 @@ export default function useFldXObserver(field, userHandler) {
     return undefined
   }
 
-  frmx.registerFieldObserver(field)
+  useEffect(() => {
+    frmx.registerFieldObserver(field)
+  }, [])
 
   const [value, setValue] = useState(frmx.getOneField(field))
 
