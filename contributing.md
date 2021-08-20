@@ -7,7 +7,6 @@
 - [ ] More custom string values for input props
 - [ ] Is there a way to block unmounting when the form isn't submitted and has updates? To show a modal for example
 - [ ] onSubmitIfNoUpdates
-- [ ] Visibility controllers? See #1
 - [ ] Callback on unmount if unsubmitted updates
 - [ ] Return the error state form useFldXObserver
 
