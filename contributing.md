@@ -3,12 +3,13 @@
 👋 Wanna join? We still need to:
 
 ## Features
-- [ ] Find a performant way to make some fields rely on each other's value. What about a readonly hook for a field to start with?
+- [ x ] Find a performant way to make some fields rely on each other's value. => useFldXObserver
 - [ ] More custom string values for input props
 - [ ] Is there a way to block unmounting when the form isn't submitted and has updates? To show a modal for example
 - [ ] onSubmitIfNoUpdates
 - [ ] Visibility controllers? See #1
 - [ ] Callback on unmount if unsubmitted updates
+- [ ] Return the error state form useFldXObserver
 
 ## Performance
 - [ ] Benchmark array methods and see if there's room for improvement
