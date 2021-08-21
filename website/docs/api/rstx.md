@@ -12,4 +12,4 @@ This wrapper component lets you reset all form fields to their initial state (va
 </RstX>
 ```
 
-**Note**: All props passed to `<RstX/>` will be passed on to the underlying component.
+**Note**: All props passed to `<RstX/>` will be passed on to the underlying component, including additional `onClick` logic.
