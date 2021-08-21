@@ -52,7 +52,7 @@ export default function useFldX(field, config = {}) {
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const handleChange = useRef((val) => {
-    val = typeof val === "function" ? val(value) : val
+    val = typeof val === "function" ? val(cloneDeep(value)) : val
     val = !!config?.trim && typeof val === 'string' ? val.trim() : val
     setValue(val)
     setOneField(field, val)
