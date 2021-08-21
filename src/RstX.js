@@ -4,6 +4,7 @@ import { useFrmX } from './Contexts'
 
 export default function RstX({
   children,
+  onClick,
   ...rest
 }) {
   const {
@@ -14,7 +15,7 @@ export default function RstX({
   const props = {
     type: "button",
     ...(disabled ? { disabled } : {}),
-    onClick: resetForm,
+    onClick: [resetForm, onClick],
     ...rest
   }
 
