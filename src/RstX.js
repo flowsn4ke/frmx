@@ -15,7 +15,7 @@ export default function RstX({
   const props = {
     type: "button",
     ...(disabled ? { disabled } : {}),
-    onClick: [resetForm, onClick],
+    onClick: () => [resetForm(), onClick()],
     ...rest
   }
 

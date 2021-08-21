@@ -165,7 +165,7 @@ export default function Demo() {
           </Button>
         </BtnX>
 
-        <RstX>
+        <RstX >
           <Button variant="contained" className={classes.input}>
             Reset
           </Button>
