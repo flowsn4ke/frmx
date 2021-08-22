@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash-es/cloneDeep'
 import { useState, useRef, useEffect } from 'react'
 import { useArrX, useFrmX } from '../Contexts'
-import { noProviderFor } from '../utils/dx'
+import { devEnvOnlyWarn, noProviderFor } from '../utils/dx'
 import { resetEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useDocumentListener from './useDocumentListener'
@@ -25,7 +25,7 @@ export default function useFldX(field, config = {}) {
     setOneField,
   } = frmx
 
-  connsole.log(hasProperty(field))
+  useEffect(() => !hasProperty(field) && devEnvOnlyWarn(`The field '${field}' you're trying to access doesn't exist in the initialValues you provided to the FrmX component. Fix it to avoid bugs.`), [])
 
   const arrx = useArrX()
   const validationMethod = useRef(getValidationMethod(arrx, field, schemaValidation))

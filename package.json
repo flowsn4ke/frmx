@@ -7,10 +7,12 @@
     "react",
     "react-dom",
     "form",
+    "forms",
     "validation",
+    "schema validation",
     "hooks",
-    "render props",
-    "react hooks"
+    "react hooks",
+    "render props"
   ],
   "author": {
     "name": "Theo Louvel",
