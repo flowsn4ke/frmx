@@ -51,14 +51,14 @@ export default function useFldX(field, config = {}) {
   })
   useDocumentListener(resetEvent(formId), handleReset.current)
 
-  const handleChange = useRef((val) => {
-    val = typeof val === "function" ? val(cloneDeep(value)) : val
-    val = !!config?.trim && typeof val === 'string' ? val.trim() : val
-    setValue(val)
-    setOneField(field, val)
-    handleError.current(val)
+  const handleChange = useRef((next) => {
+    next = typeof next === 'function' ? next(value) : next
+    next = !!config?.trim && typeof next === 'string' ? next.trim() : next
+    setValue(next)
+    setOneField(field, next)
+    handleError.current(next)
 
-    if (config?.afterChange && typeof config?.afterChange === "function") config.afterChange(val, field)
+    if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, field)
   })
 
   const onBlur = useRef(() => setTouched(true))

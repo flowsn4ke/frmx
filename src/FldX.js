@@ -12,7 +12,7 @@ export default function FldX({
   disabled: locallyDisabled,
   field,
   getValueFromArgs,
-  // TODO: Rename to errorProp in V4
+  // TODO: Rename to errorProp / errorPropName in V4
   isErrorProp,
   onChangeProp = "onChange",
   spellCheckOn,
