@@ -19,10 +19,13 @@ export default function useFldX(field, config = {}) {
     fields: formFields,
     formId,
     getOneField,
+    hasProperty,
     schemaValidation,
     setOneError,
     setOneField,
   } = frmx
+
+  connsole.log(hasProperty(field))
 
   const arrx = useArrX()
   const validationMethod = useRef(getValidationMethod(arrx, field, schemaValidation))

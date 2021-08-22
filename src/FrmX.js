@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import get from 'lodash-es/get'
 import set from 'lodash-es/set'
+import has from 'lodash-es/has'
 import cloneDeep from 'lodash-es/cloneDeep'
 import { nanoid } from 'nanoid'
 
@@ -39,6 +40,7 @@ export default function FrmX({
   const formId = useRef(nanoid())
   const diffAlg = useRef(getDiffAlg(!!diff ? diff : updatesOnly ? 'shallow' : ''))
 
+  const hasProperty = (path) => has(fields.current, path)
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
@@ -107,6 +109,7 @@ export default function FrmX({
     fields: fields.current,
     formId: formId.current,
     handleSubmit,
+    hasProperty,
     getOneField,
     getOneVisited,
     getOneUpdated,

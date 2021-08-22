@@ -3,9 +3,14 @@
   "version": "3.8.6",
   "description": "Simple, Performant, Lightweight React Forms",
   "keywords": [
+    "frmx",
     "react",
+    "react-dom",
     "form",
-    "frmx"
+    "validation",
+    "hooks",
+    "render props",
+    "react hooks"
   ],
   "author": {
     "name": "Theo Louvel",
