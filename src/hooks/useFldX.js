@@ -57,8 +57,6 @@ export default function useFldX(field, config = {}) {
   useDocumentListener(resetEvent(formId), handleReset.current)
   useDocumentListener(submitEvent(formId), () => setSubmittedOnce(true))
 
-  console.log(submittedOnce)
-
   const handleChange = useRef((next) => {
     next = typeof next === 'function' ? next(value) : next
     next = !!config?.trim && typeof next === 'string' ? next.trim() : next
