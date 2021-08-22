@@ -18,6 +18,8 @@ frmx goes a step further and keeps track of another variable for you in both the
 
 Additionnally, fields not respecting your schema validation methods and having received the `isErrorProp` prop will reflect the error state. The same goes for fields handled by the `useFldX` hook: The ux `error` property will be equal to `true` if a submit event happened and the field is invalid.
 
+It is therefore recommanded that you always have a visual indicator of some kind to reflect the error state for inputs for which you provided a validation method.
+
 ### Setting up schema validation
 
 Let's say you have an `initialValues` object that looks like this:
