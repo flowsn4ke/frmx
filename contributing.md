@@ -17,6 +17,7 @@
 ## DX Error handling
 - [ x ] console.warn in dev mode if a field does not exist
 - [ ] console.warn in dev mode if multiple controllers of one field
+- [ ] console.warn in dev mode if field is set to undefined: creates bugs for controlled components, bad practice
 - [ ] Debug mode
 
 ## Testing
