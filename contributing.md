@@ -3,7 +3,7 @@
 👋 Wanna join? We still need to:
 
 ## Features
-- [ x ] Find a performant way to make some fields rely on each other's value. => useFldXObserver
+- [ x ] Create a field observer hook. => useFldXObserver
 - [ ] More custom string values for input props
 - [ ] Is there a way to block unmounting when the form isn't submitted and has updates? To show a modal for example
 - [ ] onSubmitIfNoUpdates
@@ -15,9 +15,9 @@
 - [ ] Custom .map function?
 
 ## DX Error handling
-- [ ] Should we console.error when a field does not exist
-- [ ] Should we continue to allow multiple instances of one field? Warn the user in dev mode?
-- [ ] Debug mode?
+- [ x ] console.warn in dev mode if a field does not exist
+- [ ] console.warn in dev mode if multiple controllers of one field
+- [ ] Debug mode
 
 ## Testing
 - [ ] Write extensive tests for diffing utils
