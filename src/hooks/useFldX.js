@@ -2,7 +2,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import { useState, useRef, useEffect } from 'react'
 import { useArrX, useFrmX } from '../Contexts'
 import { devEnvOnlyWarn, noProviderFor } from '../utils/dx'
-import { resetEvent } from '../events/eventNames'
+import { resetEvent, submitEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useDocumentListener from './useDocumentListener'
 
@@ -33,6 +33,7 @@ export default function useFldX(field, config = {}) {
   const [value, setValue] = useState(cloneDeep(getOneField(field)))
   const [onceValid, setOnceValid] = useState(!validationMethod.current)
   const [touched, setTouched] = useState(false)
+  const [submittedOnce, setSubmittedOnce] = useState(false)
   const [error, setError] = useState(false)
 
   const handleError = useRef((newVal) => {
@@ -50,9 +51,13 @@ export default function useFldX(field, config = {}) {
 
   const handleReset = useRef(() => {
     setValue(cloneDeep(getOneField(field)))
+    setSubmittedOnce(false)
     handleError.current(value)
   })
   useDocumentListener(resetEvent(formId), handleReset.current)
+  useDocumentListener(submitEvent(formId), () => setSubmittedOnce(true))
+
+  console.log(submittedOnce)
 
   const handleChange = useRef((next) => {
     next = typeof next === 'function' ? next(value) : next
@@ -69,7 +74,7 @@ export default function useFldX(field, config = {}) {
   return {
     value,
     setValue: handleChange.current,
-    error: error && (onceValid || touched),
+    error: error && (onceValid || touched || submittedOnce),
     disabled: formIsDisabled || config?.disabled,
     onBlur: onBlur.current,
   }

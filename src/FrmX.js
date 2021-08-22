@@ -8,7 +8,7 @@ import { nanoid } from 'nanoid'
 import { FrmXContext } from './Contexts'
 import { getDiffAlg } from './utils/diff'
 import { trigger } from './events/utils'
-import { resetEvent, setEvent } from './events/eventNames'
+import { resetEvent, setEvent, submitEvent } from './events/eventNames'
 
 export default function FrmX({
   afterChange,
@@ -87,11 +87,13 @@ export default function FrmX({
     if (isSubmitting.current === true) return
 
     if ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) {
+      trigger(submitEvent(formId.current))
       return
     } else if (
       ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors()) ||
       (!!disabledIf && disabledIf(diffAlg.current(original.current, fields.current)))
     ) {
+      trigger(submitEvent(formId.current))
       if (!!onInvalidSubmit) onInvalidSubmit()
     } else {
       isSubmitting.current = true
