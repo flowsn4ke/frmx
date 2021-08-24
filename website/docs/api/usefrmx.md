@@ -74,6 +74,7 @@ To do so, you can destructure all values frmx interacts with like so (assuming y
 
 | Name                    | Type           |    Description |
 |----------               | -------------  |  ------------- |
+| getFields | function | function that returns all the fields as currently edited. Ex: `const fields = getFields()` |
 | getOneError | function | function that returns if the field has an error. Ex: `const isError = getOneError(field)` |
 | getOneField | function | function that returns a field value. Ex: `const value = getOneField(field)` |
 | getOneUpdated | function | function returning a boolean, Ex: `const isVisited = getOneVisited(field)` |
