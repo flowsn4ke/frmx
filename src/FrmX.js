@@ -73,6 +73,8 @@ export default function FrmX({
     }
   }
 
+  const getFields = () => cloneDeep(fields.current)
+
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
   const resetForm = () => {
@@ -108,10 +110,10 @@ export default function FrmX({
 
   return <FrmXContext.Provider value={{
     disabled,
-    fields: fields.current,
     formId: formId.current,
     handleSubmit,
     hasProperty,
+    getFields,
     getOneField,
     getOneVisited,
     getOneUpdated,

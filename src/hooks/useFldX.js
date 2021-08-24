@@ -16,8 +16,8 @@ export default function useFldX(field, config = {}) {
 
   const {
     disabled: formIsDisabled,
-    fields: formFields,
     formId,
+    getFields,
     getOneField,
     hasProperty,
     schemaValidation,
@@ -36,44 +36,44 @@ export default function useFldX(field, config = {}) {
   const [submittedOnce, setSubmittedOnce] = useState(false)
   const [error, setError] = useState(false)
 
-  const handleError = useRef((newVal) => {
+  const handleError = (newVal) => {
     if (!!validationMethod.current) {
-      const isError = !validationMethod.current(newVal, formFields)
+      const isError = !validationMethod.current(newVal, getFields())
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
     }
-  })
+  }
   useEffect(() => {
-    handleError.current(value)
+    handleError(value)
     return () => setOneError(field, false)
   }, [])
 
-  const handleReset = useRef(() => {
+  const handleReset = () => {
     setValue(cloneDeep(getOneField(field)))
     setSubmittedOnce(false)
-    handleError.current(value)
-  })
-  useDocumentListener(resetEvent(formId), handleReset.current)
+    handleError(value)
+  }
+  useDocumentListener(resetEvent(formId), handleReset)
   useDocumentListener(submitEvent(formId), () => setSubmittedOnce(true))
 
-  const handleChange = useRef((next) => {
+  const handleChange = (next) => {
     next = typeof next === 'function' ? next(value) : next
     next = !!config?.trim && typeof next === 'string' ? next.trim() : next
     setValue(next)
     setOneField(field, next)
-    handleError.current(next)
+    handleError(next)
 
     if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, field)
-  })
+  }
 
-  const onBlur = useRef(() => setTouched(true))
+  const onBlur = () => setTouched(true)
 
   return {
     value,
-    setValue: handleChange.current,
+    setValue: handleChange,
     error: error && (onceValid || touched || submittedOnce),
     disabled: formIsDisabled || config?.disabled,
-    onBlur: onBlur.current,
+    onBlur,
   }
 }
