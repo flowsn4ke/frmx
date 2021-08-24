@@ -43,11 +43,7 @@ const validationMethods = {
     else return true
   },
   options: {
-    checked: (a, b) => {
-      console.log(a, b)
-
-      return isTrue(a)
-    },
+    checked: isTrue,
     colors: {
       main: isHexColor
     }
