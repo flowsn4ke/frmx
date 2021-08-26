@@ -42,10 +42,7 @@ const validationMethods = {
     // ONLY BUBBLES UP RELATIONAL ERRORS UPON INVALID SUBMIT OR FIELD CHANGE
     return form['options.checked']
   },
-  email: (val) => {
-    // const copy = val
-    isEmail(val)
-  },
+  email: (val) => isEmail(val),
   // email: isEmail,
   phoneNumber: val => {
     const n = parsePhoneNumber(val)
