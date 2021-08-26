@@ -77,6 +77,8 @@ And voilà!
 
 It is to note that in that case, the field will either need to be changed or the form to be submitted once for the error to bubble up at the moment. If you need instant feedback you can setup fields with useFldX for now.
 
+Another note: **Any attempt to set the object's properties will result in an error**. This is by design: Validation is not the step where sanitization should happen. If you need to do so because the library you use for validation works that way, make a copy of the value before validating it or make sure you only call that function with the field value, not with both the value and the formData object. A common bug would be calling a validation function with both the new value and the formData object, since the second argument is also often where the configuration object is.
+
 ### Validating arrays
 
 It's recommanded that you use the `<ArrX/>` component when working with arrays in frmx. That way you can easily write data validation for each and every array element, no matter its structure! Otherwise you can just write validation based on indeces, but that would be cumbersome, right?
