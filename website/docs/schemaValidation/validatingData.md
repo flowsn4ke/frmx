@@ -57,6 +57,25 @@ onSubmit={formData => console.log(formData)}
   {/* Here be some form fields */}
 <FrmX>
 ```
+### Relational validation
+
+You can also validate based on other fields value.
+
+To do so, just use the read-only object in the `schemaValidation` function you define (this is the second argument passed to the function), like so:
+
+```js
+const schemaValidation = {
+  foo: (value, formData) => value.length > 2 && formData['options.hello'] < 8,
+  options:
+   {
+     hello: value => value > 4
+    }
+  }
+```
+
+And voilà!
+
+It is to note that in that case, the field will either need to be changed or the form to be submitted once for the error to bubble up at the moment. If you need instant feedback you can setup fields with useFldX for now.
 
 ### Validating arrays
 

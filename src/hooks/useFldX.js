@@ -16,8 +16,8 @@ export default function useFldX(field, config = {}) {
 
   const {
     disabled: formIsDisabled,
+    fieldsProxy,
     formId,
-    getFields,
     getOneField,
     hasProperty,
     schemaValidation,
@@ -38,7 +38,7 @@ export default function useFldX(field, config = {}) {
 
   const handleError = (newVal) => {
     if (!!validationMethod.current) {
-      const isError = !validationMethod.current(newVal, getFields())
+      const isError = !validationMethod.current(newVal, fieldsProxy)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(field, isError)
@@ -55,7 +55,11 @@ export default function useFldX(field, config = {}) {
     handleError(value)
   }
   useDocumentListener(resetEvent(formId), handleReset)
-  useDocumentListener(submitEvent(formId), () => setSubmittedOnce(true))
+  const handleSubmit = () => {
+    setSubmittedOnce(true)
+    handleError(value)
+  }
+  useDocumentListener(submitEvent(formId), handleSubmit)
 
   const handleChange = (next) => {
     next = typeof next === 'function' ? next(value) : next

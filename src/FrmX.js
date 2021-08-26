@@ -39,8 +39,14 @@ export default function FrmX({
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
   const diffAlg = useRef(getDiffAlg(!!diff ? diff : updatesOnly ? 'shallow' : ''))
+  // Some litterature: https://javascript.info/proxy
+  const fieldsProxy = useRef(new Proxy(fields.current, {
+    get: (o, p) => get(o, p),
+    set: () => null,
+    deleteProperty: () => null,
+  }))
 
-  const hasProperty = (path) => has(fields.current, path)
+  const hasProperty = (path) => has(fieldsProxy.current, path)
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
@@ -73,7 +79,7 @@ export default function FrmX({
     }
   }
 
-  const getFields = () => cloneDeep(fields.current)
+  const getFields = () => cloneDeep(fieldsProxy.current)
 
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
@@ -113,6 +119,7 @@ export default function FrmX({
     formId: formId.current,
     handleSubmit,
     hasProperty,
+    fieldsProxy: fieldsProxy.current,
     getFields,
     getOneField,
     getOneVisited,
