@@ -91,7 +91,7 @@ export default function FrmX({
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e?.preventDefault()
     if (isSubmitting.current === true) return
 
     if ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) {

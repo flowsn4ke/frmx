@@ -66,6 +66,7 @@ export default function Demo() {
   return (
     <Box className={classes.container}>
       <FrmX
+        renderDiv
         // afterChange={console.log}
         className={classes.formContainer}
         // updatesOnly

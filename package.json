@@ -5,14 +5,7 @@
   "keywords": [
     "frmx",
     "react",
-    "react-dom",
-    "form",
-    "forms",
-    "validation",
-    "schema validation",
-    "hooks",
-    "react hooks",
-    "render props"
+    "form"
   ],
   "author": {
     "name": "Theo Louvel",
