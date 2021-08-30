@@ -7,8 +7,10 @@ import {
   HiOutlineLightningBolt,
   HiOutlineRefresh,
   HiOutlineFilter,
-  HiOutlineViewGrid,
-  HiOutlineCubeTransparent
+  HiOutlineCubeTransparent,
+  HiOutlineEye,
+  HiOutlineSparkles,
+  HiOutlineCheckCircle
 } from "react-icons/hi"
 
 const FeatureList = [
@@ -40,6 +42,15 @@ const FeatureList = [
     ),
   },
   {
+    title: 'Flexible validation',
+    Svg: HiOutlineCheckCircle,
+    description: (
+      <>
+        No two inputs need to be validated the same way. That's why <code>frmx</code> works on a 'bring your own functions' model and allows you to validate your data any way you'd like.
+      </>
+    ),
+  },
+  {
     title: 'Reusable inputs',
     Svg: HiOutlineRefresh,
     description: (
@@ -66,20 +77,38 @@ const FeatureList = [
       </>
     ),
   },
+  {
+    title: 'Observers',
+    Svg: HiOutlineEye,
+    description: (
+      <>
+        Fields often depend on each other's values. <code>frmx</code> accounts for that and puts at your disposal observers available as hooks to keep track of other values anywhere in your forms.
+      </>
+    ),
+  },
+  {
+    title: 'Relational validation',
+    Svg: HiOutlineSparkles,
+    description: (
+      <>
+        Fields often depend on each other's values. <code>frmx</code> accounts for that and allows you to validate fields based of each other's value. No invalid data shall pass!
+      </>
+    ),
+  },
 ];
 
 function Feature({ Svg, title, description }) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="card">
-        <div className="text--center">
-          <Svg className={clsx(styles.featureSvg)} alt={title} />
-        </div>
-        <div className="text--center padding-horiz--md">
-          <h3>{title}</h3>
-          <p>{description}</p>
-        </div>
+      {/* <div className="card"> */}
+      <div className="text--center">
+        <Svg className={clsx(styles.featureSvg)} alt={title} />
       </div>
+      <div className="text--center padding-horiz--md">
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </div>
+      {/* </div> */}
     </div>
   );
 }
