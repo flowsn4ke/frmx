@@ -57,6 +57,27 @@ onSubmit={formData => console.log(formData)}
   {/* Here be some form fields */}
 <FrmX>
 ```
+### Relational validation
+
+You can also validate based on other fields value.
+
+To do so, just use the read-only object in the `schemaValidation` function you define (this is the second argument passed to the function), like so:
+
+```js
+const schemaValidation = {
+  foo: (value, formData) => value.length > 2 && formData['options.hello'] < 8,
+  options:
+   {
+     hello: value => value > 4
+    }
+  }
+```
+
+And voilà!
+
+It is to note that in that case, the field will either need to be changed or the form to be submitted once for the error to bubble up at the moment. If you need instant feedback you can setup fields with useFldX for now.
+
+Another note: **Any attempt to set the object's properties will result in an error**. This is by design: Validation is not the step where sanitization should happen. If you need to do so because the library you use for validation works that way, make a copy of the value before validating it or make sure you only call that function with the field value, not with both the value and the formData object. A common bug would be calling a validation function with both the new value and the formData object, since the second argument is also often where the configuration object is.
 
 ### Validating arrays
 

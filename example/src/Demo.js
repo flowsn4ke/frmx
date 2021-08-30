@@ -36,7 +36,14 @@ const fields = {
 const isTrue = (val) => val;
 
 const validationMethods = {
-  email: isEmail,
+  name: (val, form) => {
+    // implement some way to register observers inside validation?
+    // now only reruns after some changes have been made to the field
+    // ONLY BUBBLES UP RELATIONAL ERRORS UPON INVALID SUBMIT OR FIELD CHANGE
+    return form['options.checked']
+  },
+  email: (val) => isEmail(val),
+  // email: isEmail,
   phoneNumber: val => {
     const n = parsePhoneNumber(val)
     if (n && !n?.isValid()) return false
@@ -90,7 +97,7 @@ export default function Demo() {
           <Slider valueLabelDisplay="auto" />
         </FldX>
 
-        <FldX field="name" type="text" afterChange={console.log}>
+        <FldX field="name" type="text" afterChange={console.log} isErrorProp="error">
           <TextField
             className={classes.input}
             variant="outlined"
