@@ -1,6 +1,6 @@
-import { cloneElement, Children, useRef, createElement } from 'react'
+import { cloneElement, Children, useRef } from 'react'
 import useFldX from './hooks/useFldX'
-import { devEnvOnly, noProviderFor } from './utils/dx'
+import { noProviderFor } from './utils/dx'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -12,6 +12,7 @@ export default function FldX({
   disabled: locallyDisabled,
   field,
   getValueFromArgs,
+  // TODO: additionnal error logic custom like disabled
   // TODO: Rename to errorProp / errorPropName in V4
   isErrorProp,
   onChangeProp = "onChange",
