@@ -1,7 +1,7 @@
 import { cloneElement, Children, useRef } from 'react'
-import { useFrmX } from './Contexts'
+// import { useFrmX } from './Contexts'
 import useFldX from './hooks/useFldX'
-import { noProviderFor } from './utils/dx'
+import { devEnvOnlyWarn, noProviderFor } from './utils/dx'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function FldX({
@@ -40,7 +40,7 @@ export default function FldX({
     onBlur
   } = fldx
 
-  const { handleSubmit } = useFrmX()
+  // const { handleSubmit } = useFrmX()
 
   const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
@@ -51,7 +51,7 @@ export default function FldX({
     type,
     onBlur,
     onChange: onChange.current,
-    onKeyPress: e => e.key === 'Enter' && handleSubmit(e),
+    // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: error } : {}),
@@ -62,5 +62,10 @@ export default function FldX({
     ...rest
   }
 
-  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
+  try {
+    return Children.only(children) && Children.map(children, child => cloneElement(child, props))
+  } catch (err) {
+    devEnvOnlyWarn(`The FldX component can have only one child component. Check out the field ${field} to fix the problem.`)
+    return null
+  }
 }
