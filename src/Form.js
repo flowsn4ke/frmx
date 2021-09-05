@@ -26,7 +26,6 @@ export default function FrmX({
   onSubmit,
   renderDiv,
   schemaValidation = {},
-  updatesOnly,
   ...rest
 }) {
   const original = useRef(cloneDeep(initialValues))
