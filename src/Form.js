@@ -28,14 +28,13 @@ export default function FrmX({
   schemaValidation = {},
   ...rest
 }) {
-  const original = useRef(cloneDeep(initialValues))
   const fields = useRef(cloneDeep(initialValues))
   const observers = useRef(new Set())
   const updated = useRef(new Set())
   const errors = useRef(new Set())
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
-  const diffAlg = useRef(getDiffAlg(!!diff ? diff : updatesOnly ? 'shallow' : ''))
+  const diffAlg = useRef(getDiffAlg(diff))
   // Read-only proxy. See https://javascript.info/proxy
   const fieldsProxy = useRef(new Proxy(fields.current, {
     get: (o, p) => get(o, p),
@@ -75,9 +74,9 @@ export default function FrmX({
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
   const resetForm = () => {
-    if (onReset && hasUpdates()) onReset(diffAlg.current(original.current, fields.current))
+    if (onReset && hasUpdates()) onReset(diffAlg.current(initialValues, fields.current))
     updated.current = new Set()
-    fields.current = cloneDeep(original.current)
+    fields.current = cloneDeep(initialValues)
     trigger(resetEvent(formId.current))
   }
 
@@ -85,12 +84,12 @@ export default function FrmX({
     e?.preventDefault()
     if (isSubmitting.current === true) return
 
-    if ((updatesOnly || disableIfNoUpdates || !!diff) && !hasUpdates()) {
+    if ((disableIfNoUpdates || !!diff) && !hasUpdates()) {
       trigger(submitEvent(formId.current))
       return
     } else if (
       ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
-      (!!disabledIf && disabledIf(diffAlg.current(original.current, fields.current)))
+      (!!disabledIf && disabledIf(diffAlg.current(initialValues, fields.current)))
     ) {
       trigger(submitEvent(formId.current))
       if (!!onInvalidSubmit) onInvalidSubmit()
@@ -98,7 +97,7 @@ export default function FrmX({
       isSubmitting.current = true
       updated.current = new Set()
       errors.current = new Set()
-      onSubmit(diffAlg.current(original.current, fields.current))
+      onSubmit(diffAlg.current(initialValues, fields.current))
       if (clearAfterSubmit) resetForm()
     }
 

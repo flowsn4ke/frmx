@@ -69,7 +69,6 @@ export default function Demo() {
         renderDiv
         // afterChange={console.log}
         className={classes.formContainer}
-        // updatesOnly
         initialValues={fields}
         onSubmit={(values) => console.log(values)}
         onReset={(values) => console.log("reset")}
