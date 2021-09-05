@@ -47,9 +47,10 @@
 
 ### Material UI
 
-- [ ] Autocomple component
-- [ ] Reexport all input components from @material-ui, hooked up for frmx (from another pkg)
+- [ x ] Reexport all input components from @material-ui/core
+- [ ] Autocomple component (@material-ui/lab)
+- [ ] Create demo
 
 ### Chakra UI
 
-- [ ] Reexport all input components from @material-ui, hooked up for frmx (from another pkg)
+- [ ] Reexport all input components from @material-ui
