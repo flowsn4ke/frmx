@@ -15,7 +15,6 @@ export default function FldX({
   getValueFromArgs,
   id,
   name,
-  // TODO: Rename to errorProp / errorPropName in V4
   isErrorProp,
   onChangeProp = "onChange",
   spellCheckOn,
@@ -52,7 +51,7 @@ export default function FldX({
     type,
     onBlur,
     onChange: onChange.current,
-    // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
+    onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     id: !!id ? id : `${formId}-${path}`,

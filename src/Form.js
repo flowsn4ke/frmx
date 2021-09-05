@@ -56,12 +56,6 @@ export default function FrmX({
     !!afterChange && afterChange(fields.current)
   }
 
-  // TODO: Deprecate [set/get]OneVisited in v4
-  const getOneVisited = (field) => updated.current.has(field)
-  const setOneVisited = (field) => {
-    if (!updated.current.has(field)) updated.current.add(field)
-  }
-
   const getOneUpdated = (field) => updated.current.has(field)
   const setOneUpdated = (field) => {
     if (!updated.current.has(field)) updated.current.add(field)
@@ -119,7 +113,6 @@ export default function FrmX({
     fieldsProxy: fieldsProxy.current,
     getFields,
     getOneField,
-    getOneVisited,
     getOneUpdated,
     setOneUpdated,
     getOneError,
@@ -128,7 +121,6 @@ export default function FrmX({
     resetForm,
     setOneError,
     setOneField,
-    setOneVisited,
     schemaValidation,
   }}>
     {(() => {
