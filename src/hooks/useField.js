@@ -52,6 +52,8 @@ export default function useFldX(path, config = {}) {
   const handleReset = () => {
     setValue(cloneDeep(getOneField(path)))
     setSubmittedOnce(false)
+    setOnceValid(false)
+    setTouched(false)
     handleError(value)
   }
   useDocumentListener(resetEvent(formId), handleReset)
