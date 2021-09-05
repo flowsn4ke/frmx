@@ -49,7 +49,7 @@ export default function FrmX({
   const getOneField = (field) => get(fields.current, field)
   const setOneField = (field, value) => {
     set(fields.current, field, value)
-    setOneVisited(field)
+    setOneUpdated(field)
 
     observers.current.has(field) && trigger(setEvent(formId.current, field), value)
     !!afterChange && afterChange(fields.current)
