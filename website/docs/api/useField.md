@@ -48,11 +48,11 @@ export default function MyComponent() {
       onSubmit={formData => alert(JSON.stringify(formData, null, 2))}
       >
 
-          <Field field="foo">
+          <Field path="foo">
               <TextField>
           </Field>
 
-          <CustomCheckboX field="bar.baz">
+          <CustomCheckboX path="bar.baz">
 
           </Field>
 

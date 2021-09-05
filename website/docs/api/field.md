@@ -31,7 +31,7 @@ sidebar_position: 2
 autoCapitalizeOff
 autoCorrectOff
 autoComplete='email'
-field="a.nested.field"
+path="a.nested.field"
 getValueFromArgs
 id='im-a-teapot'
 isErrorProp

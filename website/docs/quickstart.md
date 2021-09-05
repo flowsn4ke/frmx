@@ -32,7 +32,7 @@ export default function MyComponent() {
 
   <Form initialValues={initialValues} onSubmit={onSubmit}>
 
-    <Field field="foo.bar">
+    <Field path="foo.bar">
       <input />
     </Field>
 
@@ -66,7 +66,7 @@ export default function MyComponent() {
     onSubmit={onSubmit}
   >
 
-    <Field field="foo.bar" isErrorProp="error">
+    <Field path="foo.bar" isErrorProp="error">
       <ComponentAcceptingAnErrorProp />
     </Field>
 

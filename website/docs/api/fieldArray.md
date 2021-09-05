@@ -34,7 +34,7 @@ export default function MyComponent() {
     >
       <FieldArray
       startWithOneMore
-      field="arr"
+      path="arr"
       model={{ name: "", email: "" }}
       >
         {({ field, items, addItem, removeItem, disabled }) => (
@@ -42,11 +42,11 @@ export default function MyComponent() {
             {items.map((item, i) => (
               <div key={`unique-id-${i}`}>
 
-                <Field field={`${field}.${i}.name`}>
+                <Field path={`${field}.${i}.name`}>
                   <input />
                 </Field>
 
-                <Field field={`${field}.${i}.email`}>
+                <Field path={`${field}.${i}.email`}>
                   <input />
                 </Field>
 
