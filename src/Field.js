@@ -9,7 +9,7 @@ export default function FldX({
   autoCapitalizeOn,
   autoCompleteOff,
   autoCorrectOn,
-  children: ChildComponent,
+  children,
   disabled: locallyDisabled,
   path,
   getValueFromArgs,
@@ -66,9 +66,9 @@ export default function FldX({
   }
 
   try {
-    return Children.only(ChildComponent) && cloneElement(ChildComponent, props)
+    return Children.only(children) && cloneElement(children, props)
   } catch (err) {
     devEnvOnlyWarn(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
-    return ChildComponent
+    return children
   }
 }

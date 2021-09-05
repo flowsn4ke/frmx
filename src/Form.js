@@ -17,11 +17,9 @@ export default function FrmX({
   clearAfterSubmit,
   diff,
   disabled,
-  // TODO: Rename to validIf in v4
   disabledIf,
-  // TODO: Rename to disableSubmitIfNoUpdates in v4
   disableIfNoUpdates,
-  disableSubmitIfInvalid,
+  disableIfInvalid,
   initialValues = {},
   onInvalidSubmit,
   onReset,
@@ -39,7 +37,7 @@ export default function FrmX({
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
   const diffAlg = useRef(getDiffAlg(!!diff ? diff : updatesOnly ? 'shallow' : ''))
-  // Some litterature: https://javascript.info/proxy
+  // Read-only proxy. See https://javascript.info/proxy
   const fieldsProxy = useRef(new Proxy(fields.current, {
     get: (o, p) => get(o, p),
     set: () => null,
@@ -98,7 +96,7 @@ export default function FrmX({
       trigger(submitEvent(formId.current))
       return
     } else if (
-      ((disableSubmitIfInvalid || onInvalidSubmit) && hasErrors()) ||
+      ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
       (!!disabledIf && disabledIf(diffAlg.current(original.current, fields.current)))
     ) {
       trigger(submitEvent(formId.current))

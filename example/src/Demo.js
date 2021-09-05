@@ -75,7 +75,7 @@ export default function Demo() {
         onReset={(values) => console.log("reset")}
         // disabled
         // clearAfterSubmit
-        disableSubmitIfInvalid
+        disableIfInvalid
         // disabledIf={(formData) => formData.name === formData.newPassword}
         disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
