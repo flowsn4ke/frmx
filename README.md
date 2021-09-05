@@ -32,9 +32,3 @@ schemaValidation={{ bar: { baz: str => str.length > 2 } }}
 ## How it works
 
 To get both performance and flexibility with a simple API, `Form` uses React's **context API only to store refs**, expose a few getter / setters methods and give forms a unique id. That way, updating form data doesn't trigger rerendering everything inside the `<Form/>` component. All **fields keep track of their own state** and only update the refs as a **side effect**, while various events regarding form validity / submitting / resetting are passed through **synthetic events** that do not trigger rerenders of the context provider itself.
-
-
-
-
-
-
