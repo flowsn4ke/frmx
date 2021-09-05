@@ -1,24 +1,24 @@
 ---
 id: usefrmx
-title: useFrmX Hook
+title: useForm Hook
 sidebar_position: 6
 ---
 
-The `useFrmX` hook must be consumed inside a `<FrmX/>` provider, as it uses its context.
+The `useForm` hook must be consumed inside a `<Form/>` provider, as it uses its context.
 
-## Check out useFldX first
+## Check out useField first
 
-It's probable that you can get away using the `useFldX` hook, which provides state management out of the box. Please check it out before reaching for `useFrmX`!
+It's probable that you can get away using the `useField` hook, which provides state management out of the box. Please check it out before reaching for `useForm`!
 
-## useFrmX
+## useForm
 
-In some rare cases, you might not be able to use FldX because of some input wrapper for instance (which happens with some Material UI fields). You can then use the `useFrmX` hook to manually update and get back the values for this specific field. This field should maintain its own state and update the values (and) held by frmx as a side effect, like so:
+In some rare cases, you might not be able to use Field because of some input wrapper for instance (which happens with some Material UI fields). You can then use the `useForm` hook to manually update and get back the values for this specific field. This field should maintain its own state and update the values (and) held by frmx as a side effect, like so:
 
 ### Example Usage
 
 ```jsx
 import React, { useState } from 'react'
-import { FrmX, FldX, BtnX, useFrmX } from "frmx"
+import { Form, Field, Submit, useForm } from "frmx"
 import { TextField, Button } from "@material-ui/core"
 import { WeirdInput } from "some-random-pkg"
 
@@ -26,7 +26,7 @@ function CustomCheckboX({field}) {
   const {
     getOneField,
     setOneField,
-  } = useFrmX()
+  } = useForm()
 
   const [val, setVal] = useState(getOneField(field))
 
@@ -43,23 +43,23 @@ function CustomCheckboX({field}) {
 
 export default function MyComponent() {
   return <>
-  <FrmX
+  <Form
       initialValues={{ foo: "", bar: { baz: false } }}
       onSubmit={formData => alert(JSON.stringify(formData, null, 2))}
       >
 
-          <FldX field="foo">
+          <Field field="foo">
               <TextField>
-          </FldX>
+          </Field>
 
           <CustomCheckboX field="bar.baz">
 
-          </FldX>
+          </Field>
 
-          <BtnX>
+          <Submit>
               <Button>Submit</Button>
-          </BtnX>
-      </FrmX>
+          </Submit>
+      </Form>
   </>
 }
 ```
@@ -70,7 +70,7 @@ export default function MyComponent() {
 
 ### Full API reference
 
-To do so, you can destructure all values frmx interacts with like so (assuming you're inside a `<FrmX></FrmX>` provider):
+To do so, you can destructure all values frmx interacts with like so (assuming you're inside a `<Form></Form>` provider):
 
 | Name                    | Type           |    Description |
 |----------               | -------------  |  ------------- |
@@ -86,10 +86,10 @@ To do so, you can destructure all values frmx interacts with like so (assuming y
 | setOneUpdated | function | function to mark a field as visited. Ex: `setOneVisited(field)` |
 | useResetListener | function | If you wish to listen for reset events inside fields you built with hooks to reset them along with the rest of the form, just call this function inside your component and pass it a function to execute upon reset. Ex: `useResetListener(console.log("hi from the reset listener"))` |
 
-**Note**: You can also test wether or not you're inside a `<FrmX></FrmX>` provider by not destructuring values right away, like so:
+**Note**: You can also test wether or not you're inside a `<Form></Form>` provider by not destructuring values right away, like so:
 
 ```js
-const frmx = useFrmX()
+const frmx = useForm()
 
 if (!!frmx) {
   // ...do stuff here
@@ -98,4 +98,4 @@ if (!!frmx) {
 }
 ```
 
-You can check out the `<FldX/>` implementation for more inspiration.
+You can check out the `<Field/>` implementation for more inspiration.

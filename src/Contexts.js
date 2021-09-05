@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 
-export const FrmXContext = createContext()
-export const useFrmX = () => useContext(FrmXContext)
+export const FormContext = createContext()
+export const useForm = () => useContext(FormContext)
 
-export const ArrXContext = createContext()
-export const useArrX = () => useContext(ArrXContext)
+export const ArrayContext = createContext()
+export const useArray = () => useContext(ArrayContext)

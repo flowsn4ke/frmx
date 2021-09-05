@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useFrmX } from "../Contexts"
+import { useForm } from "../Contexts"
 import { noProviderFor } from "../utils/dx";
 import useDocumentListener from "./useDocumentListener";
 
 export default function useFldXObserver(field, userHandler) {
-  const frmx = useFrmX()
+  const frmx = useForm()
 
   if (!frmx) {
     noProviderFor('the useFldXObserver() hook')

@@ -1,13 +1,13 @@
 import cloneDeep from 'lodash-es/cloneDeep'
 import { useState, useRef, useEffect } from 'react'
-import { useArrX, useFrmX } from '../Contexts'
+import { useArray, useForm } from '../Contexts'
 import { devEnvOnlyWarn, noProviderFor } from '../utils/dx'
 import { resetEvent, submitEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useDocumentListener from './useDocumentListener'
 
-export default function useFldX(field, config = {}) {
-  const frmx = useFrmX()
+export default function useFldX(path, config = {}) {
+  const frmx = useForm()
 
   if (!frmx) {
     if (!config?.native) noProviderFor('the useFldX() hook')
@@ -25,12 +25,12 @@ export default function useFldX(field, config = {}) {
     setOneField,
   } = frmx
 
-  useEffect(() => !hasProperty(field) && devEnvOnlyWarn(`The field '${field}' you're trying to access doesn't exist in the initialValues you provided to the FrmX component. Fix it to avoid bugs.`), [])
+  useEffect(() => !hasProperty(path) && devEnvOnlyWarn(`The field '${path}' you're trying to access doesn't exist in the initialValues you provided to the FrmX component. Fix it to avoid bugs.`), [])
 
-  const arrx = useArrX()
-  const validationMethod = useRef(getValidationMethod(arrx, field, schemaValidation))
+  const arrx = useArray()
+  const validationMethod = useRef(getValidationMethod(arrx, path, schemaValidation))
 
-  const [value, setValue] = useState(cloneDeep(getOneField(field)))
+  const [value, setValue] = useState(cloneDeep(getOneField(path)))
   const [onceValid, setOnceValid] = useState(!validationMethod.current)
   const [touched, setTouched] = useState(false)
   const [submittedOnce, setSubmittedOnce] = useState(false)
@@ -41,16 +41,16 @@ export default function useFldX(field, config = {}) {
       const isError = !validationMethod.current(newVal, fieldsProxy)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
-      setOneError(field, isError)
+      setOneError(path, isError)
     }
   }
   useEffect(() => {
     handleError(value)
-    return () => setOneError(field, false)
+    return () => setOneError(path, false)
   }, [])
 
   const handleReset = () => {
-    setValue(cloneDeep(getOneField(field)))
+    setValue(cloneDeep(getOneField(path)))
     setSubmittedOnce(false)
     handleError(value)
   }
@@ -65,10 +65,10 @@ export default function useFldX(field, config = {}) {
     next = typeof next === 'function' ? next(value) : next
     next = !!config?.trim && typeof next === 'string' ? next.trim() : next
     setValue(next)
-    setOneField(field, next)
+    setOneField(path, next)
     handleError(next)
 
-    if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, field)
+    if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, path)
   }
 
   const onBlur = () => setTouched(true)

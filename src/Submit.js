@@ -1,5 +1,5 @@
 import { cloneElement, Children } from 'react'
-import { useFrmX } from './Contexts'
+import { useForm } from './Contexts'
 
 export default function BtnX({
   disabled: locallyDisabled,
@@ -10,7 +10,7 @@ export default function BtnX({
     disabled: formIsDisabled,
     renderDiv,
     handleSubmit,
-  } = useFrmX()
+  } = useForm()
 
   const disabled = locallyDisabled || formIsDisabled
 
@@ -20,5 +20,5 @@ export default function BtnX({
     ...rest
   }
 
-  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
+  return Children.only(children) && cloneElement(children, props)
 }

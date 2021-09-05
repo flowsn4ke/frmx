@@ -5,7 +5,7 @@ import has from 'lodash-es/has'
 import cloneDeep from 'lodash-es/cloneDeep'
 import { nanoid } from 'nanoid'
 
-import { FrmXContext } from './Contexts'
+import { FormContext } from './Contexts'
 import { getDiffAlg } from './utils/diff'
 import { trigger } from './events/utils'
 import { resetEvent, setEvent, submitEvent } from './events/eventNames'
@@ -114,7 +114,7 @@ export default function FrmX({
     isSubmitting.current = false
   }
 
-  return <FrmXContext.Provider value={{
+  return <FormContext.Provider value={{
     disabled,
     formId: formId.current,
     handleSubmit,
@@ -150,5 +150,5 @@ export default function FrmX({
         </div>
       }
     })()}
-  </FrmXContext.Provider>
+  </FormContext.Provider>
 }

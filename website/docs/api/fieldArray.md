@@ -1,24 +1,24 @@
 ---
 id: arrx
-title: ArrX Component
+title: FieldArray Component
 sidebar_position: 5
 ---
 
-`<ArrX/>` controls a `field` and helps you handle arrays in forms.
+`<FieldArray/>` controls a `field` and helps you handle arrays in forms.
 
-## ArrX Props
+## FieldArray Props
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
 | startWithOneMore | boolean | false | Add one empty element in the array on mount (using the provided model) |
-| field | string | undefined |  The field containing the array that should be controlled by `<ArrX/>`. You can target nested fields like so `"a.nested.field"` (lodash notation). Don't  |
+| field | string | undefined |  The field containing the array that should be controlled by `<FieldArray/>`. You can target nested fields like so `"a.nested.field"` (lodash notation). Don't  |
 | model | object | `""` | The structure of one array element, which can be of any type you need |
 
 ## Example Usage
 
 ### Render props
 
-`<ArrX/>` uses render props that allow you to use `<FldX/>` for all the values in one array element, no matter their nesting:
+`<FieldArray/>` uses render props that allow you to use `<Field/>` for all the values in one array element, no matter their nesting:
 
 ```jsx {17,32}
 export default function MyComponent() {
@@ -27,12 +27,12 @@ export default function MyComponent() {
   const schemaValidation = { arr: { name: s => s.length > 3 } }
 
   return <>
-    <FrmX
+    <Form
       initialValues={initialValues}
       schemaValidation={validationMethods}
       onSubmit={formData => console.log(formData)}
     >
-      <ArrX
+      <FieldArray
       startWithOneMore
       field="arr"
       model={{ name: "", email: "" }}
@@ -42,13 +42,13 @@ export default function MyComponent() {
             {items.map((item, i) => (
               <div key={`unique-id-${i}`}>
 
-                <FldX field={`${field}.${i}.name`}>
+                <Field field={`${field}.${i}.name`}>
                   <input />
-                </FldX>
+                </Field>
 
-                <FldX field={`${field}.${i}.email`}>
+                <Field field={`${field}.${i}.email`}>
                   <input />
-                </FldX>
+                </Field>
 
                 <button disabled={disabled} onClick={() => removeItem(i)}>Remove</button>
               </div>
@@ -56,8 +56,8 @@ export default function MyComponent() {
             <button disabled={disabled} onClick={addItem}>Add Person</button>
           </div>
         )}
-      </ArrX>
-    </FrmX>
+      </FieldArray>
+    </Form>
   </>
 }
 

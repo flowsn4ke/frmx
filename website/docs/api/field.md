@@ -1,10 +1,10 @@
 ---
 id: fldx
-title: FldX Component
+title: Field Component
 sidebar_position: 2
 ---
 
-## FldX Props
+## Field Props
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
@@ -14,8 +14,10 @@ sidebar_position: 2
 | autoCorrectOn | boolean | false | Enables autocorrect |
 | disabled | boolean | undefined | Programmatically disable a field. Ex: `disabled={someCondition === true}` |
 | field | string | undefined |  The field that should be controlled by frmx. You can target nested fields like so `"a.nested.field"` (lodash notation). |
-| getValueFromArgs | function | `(args) => args[0].target.value` | Pass a custom function to get back the value from the onChange args. Useful for instance when interacting with material ui components as they often pass the `newValue` through the second argument. Example: `<FldX ... getValueFromArgs={args => args[1]}>...</FldX>` |
+| getValueFromArgs | function | `(args) => args[0].target.value` | Pass a custom function to get back the value from the onChange args. Useful for instance when interacting with material ui components as they often pass the `newValue` through the second argument. Example: `<Field ... getValueFromArgs={args => args[1]}>...</Field>` |
+| id | string | undefined | The id you wish to give to the underlying component. |
 | isErrorProp | string | undefined | The name of the prop used by the underlying component to trigger an error state based on a boolean. |
+| name | string | undefined | The name you wish to give to the underlying component. |
 | onChangeProp | string | "onChange" | The name of the prop used to update the component with its value. |
 | trim | boolean | false | Pass this prop if you want the input to be trimmed (if it's a `string`). The user won't be able to type whitespaces at the beginning or the end of the input field. |
 | type | string | "text" | The type of your input. Note: Pass "checkbox" for checkboxes AND switches. |
@@ -25,18 +27,20 @@ sidebar_position: 2
 ## Example Usage
 
 ```jsx
-<FldX
+<Field
 autoCapitalizeOff
 autoCorrectOff
+autoComplete='email'
 field="a.nested.field"
 getValueFromArgs
+id='im-a-teapot'
 isErrorProp
+name='important-field'
 onChangeProp
 valueProp
 required
 type="text"
 trim
-{...rest}
 />
 ```
 
@@ -48,4 +52,4 @@ Use only "." notation, even for array elements, otherwise you might run into bug
 
 ### Child(~~ren~~)
 
-`<FldX/>` can have only one child element.
+`<Field/>` can have only one child element.

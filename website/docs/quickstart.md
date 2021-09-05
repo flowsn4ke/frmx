@@ -21,26 +21,26 @@ npm i frmx
 yarn add frmx
 ```
 
-### FrmX, FldX & BtnX
+### Form, Field & Submit
 
-The next step is to **wrap up your form in the `<FrmX/>` provider**. You need to provide it at least two props for the setup to work: an object `initialValues` and an `onSubmit` function the will be called with the form data. After that, you can wrap up your input in `FldX` tags, just passing it the field they should control. Finally, wrap up your button component in `<BtnX/>`.
+The next step is to **wrap up your form in the `<Form/>` provider**. You need to provide it at least two props for the setup to work: an object `initialValues` and an `onSubmit` function the will be called with the form data. After that, you can wrap up your input in `Field` tags, just passing it the field they should control. Finally, wrap up your button component in `<Submit/>`.
 
 ```jsx
 export default function MyComponent() {
   const initialValues = { foo: { bar: "baz" } }
   const onSubmit = formData => console.log(formData)
 
-  <FrmX initialValues={initialValues} onSubmit={onSubmit}>
+  <Form initialValues={initialValues} onSubmit={onSubmit}>
 
-    <FldX field="foo.bar">
+    <Field field="foo.bar">
       <input />
-    </FldX>
+    </Field>
 
-    <BtnX>
+    <Submit>
       <button>Submit</button>
-    </BtnX>
+    </Submit>
 
-  </FrmX>
+  </Form>
 }
 ```
 **And just like that, your first frmx form is ready!**
@@ -51,30 +51,30 @@ Out of the box, all your inputs and the submit button will be disabled while sub
 
 Now let's extend our previous example to add data validation.
 
-### isErrorProp (FldX) & schemaValidation (FrmX)
+### isErrorProp (Field) & schemaValidation (Form)
 
-frmx accepts any function you might have to validate your data. To do so, just provide a `schemaValidation` object to `<FrmX/>` and an `isErrorProp` to `<FldX/>`, like so:
+frmx accepts any function you might have to validate your data. To do so, just provide a `schemaValidation` object to `<Form/>` and an `isErrorProp` to `<Field/>`, like so:
 
 ```jsx {3,7,11}
 export default function MyComponent() {
   // ...
   const schemaValidation = { foo: { bar: str => str.length > 3 } }
 
-  <FrmX
+  <Form
     initialValues={initialValues}
     schemaValidation={schemaValidation}
     onSubmit={onSubmit}
   >
 
-    <FldX field="foo.bar" isErrorProp="error">
+    <Field field="foo.bar" isErrorProp="error">
       <ComponentAcceptingAnErrorProp />
-    </FldX>
+    </Field>
 
-    <BtnX>
+    <Submit>
       <button>Submit</button>
-    </BtnX>
+    </Submit>
 
-  </FrmX>
+  </Form>
 }
 ```
 **And just like that, you've implemented form validation!**
@@ -85,8 +85,8 @@ This might seem cumbersome to setup compared to just using a couple of useState 
 
 However, **using frmx will never result in more code than any other method**, and most applications nowadays are data intensive and have a ton of forms (think settings, filters, contact forms...).
 
-With frmx, any user input can be regarded as a form, and you can create **highly reusable inputs**, never worrying about manually rigging up state in React. As long as a you're inside a `<FrmX/>` component, just pass the `field` prop to your inputs and they'll automatically bubble up their values to the nearest `<FrmX/>` parent through React's context.
+With frmx, any user input can be regarded as a form, and you can create **highly reusable inputs**, never worrying about manually rigging up state in React. As long as a you're inside a `<Form/>` component, just pass the `field` prop to your inputs and they'll automatically bubble up their values to the nearest `<Form/>` parent through React's context.
 
-Stumbled upon a weird input from a component library? [Check `<FldX/>` API](https://www.frmx.io/docs/api/fldx) to see if you can't use a prop to make it work, and if not, [just use the `useFrmX` hook instead](https://www.frmx.io/docs/api/usefrmx)!
+Stumbled upon a weird input from a component library? [Check `<Field/>` API](https://www.frmx.io/docs/api/fldx) to see if you can't use a prop to make it work, and if not, [just use the `useForm` hook instead](https://www.frmx.io/docs/api/usefrmx)!
 
 That's right, you can even have **nested forms** in frmx! A form can actually serve as a field for another form for instance, ~~sky~~ your imagination is the limit.

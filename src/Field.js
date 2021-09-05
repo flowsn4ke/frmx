@@ -1,6 +1,6 @@
 import { cloneElement, Children, useRef } from 'react'
-// import { useFrmX } from './Contexts'
-import useFldX from './hooks/useFldX'
+import { useForm } from './Contexts'
+import useField from './hooks/useField'
 import { devEnvOnlyWarn, noProviderFor } from './utils/dx'
 
 // TODO: Trim values when submitting based on prop && if type is text
@@ -9,11 +9,12 @@ export default function FldX({
   autoCapitalizeOn,
   autoCompleteOff,
   autoCorrectOn,
-  children,
+  children: ChildComponent,
   disabled: locallyDisabled,
-  field,
+  path,
   getValueFromArgs,
-  // TODO: additionnal error logic custom like disabled
+  id,
+  name,
   // TODO: Rename to errorProp / errorPropName in V4
   isErrorProp,
   onChangeProp = "onChange",
@@ -24,7 +25,7 @@ export default function FldX({
   ...rest
 }) {
 
-  const fldx = useFldX(field, { afterChange, trim, disabled: locallyDisabled, native: true })
+  const fldx = useField(path, { afterChange, trim, disabled: locallyDisabled, native: true })
 
   if (!fldx) {
     noProviderFor('the <FldX/> component')
@@ -40,7 +41,7 @@ export default function FldX({
     onBlur
   } = fldx
 
-  // const { handleSubmit } = useFrmX()
+  const { formId } = useForm()
 
   const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
@@ -54,6 +55,8 @@ export default function FldX({
     // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
+    id: !!id ? id : `${formId}-${path}`,
+    name: !!name ? name : `${path} ${type}`,
     ...(isErrorProp ? { [isErrorProp]: error } : {}),
     ...(!autoCorrectOn && { autoCorrect: "off" }),
     ...(!autoCapitalizeOn && { autoCapitalize: "none" }),
@@ -63,9 +66,9 @@ export default function FldX({
   }
 
   try {
-    return Children.only(children) && Children.map(children, child => cloneElement(child, props))
+    return Children.only(ChildComponent) && cloneElement(ChildComponent, props)
   } catch (err) {
-    devEnvOnlyWarn(`The FldX component can have only one child component. Check out the field ${field} to fix the problem.`)
-    return null
+    devEnvOnlyWarn(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
+    return ChildComponent
   }
 }

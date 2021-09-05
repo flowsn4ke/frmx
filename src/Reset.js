@@ -1,6 +1,5 @@
 import { cloneElement, Children } from 'react'
-
-import { useFrmX } from './Contexts'
+import { useForm } from './Contexts'
 
 export default function RstX({
   children,
@@ -10,7 +9,7 @@ export default function RstX({
   const {
     disabled,
     resetForm,
-  } = useFrmX()
+  } = useForm()
 
   const props = {
     type: "button",
@@ -19,5 +18,5 @@ export default function RstX({
     ...rest
   }
 
-  return Children.only(children) && Children.map(children, child => cloneElement(child, props))
+  return Children.only(children) && cloneElement(children, props)
 }

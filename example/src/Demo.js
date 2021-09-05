@@ -1,5 +1,5 @@
 import React from "react";
-import { FrmX, FldX, ArrX, BtnX, RstX, useFldXObserver } from "frmx"
+import { Form, Field, FieldArray, Submit, Reset, useFieldObserver } from "frmx"
 import { isEmail, isHexColor } from "validator"
 import parsePhoneNumber from 'libphonenumber-js'
 
@@ -65,7 +65,7 @@ export default function Demo() {
 
   return (
     <Box className={classes.container}>
-      <FrmX
+      <Form
         renderDiv
         // afterChange={console.log}
         className={classes.formContainer}
@@ -86,138 +86,138 @@ export default function Demo() {
           Some Meaningful Form
         </Typography>
 
-        <FldX field="date" type="date">
+        <Field path="date" type="date">
           <TextField
             className={classes.input}
             variant="outlined"
             label="Date"
           />
-        </FldX>
+        </Field>
 
-        <FldX field="options.slider" type="range" getValueFromArgs={args => args[1]}>
+        <Field path="options.slider" type="range" getValueFromArgs={args => args[1]}>
           <Slider valueLabelDisplay="auto" />
-        </FldX>
+        </Field>
 
-        <FldX field="name" type="text" afterChange={console.log} isErrorProp="error">
+        <Field path="name" type="text" afterChange={console.log} isErrorProp="error">
           <TextField
             className={classes.input}
             variant="outlined"
             label="Name"
           />
-        </FldX>
+        </Field>
 
         <PhoneInput
-          field="phoneNumber"
+          path="phoneNumber"
           className={classes.input}
           placeholder="Enter your number"
         />
 
-        <FldX field="email" isErrorProp="error" trim>
+        <Field path="email" isErrorProp="error" trim>
           <TextField
             className={classes.input}
             variant="outlined"
             label="me@email.com"
           />
-        </FldX>
+        </Field>
 
-        <FldX field="options.obj.0">
+        <Field path="options.obj.0">
           <TextField
             className={classes.input}
             variant="outlined"
             label="Field Object"
           />
-        </FldX>
+        </Field>
 
-        <FldX field="options.arr.0">
+        <Field path="options.arr.0">
           <TextField
             className={classes.input}
             variant="outlined"
             label="Field Array"
           />
-        </FldX>
+        </Field>
 
-        <SomeComponent field="options.colors.main" />
+        <SomeComponent path='options.colors.main' />
 
         <Box className={classes.checkboxContainer}>
-          <FldX field="options.checked" type="checkbox">
+          <Field path="options.checked" type="checkbox">
             <Checkbox className={classes.checkbox} />
-          </FldX>
+          </Field>
         </Box>
 
-        <ArrayStuff field="objInArr" />
+        <ArrayStuff path="objInArr" />
 
-        <FrmX
+        <Form
           initialValues={{ name: "I'm a nested form" }}
           onSubmit={formData => console.log("Nested Form Submit")}
           renderDiv
         >
-          <FldX field="name" type="text">
+          <Field path="name" type="text">
             <TextField
               className={classes.input}
               variant="outlined"
               label="Name"
             />
-          </FldX>
+          </Field>
 
-          <BtnX>
+          <Submit>
             <Button variant="contained" className={classes.input}>
               Submit Nested Form
             </Button>
-          </BtnX>
+          </Submit>
 
-        </FrmX>
+        </Form>
 
-        <BtnX>
+        <Submit>
           <Button variant="contained" className={classes.input}>
             Submit
           </Button>
-        </BtnX>
+        </Submit>
 
-        <RstX >
+        <Reset >
           <Button variant="contained" className={classes.input}>
             Reset
           </Button>
-        </RstX>
-      </FrmX>
+        </Reset>
+      </Form>
     </Box>
   );
 }
 
-function SomeComponent({ field }) {
+function SomeComponent({ path }) {
   const classes = useStyles();
 
-  useFldXObserver("options.slider", f => console.log("observer1", f))
+  useFieldObserver("options.slider", f => console.log("observer1", f))
 
-  return <FldX field={field} type="color">
+  return <Field path={path} type="color">
     <input className={classes.input} />
-  </FldX>
+  </Field>
 }
 
-function ArrayStuff({ field }) {
+function ArrayStuff({ path }) {
   const classes = useStyles();
 
-  const fieldVal = useFldXObserver("options.slider")
+  const fieldVal = useFieldObserver("options.slider")
   console.log("observer2", fieldVal)
 
-  return <ArrX field={field} model={{ name: "", email: "" }}>
-    {({ field, items, addItem, removeItem, disabled }) => (
+  return <FieldArray path={path} model={{ name: "", email: "" }}>
+    {({ path, items, addItem, removeItem, disabled }) => (
       <Box>
         {items.map((item, i) => (
           <Box key={`unique-id-${i}`}>
-            <FldX field={`${field}.${i}.name`} isErrorProp="error">
+            <Field path={`${path}.${i}.name`} isErrorProp="error">
               <TextField
                 className={classes.input}
                 variant="outlined"
                 label="Name"
               />
-            </FldX>
-            <FldX field={`${field}.${i}.email`}>
+            </Field>
+            <Field path={`${path}.${i}.email`}>
               <TextField
                 className={classes.input}
                 variant="outlined"
                 label="Email"
               />
-            </FldX>
+            </Field>
 
             <Button disabled={disabled} onClick={() => removeItem(i)}>Remove</Button>
           </Box>
@@ -225,5 +225,5 @@ function ArrayStuff({ field }) {
         <Button disabled={disabled} onClick={addItem}>Add Person</Button>
       </Box>
     )}
-  </ArrX>
+  </FieldArray>
 }

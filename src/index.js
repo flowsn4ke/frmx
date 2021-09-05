@@ -1,19 +1,19 @@
-import FrmX from './FrmX'
-import FldX from './FldX'
-import BtnX from './BtnX'
-import RstX from './RstX'
-import ArrX from './ArrX'
-import useFldX from './hooks/useFldX'
-import { useFrmX } from './Contexts'
-import useFldXObserver from './hooks/useFldXObserver'
+import Form from './Form'
+import Field from './Field'
+import Submit from './Submit'
+import Reset from './Reset'
+import FieldArray from './FieldArray'
+import useField from './hooks/useField'
+import useFieldObserver from './hooks/useFieldObserver'
+import { useForm } from './Contexts'
 
 export {
-  FrmX,
-  FldX,
-  ArrX,
-  BtnX,
-  RstX,
-  useFrmX,
-  useFldX,
-  useFldXObserver
+  Form,
+  Field,
+  FieldArray,
+  Submit,
+  Reset,
+  useForm,
+  useField,
+  useFieldObserver
 }

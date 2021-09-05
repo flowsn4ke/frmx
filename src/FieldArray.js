@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 import cloneDeep from 'lodash-es/cloneDeep'
 
-import { useFrmX, ArrXContext } from './Contexts'
+import { useForm, ArrayContext } from './Contexts'
 import { noProviderFor } from './utils/dx'
 import { resetEvent } from './events/eventNames'
 import useDocumentListener from './hooks/useDocumentListener'
 
 export default function ArrX({
   children,
-  field,
+  path,
   model = "",
   startWithOneMore,
 }) {
-  const frmx = useFrmX()
+  const frmx = useForm()
 
   if (!frmx) {
     noProviderFor('<ArrX/>')
@@ -29,20 +29,20 @@ export default function ArrX({
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
 
-  const [items, setItems] = useState(cloneDeep(getOneField(field)))
+  const [items, setItems] = useState(cloneDeep(getOneField(path)))
 
-  const handleReset = useRef(() => setItems(cloneDeep(getOneField(field))))
+  const handleReset = useRef(() => setItems(cloneDeep(getOneField(path))))
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = useRef(() => {
     const next = [...items, cloneDeep(model)]
     setItems(next)
-    setOneField(field, next)
+    setOneField(path, next)
   })
 
   const removeItem = useRef((index) => {
     const next = cloneDeep(items).filter((_item, i) => i !== index)
-    setOneField(field, next)
+    setOneField(path, next)
     setItems(next)
   })
 
@@ -50,13 +50,13 @@ export default function ArrX({
     if (startWithOneMore) addItem.current()
   }, [])
 
-  return <ArrXContext.Provider value={{ validationPath: field }}>
+  return <ArrayContext.Provider value={{ validationPath: path }}>
     {children({
-      field,
+      path,
       items,
       removeItem: removeItem.current,
       addItem: addItem.current,
       disabled,
     })}
-  </ArrXContext.Provider>
+  </ArrayContext.Provider>
 };
