@@ -30,14 +30,14 @@ To get both performance and flexibility with a simple API, `frmx` uses React's *
 
 ## Benchmarks
 
-Benchmarking as prooved `frmx` to be at least as performant as the most performant form librairies out there (data has yet to be uploaded, feel free to check by yourself in the meantime), while providing a much simpler and flexible API and covering 100% of use cases at a fraction of the weight of other libraries, providing form data diffing and versatile schema validation, and assuming nothing about users' application architecture, component nesting or data shape.
+Benchmarking has prooved `frmx` to perform just as well as other form librairies out there (data has yet to be uploaded, feel free to check by yourself in the meantime), while providing a much simpler and flexible API and covering 100% of use cases, providing form data diffing and versatile schema validation, and assuming nothing about users' application architecture, component nesting or data shape.
 
 ### Note about benchmarking
 
-Some libraries just assume that performance is mesured in the React Profiler tab and use uncontrolled inputs based on this assumption.
+Some libraries assume that performance is mesured in the React Profiler tab and use uncontrolled inputs based on this assumption.
 
-The truth is, **using uncontrolled components just reduces the number of things you will see in React's profiler, not the actual JavaScript execution time**.
+The thing is, using uncontrolled components just reduces the number of things you will see in React's profiler, not the actual JavaScript execution time.
 
-Performance can only be mesured in terms of execution time using Chrome's or Firefox's native perfomance tabs, where you can see **there's actually no measurable performance overhead for using controlled components over uncontrolled**.
+Performance can only be mesured in terms of execution time using Chrome's or Firefox's native perfomance tabs, where you can see there's actually no *measurable* performance overhead for using controlled components over uncontrolled.
 
-If anything, this just gives you more opportunities of fine-tuning your code by giving you more ways of analyzing it, which is why [it's the recommanded way to do things in React](https://reactjs.org/docs/forms.html#controlled-components).
+If anything, this just gives you more opportunities of fine-tuning your code by giving you more ways of analyzing it.
