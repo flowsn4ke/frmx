@@ -23,8 +23,8 @@ onSubmit={formData => doSmthg(formData)}
 onInvalidSubmit={() => alert("invalid form")}
 schemaValidation={{ bar: { baz: str => str.length > 2 } }}
 >
-    <CustomInput1 field="bar.baz" />
-    <CustomInput2 field="foo" />
+    <CustomInput1 path="bar.baz" />
+    <CustomInput2 path="foo" />
     <CustomSubmitButton />
 </Form>
 ```
