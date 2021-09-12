@@ -75,7 +75,7 @@ export default function Demo() {
         // disabled
         // clearAfterSubmit
         disableIfInvalid
-        // disabledIf={(formData) => formData.name === formData.newPassword}
+        // disabledIf={(data) => data.name === data.newPassword}
         disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
@@ -147,7 +147,7 @@ export default function Demo() {
 
         <Form
           initialValues={{ name: "I'm a nested form" }}
-          onSubmit={formData => console.log("Nested Form Submit")}
+          onSubmit={data => console.log("Nested Form Submit")}
           renderDiv
         >
           <Field path="name" type="text">

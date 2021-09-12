@@ -10,7 +10,7 @@ export default function useFldX(path, config = {}) {
   const frmx = useForm()
 
   if (!frmx) {
-    if (!config?.native) noProviderFor('the useFldX() hook')
+    if (!config?.native) noProviderFor(`the useFldX() hook at the input controlling the ${path} field`)
     return undefined
   }
 

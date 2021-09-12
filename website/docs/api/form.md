@@ -34,13 +34,13 @@ autoCompleteOff
 className={"I style directly the html form tag"}
 clearAfterSubmit
 disabled={someRequestStatus === "loading"}
-disableIf={formData => formData.options.breakfast.length > 15}
+disableIf={data => data.options.breakfast.length > 15}
 disableIfInvalid
 disableIfNoUpdates
 initialValues={{foo:"bar"}}
 onInvalidSubmit={() => alert("invalid form")}
-onReset={formData => console.log("Reset!")}
-onSubmit={formData => doSmthgWith(formData)}
+onReset={data => console.log("Reset!")}
+onSubmit={data => doSmthgWith(data)}
 schemaValidation={{foo: (str) => str.length > 0}}
 renderDiv
 />

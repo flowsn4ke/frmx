@@ -45,7 +45,7 @@ export default function MyComponent() {
   return <>
   <Form
       initialValues={{ foo: "", bar: { baz: false } }}
-      onSubmit={formData => alert(JSON.stringify(formData, null, 2))}
+      onSubmit={data => alert(JSON.stringify(data, null, 2))}
       >
 
           <Field path="foo">
