@@ -37,7 +37,7 @@ export default function useFldX(path, config = {}) {
   const [error, setError] = useState(false)
 
   const handleError = (newVal) => {
-    if (!!validationMethod.current) {
+    if (!!validationMethod.current && typeof validationMethod.current === 'function') {
       const isError = !validationMethod.current(newVal, fieldsProxy)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
