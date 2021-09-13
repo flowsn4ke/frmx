@@ -92,7 +92,7 @@ export default function FrmX({
       (!!disabledIf && disabledIf(diffAlg.current(initialValues, fields.current)))
     ) {
       trigger(submitEvent(formId.current))
-      if (!!onInvalidSubmit) onInvalidSubmit()
+      if (!!onInvalidSubmit && typeof onInvalidSubmit === 'function') onInvalidSubmit()
     } else {
       isSubmitting.current = true
       updated.current = new Set()
