@@ -28,7 +28,7 @@ The next step is to **wrap up your form in the `<Form/>` provider**. You need to
 ```jsx
 export default function MyComponent() {
   const initialValues = { foo: { bar: "baz" } }
-  const onSubmit = formData => console.log(formData)
+  const onSubmit = data => console.log(data)
 
   <Form initialValues={initialValues} onSubmit={onSubmit}>
 

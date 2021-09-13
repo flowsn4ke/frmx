@@ -30,7 +30,7 @@ export default function MyComponent() {
     <Form
       initialValues={initialValues}
       schemaValidation={validationMethods}
-      onSubmit={formData => console.log(formData)}
+      onSubmit={data => console.log(data)}
     >
       <FieldArray
       startWithOneMore

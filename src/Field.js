@@ -1,5 +1,4 @@
 import { cloneElement, Children, useRef } from 'react'
-import { useForm } from './Contexts'
 import useField from './hooks/useField'
 import { devEnvOnlyWarn, noProviderFor } from './utils/dx'
 
@@ -13,8 +12,6 @@ export default function FldX({
   disabled: locallyDisabled,
   path,
   getValueFromArgs,
-  id,
-  name,
   isErrorProp,
   onChangeProp = "onChange",
   spellCheckOn,
@@ -40,8 +37,6 @@ export default function FldX({
     onBlur
   } = fldx
 
-  const { formId } = useForm()
-
   const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     setValue(val)
@@ -54,8 +49,6 @@ export default function FldX({
     onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
-    id: !!id ? id : `${formId}-${path}`,
-    name: !!name ? name : `${path} ${type}`,
     ...(isErrorProp ? { [isErrorProp]: error } : {}),
     ...(!autoCorrectOn && { autoCorrect: "off" }),
     ...(!autoCapitalizeOn && { autoCapitalize: "none" }),

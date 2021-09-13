@@ -17,14 +17,14 @@ Overall, the goal is to start from the data you need and allow you to write code
 ```js
 <Form
 initialValues={{foo: "", bar: {baz:""}}}
-onSubmit={formData => doSmthg(formData)}
+onSubmit={data => doSmthg(data)}
 // disableSubmitIfInvalid // comment out onInvalidSubmit to use this prop!
 // disableIfNoUpdates // Additional rules to disable submission
 onInvalidSubmit={() => alert("invalid form")}
 schemaValidation={{ bar: { baz: str => str.length > 2 } }}
 >
-    <CustomInput1 field="bar.baz" />
-    <CustomInput2 field="foo" />
+    <CustomInput1 path="bar.baz" />
+    <CustomInput2 path="foo" />
     <CustomSubmitButton />
 </Form>
 ```

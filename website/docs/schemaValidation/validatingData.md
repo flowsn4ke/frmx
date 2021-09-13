@@ -52,7 +52,7 @@ All that's left is to pass those two objects to the `<Form/>` provider:
 <Form
 initialValues={initialValues}
 schemaValidation={schemaValidation}
-onSubmit={formData => console.log(formData)}
+onSubmit={data => console.log(data)}
 >
   {/* Here be some form fields */}
 <Form>
@@ -65,7 +65,7 @@ To do so, just use the read-only object in the `schemaValidation` function you d
 
 ```js
 const schemaValidation = {
-  foo: (value, formData) => value.length > 2 && formData['options.hello'] < 8,
+  foo: (value, data) => value.length > 2 && data['options.hello'] < 8,
   options:
    {
      hello: value => value > 4
@@ -77,7 +77,7 @@ And voilà!
 
 It is to note that in that case, the field will either need to be changed or the form to be submitted once for the error to bubble up at the moment. If you need instant feedback you can setup fields with useField for now.
 
-Another note: **Any attempt to set the object's properties will result in an error**. This is by design: Validation is not the step where sanitization should happen. If you need to do so because the library you use for validation works that way, make a copy of the value before validating it or make sure you only call that function with the field value, not with both the value and the formData object. A common bug would be calling a validation function with both the new value and the formData object, since the second argument is also often where the configuration object is.
+Another note: **Any attempt to set the object's properties will result in an error**. This is by design: Validation is not the step where sanitization should happen. If you need to do so because the library you use for validation works that way, make a copy of the value before validating it or make sure you only call that function with the field value, not with both the value and the data object. A common bug would be calling a validation function with both the new value and the data object, since the second argument is also often where the configuration object is.
 
 ### Validating arrays
 
@@ -108,9 +108,9 @@ If you passed a function to the `onInvalidSubmit` prop, it will be executed inst
 
 ```jsx
 <Form
-onSubmit={formData => console.log("valid data:", formData)}
+onSubmit={data => console.log("valid data:", data)}
 disableSubmitIfInvalid
-onInvalidSubmit={formData => console.log("invalid data:", formData)}
+onInvalidSubmit={data => console.log("invalid data:", data)}
 >
   {/* Here be some form fields */}
 </Form>
