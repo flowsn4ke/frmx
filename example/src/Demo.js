@@ -37,10 +37,11 @@ const isTrue = (val) => val;
 
 const validationMethods = {
   name: (val, form) => {
+    return val.length > 3
     // implement some way to register observers inside validation?
     // now only reruns after some changes have been made to the field
     // ONLY BUBBLES UP RELATIONAL ERRORS UPON INVALID SUBMIT OR FIELD CHANGE
-    return form['options.checked']
+    // return form['options.checked']
   },
   email: (val) => isEmail(val),
   // email: isEmail,
