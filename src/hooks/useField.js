@@ -57,9 +57,10 @@ export default function useFldX(path, config = {}) {
     handleError(value)
   }
   useDocumentListener(resetEvent(formId), handleReset)
+
   const handleSubmit = () => {
     setSubmittedOnce(true)
-    handleError(value)
+    handleError(getOneField(path))
   }
   useDocumentListener(submitEvent(formId), handleSubmit)
 
