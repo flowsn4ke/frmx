@@ -70,8 +70,8 @@ export default function useFldX(path, config = {}) {
     setValue(next)
     setOneField(path, next)
     handleError(next)
-
-    if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, path)
+    // TODO: Add error prop in afterChange to doc
+    if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, path, error)
   }
 
   const onBlur = () => setTouched(true)
