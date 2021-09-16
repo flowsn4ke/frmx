@@ -52,7 +52,8 @@ export default function FrmX({
     setOneUpdated(field)
 
     observers.current.has(field) && trigger(setEvent(formId.current, field), value)
-    !!afterChange && afterChange(fields.current)
+    // TODO: Update the API
+    !!afterChange && afterChange(fields.current, field, hasErrors)
   }
 
   const getOneUpdated = (field) => updated.current.has(field)
@@ -113,13 +114,13 @@ export default function FrmX({
     getFields,
     getOneField,
     getOneUpdated,
-    setOneUpdated,
     getOneError,
     registerFieldObserver,
     renderDiv,
     resetForm,
     setOneError,
     setOneField,
+    setOneUpdated,
     schemaValidation,
   }}>
     {(() => {
