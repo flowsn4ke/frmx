@@ -46,6 +46,10 @@ export default function FrmX({
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
+  const getFields = () => fieldsProxy.current
+  // TODO: Add to the doc
+  const getErrors = () => new Set(errors.current)
+
   const getOneField = (field) => get(fields.current, field)
   const setOneField = (field, value) => {
     set(fields.current, field, value)
@@ -53,7 +57,7 @@ export default function FrmX({
 
     observers.current.has(field) && trigger(setEvent(formId.current, field), value)
     // TODO: Update the API
-    !!afterChange && afterChange(fields.current, field, hasErrors)
+    !!afterChange && afterChange(fields.current, field, hasErrors, getErrors)
   }
 
   const getOneUpdated = (field) => updated.current.has(field)
@@ -69,9 +73,6 @@ export default function FrmX({
       errors.current.delete(field)
     }
   }
-  const getFields = () => fieldsProxy.current
-  // TODO: Add to the doc
-  const getErrors = () => new Set(errors.current)
 
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
