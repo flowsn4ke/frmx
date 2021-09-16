@@ -69,8 +69,9 @@ export default function FrmX({
       errors.current.delete(field)
     }
   }
-
-  const getFields = () => cloneDeep(fieldsProxy.current)
+  const getFields = () => fieldsProxy.current
+  // TODO: Add to the doc
+  const getErrors = () => new Set(errors.current)
 
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
@@ -111,6 +112,7 @@ export default function FrmX({
     handleSubmit,
     hasProperty,
     fieldsProxy: fieldsProxy.current,
+    getErrors,
     getFields,
     getOneField,
     getOneUpdated,
