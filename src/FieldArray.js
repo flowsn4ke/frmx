@@ -35,13 +35,13 @@ export default function ArrX({
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = useRef(() => {
-    const next = [...items, cloneDeep(model)]
+    const next = [...getOneField(path), cloneDeep(model)]
     setItems(next)
     setOneField(path, next)
   })
 
   const removeItem = useRef((index) => {
-    const next = cloneDeep(items).filter((_item, i) => i !== index)
+    const next = cloneDeep(getOneField(path)).filter((_item, i) => i !== index)
     setOneField(path, next)
     setItems(next)
   })
