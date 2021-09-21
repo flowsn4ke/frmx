@@ -2,7 +2,7 @@ import { cloneElement, Children } from 'react'
 import { useForm } from './Contexts'
 import { devEnvOnlyWarn } from './utils/dx'
 
-export default function RstX({
+export default function Reset({
   children,
   onClick,
   ...rest

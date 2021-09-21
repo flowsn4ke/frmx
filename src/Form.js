@@ -10,7 +10,7 @@ import { getDiffAlg } from './utils/diff'
 import { trigger } from './events/utils'
 import { resetEvent, setEvent, submitEvent } from './events/eventNames'
 
-export default function FrmX({
+export default function Form({
   afterChange,
   autoCompleteOff,
   children,

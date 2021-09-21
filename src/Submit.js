@@ -2,7 +2,7 @@ import { cloneElement, Children } from 'react'
 import { useForm } from './Contexts'
 import { devEnvOnlyWarn } from './utils/dx'
 
-export default function BtnX({
+export default function Submit({
   disabled: locallyDisabled,
   children,
   ...rest

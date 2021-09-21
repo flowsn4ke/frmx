@@ -3,7 +3,7 @@ import useField from './hooks/useField'
 import { devEnvOnlyWarn, noProviderFor } from './utils/dx'
 
 // TODO: Trim values when submitting based on prop && if type is text
-export default function FldX({
+export default function Field({
   afterChange,
   autoCapitalizeOn,
   autoCompleteOff,

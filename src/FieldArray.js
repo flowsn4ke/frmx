@@ -6,7 +6,7 @@ import { noProviderFor } from './utils/dx'
 import { resetEvent } from './events/eventNames'
 import useDocumentListener from './hooks/useDocumentListener'
 
-export default function ArrX({
+export default function FieldArray({
   children,
   path,
   model = "",

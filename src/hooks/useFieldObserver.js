@@ -3,7 +3,7 @@ import { useForm } from "../Contexts"
 import { noProviderFor } from "../utils/dx";
 import useDocumentListener from "./useDocumentListener";
 
-export default function useFldXObserver(field, userHandler) {
+export default function useFieldObserver(field, userHandler) {
   const frmx = useForm()
 
   if (!frmx) {

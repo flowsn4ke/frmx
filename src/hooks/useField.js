@@ -6,7 +6,7 @@ import { resetEvent, submitEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useDocumentListener from './useDocumentListener'
 
-export default function useFldX(path, config = {}) {
+export default function useField(path, config = {}) {
   const frmx = useForm()
 
   if (!frmx) {
