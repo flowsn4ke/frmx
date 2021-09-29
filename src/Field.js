@@ -46,7 +46,7 @@ export default function Field({
     type,
     onBlur,
     onChange: onChange.current,
-    onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
+    // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: error } : {}),
