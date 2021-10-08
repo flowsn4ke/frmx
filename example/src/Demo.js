@@ -68,7 +68,7 @@ export default function Demo() {
     <Box className={classes.container}>
       <Form
         renderDiv
-        // afterChange={console.log}
+        afterChange={(v, f, h, g) => console.log(g)}
         className={classes.formContainer}
         initialValues={fields}
         onSubmit={(values) => console.log(values)}

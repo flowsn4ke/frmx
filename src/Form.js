@@ -57,7 +57,7 @@ export default function Form({
 
     observers.current.has(field) && trigger(setEvent(formId.current, field), value)
     // TODO: Update the API
-    !!afterChange && afterChange(fields.current, field, hasErrors, getErrors)
+    !!afterChange && afterChange(fields.current, field, hasErrors, getErrors())
   }
 
   const getOneUpdated = (field) => updated.current.has(field)

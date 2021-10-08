@@ -68,8 +68,8 @@ export default function useField(path, config = {}) {
     next = typeof next === 'function' ? next(value) : next
     next = !!config?.trim && typeof next === 'string' ? next.trim() : next
     setValue(next)
-    setOneField(path, next)
     handleError(next)
+    setOneField(path, next)
     // TODO: Add error prop in afterChange to doc
     if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, path, error)
   }
