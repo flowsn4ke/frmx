@@ -10,7 +10,7 @@ Form needs only two props to do its job, initialValues and onSubmit. There is, h
 
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
-| afterChange             | function       | undefined     |  Middleware that will be called with all the form data every time it changes `afterChange(field, newFormData)` |
+| afterChange             | function       | undefined     |  Middleware that will be called with all the form data every time it changes `afterChange(field, newFormData, errorCount, errors)` |
 | autoCompleteOff         | boolean        | false         |  Disable autocomplete |
 | clearAfterSubmit        | boolean        | false         |  Does what it says, clears the form back to initialValues after submit |
 | diff                    | string         | undefined     |  The diff algorithm you want to use if you need only the updates back from the form. Useful for things like settings etc. You'll get back the difference between the intial state and the edited state instead of all data in both `onReset` and `onSubmit`. Possible values are `"deep"` (recursive, only returns modified object elements and new / modified array items), `"keys"` (recursive as well, returns only modified object key properties and complete arrays if they were updated in any way) & `"shallow"` (if a nested key was updated, all of the first level key contents are returned). If you don't pass the prop or pass it with any other value, you'll get all of the form data back. Warning: The form will be deemed invalid if there are no updates |
