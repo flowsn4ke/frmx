@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import get from 'lodash-es/get'
 import set from 'lodash-es/set'
 import has from 'lodash-es/has'
@@ -25,6 +25,7 @@ export default function Form({
   onReset,
   onSubmit,
   renderDiv,
+  refreshInitialValues,
   schemaValidation = {},
   ...rest
 }) {
@@ -41,6 +42,15 @@ export default function Form({
     set: () => null,
     deleteProperty: () => null,
   }))
+
+  useEffect(() => {
+    if (refreshInitialValues) {
+      fields.current = cloneDeep(initialValues)
+    }
+  }, [
+    refreshInitialValues,
+    initialValues
+  ])
 
   const hasProperty = (path) => has(fieldsProxy.current, path)
   const hasUpdates = () => updated.current.size > 0
