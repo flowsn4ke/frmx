@@ -78,3 +78,16 @@ table {
     transform: rotate(360deg);
   }
 }
+
+.spin-me-round {
+  animation: rotate 1.2s ease-in-out both;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(2turn);
+  }
+}
