@@ -14,10 +14,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/theolouvel/frmx"
+    "url": "https://github.com/flowsn4ke/frmx"
   },
   "bugs": {
-    "url": "https://github.com/theolouvel/frmx/issues"
+    "url": "https://github.com/flowsn4ke/frmx/issues"
   },
   "homepage": "https://frmx.dev",
   "main": "dist/index.js",
