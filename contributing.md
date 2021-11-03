@@ -9,6 +9,7 @@
 - [ ] onSubmitIfNoUpdates
 - [ ] Callback on unmount if unsubmitted updates
 - [ ] Return the error state form useFldXObserver
+- [ ] Implement a way to choose the render component for the form - or none - through the 'component' prop (see MaterialUI)
 
 ## Performance
 - [ ] Benchmark array methods and see if there's room for improvement
