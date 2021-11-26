@@ -1,7 +1,4 @@
-import transform from "lodash-es/transform"
-import isEqual from "lodash-es/isEqual"
-import isArray from "lodash-es/isArray"
-import isObject from "lodash-es/isObject"
+import { transform, isEqual, isArray, isObject } from "lodash"
 
 function deepDiff(prev, next) {
   function diff(next, prev) {

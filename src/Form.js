@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import get from 'lodash-es/get'
-import set from 'lodash-es/set'
-import has from 'lodash-es/has'
-import cloneDeep from 'lodash-es/cloneDeep'
+import { get, set, has, cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'

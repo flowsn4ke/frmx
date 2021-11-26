@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import cloneDeep from 'lodash-es/cloneDeep'
+import { cloneDeep } from 'lodash'
 
 import { useForm, ArrayContext } from './Contexts'
 import { noProviderFor } from './utils/dx'

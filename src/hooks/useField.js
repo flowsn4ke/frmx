@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash-es/cloneDeep'
+import { cloneDeep } from 'lodash'
 import { useState, useRef, useEffect } from 'react'
 import { useArray, useForm } from '../Contexts'
 import { devEnvOnlyWarn, noProviderFor } from '../utils/dx'
