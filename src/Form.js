@@ -14,7 +14,7 @@ export default function Form({
   clearAfterSubmit,
   diff,
   disabled,
-  disabledIf,
+  disableIf,
   disableIfNoUpdates,
   disableIfInvalid,
   initialValues = {},
@@ -99,7 +99,7 @@ export default function Form({
       return
     } else if (
       ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
-      (!!disabledIf && disabledIf(diffAlg.current(initialValues, fields.current)))
+      (!!disableIf && disableIf(diffAlg.current(initialValues, fields.current)))
     ) {
       trigger(submitEvent(formId.current))
       if (!!onInvalidSubmit && typeof onInvalidSubmit === 'function') onInvalidSubmit()
