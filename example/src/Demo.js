@@ -44,7 +44,6 @@ const validationMethods = {
     // return form['options.checked']
   },
   email: (val) => isEmail(val),
-  // email: isEmail,
   phoneNumber: val => {
     const n = parsePhoneNumber(val)
     if (n && !n?.isValid()) return false
@@ -57,7 +56,8 @@ const validationMethods = {
     }
   },
   objInArr: {
-    name: s => s.length > 3
+    name: s => s.length > 3,
+    email: (val) => isEmail(val),
   }
 }
 
@@ -211,7 +211,7 @@ function ArrayStuff({ path }) {
                 label="Name"
               />
             </Field>
-            <Field path={`${path}.${i}.email`}>
+            <Field path={`${path}.${i}.email`} isErrorProp="error">
               <TextField
                 className={classes.input}
                 variant="outlined"

@@ -25,6 +25,7 @@
 - [ ] Write extensive tests for diffing utils
 
 ## Documentation
+- [ ] Update: Use ONLY dot notation
 - [ ] Create more example sandboxes
 - [ ] Add documentation versionning
 - [ ] Start recipes section
@@ -40,18 +41,3 @@
 - [ ] Creating reusable components
 - [ ] Manipulating arrays (with validation!)
 - [ ] Create a phone field component
-
-## TypeScript
-- [ ] Add TypeScript support
-
-## Component libraries integration
-
-### Material UI
-
-- [ x ] Reexport all input components from @material-ui/core
-- [ ] Autocomple component (@material-ui/lab)
-- [ ] Create demo
-
-### Chakra UI
-
-- [ ] Reexport all input components from @material-ui

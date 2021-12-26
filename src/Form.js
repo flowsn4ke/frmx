@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react'
-import { get, set, has, cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'
 import { getDiffAlg } from './utils/diff'
 import { trigger } from './events/utils'
 import { resetEvent, setEvent, submitEvent } from './events/eventNames'
+import Proxify from "proxur"
+
+// TODO: Make a custom clone deep function: no more lodash! Uninstall it!
 
 export default function Form({
   afterChange,
@@ -26,52 +29,57 @@ export default function Form({
   schemaValidation = {},
   ...rest
 }) {
-  const fields = useRef(cloneDeep(initialValues))
+  const fields = useRef(Proxify(cloneDeep(initialValues)))
+  const validation = useRef(Proxify(schemaValidation))
   const observers = useRef(new Set())
   const updated = useRef(new Set())
   const errors = useRef(new Set())
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
+  // TODO: Feed the original object to the diff alg?
   const diffAlg = useRef(getDiffAlg(diff))
   // Read-only proxy. See https://javascript.info/proxy
-  const fieldsProxy = useRef(new Proxy(fields.current, {
-    get: (o, p) => get(o, p),
-    set: () => null,
-    deleteProperty: () => null,
-  }))
+
+  // We need to make validation a proxy as well so we can access its methods in the same way
 
   useEffect(() => {
-    if (refreshInitialValues) {
-      fields.current = cloneDeep(initialValues)
-    }
-  }, [
-    refreshInitialValues,
-    initialValues
-  ])
+    fields.current = Proxify(cloneDeep(initialValues))
+    validation.current = Proxify(schemaValidation)
+  }, [initialValues])
 
-  const hasProperty = (path) => has(fieldsProxy.current, path)
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
-  const getFields = () => fieldsProxy.current
+  const getFields = () => fields.current
   // TODO: Add to the doc
   const getErrors = () => new Set(errors.current)
 
-  const getOneField = (field) => get(fields.current, field)
+  const getOneField = (field) => fields.current[field]
   const setOneField = (field, value) => {
-    set(fields.current, field, value)
+
+    //! We only need to keep track of validation for validation purposes,
+    //! TODO not to prevent setting a value! Any value should be permitted!
+    // TODO: Check the validation method first?
+    // Although we are checking that in the field at the moment :/
+    // TODO: Replace lodash in the getValidationMethod method
+    // TODO: Set the fields based on a callback again in components' useStates?
+    fields.current[field] = value
     setOneUpdated(field)
 
+    // TODO: Stop using events to handle observers?
     observers.current.has(field) && trigger(setEvent(formId.current, field), value)
     // TODO: Update the API
     !!afterChange && afterChange(fields.current, field, hasErrors(), getErrors())
   }
 
+  // TODO: Do we actually need those?
   const getOneUpdated = (field) => updated.current.has(field)
   const setOneUpdated = (field) => {
-    if (!updated.current.has(field)) updated.current.add(field)
+    if (!updated.current.has(field))
+      updated.current.add(field)
   }
 
+  // TODO: Do we actually need those?
   const getOneError = (field) => errors.current.has(field)
   const setOneError = (field, isError) => {
     if (isError && !errors.current.has(field)) {
@@ -81,12 +89,13 @@ export default function Form({
     }
   }
 
+  // TODO: Make use of the proxy somehow later on
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
   const resetForm = () => {
     if (onReset && hasUpdates()) onReset(diffAlg.current(initialValues, fields.current))
     updated.current = new Set()
-    fields.current = cloneDeep(initialValues)
+    fields.current = Proxify(cloneDeep(initialValues))
     trigger(resetEvent(formId.current))
   }
 
@@ -118,14 +127,12 @@ export default function Form({
     disabled,
     formId: formId.current,
     handleSubmit,
-    hasProperty,
-    fieldsProxy: fieldsProxy.current,
+    fields: fields.current,
     getErrors,
     getFields,
     getOneField,
     getOneUpdated,
     getOneError,
-    hasProperty,
     hasUpdates,
     hasErrors,
     registerFieldObserver,
@@ -134,7 +141,7 @@ export default function Form({
     setOneError,
     setOneField,
     setOneUpdated,
-    schemaValidation,
+    schemaValidation: validation.current,
   }}>
     {(() => {
       if (!renderDiv) {

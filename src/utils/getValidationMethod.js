@@ -1,5 +1,3 @@
-import { get } from "lodash"
-
 export const getValidationMethod = (arrx, field, schemaValidation) => {
   let validationPath
 
@@ -13,5 +11,5 @@ export const getValidationMethod = (arrx, field, schemaValidation) => {
     validationPath = field
   }
 
-  return get(schemaValidation, validationPath)
+  return schemaValidation[validationPath]
 }

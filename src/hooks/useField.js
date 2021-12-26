@@ -1,7 +1,7 @@
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { useState, useRef, useEffect } from 'react'
 import { useArray, useForm } from '../Contexts'
-import { devEnvOnlyWarn, noProviderFor } from '../utils/dx'
+import { noProviderFor } from '../utils/dx'
 import { resetEvent, submitEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useDocumentListener from './useDocumentListener'
@@ -16,16 +16,13 @@ export default function useField(path, config = {}) {
 
   const {
     disabled: formIsDisabled,
-    fieldsProxy,
+    fields,
     formId,
     getOneField,
-    hasProperty,
     schemaValidation,
     setOneError,
     setOneField,
   } = frmx
-
-  useEffect(() => !hasProperty(path) && devEnvOnlyWarn(`The field '${path}' you're trying to access doesn't exist in the initialValues you provided to the FrmX component. Fix it to avoid bugs.`), [])
 
   const arrx = useArray()
   const validationMethod = useRef(getValidationMethod(arrx, path, schemaValidation))
@@ -38,7 +35,7 @@ export default function useField(path, config = {}) {
 
   const handleError = (newVal) => {
     if (!!validationMethod.current && typeof validationMethod.current === 'function') {
-      const isError = !validationMethod.current(newVal, fieldsProxy)
+      const isError = !validationMethod.current(newVal, fields)
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(path, isError)

@@ -20,7 +20,7 @@ export default function Field({
   valueProp = "value",
   ...rest
 }) {
-
+  // TODO: Is there doc on the trim function?
   const fldx = useField(path, { afterChange, trim, disabled: locallyDisabled, native: true })
 
   if (!fldx) {
@@ -29,13 +29,7 @@ export default function Field({
     else return null
   }
 
-  const {
-    value,
-    setValue,
-    error,
-    disabled,
-    onBlur
-  } = fldx
+  const { value, setValue, error, disabled, onBlur } = fldx
 
   const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
