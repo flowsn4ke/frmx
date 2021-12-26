@@ -9327,10 +9327,10 @@ prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
-proxur@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.0.tgz#bdf5c19205c5fc353afb9648571cff9aae2f0b5b"
-  integrity sha512-AJMvDg6wb6cUhx2QIpT7vZgSeQg0xEjn93I+5gP8pMoA+11uDhPYH5ga6qRY6K4dRrnLa1TIj/oz+mYgpOpckw==
+proxur@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.1.tgz#418d9764f37eb35c8538bd337d94c17d6df9e729"
+  integrity sha512-bDdw49QjvpsAGWIN4Prftdj5HzSciscMf1HcC8hApm3fuNctOzCh8DC+fvcvbIflA5LlLCvCo+SNEXF4uIz7jw==
 
 proxy-addr@~2.0.5:
   version "2.0.7"
