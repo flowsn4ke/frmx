@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import cloneDeep from 'lodash/cloneDeep'
-
+import clone from './utils/clone'
 import { useForm, ArrayContext } from './Contexts'
 import { noProviderFor } from './utils/dx'
 import { resetEvent } from './events/eventNames'
@@ -29,19 +28,19 @@ export default function FieldArray({
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
 
-  const [items, setItems] = useState(cloneDeep(getOneField(path)))
+  const [items, setItems] = useState(clone(getOneField(path)))
 
-  const handleReset = useRef(() => setItems(cloneDeep(getOneField(path))))
+  const handleReset = useRef(() => setItems(clone(getOneField(path))))
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = useRef(() => {
-    const next = [...getOneField(path), cloneDeep(model)]
+    const next = [...getOneField(path), clone(model)]
     setItems(next)
     setOneField(path, next)
   })
 
   const removeItem = useRef((index) => {
-    const next = cloneDeep(getOneField(path)).filter((_item, i) => i !== index)
+    const next = clone(getOneField(path)).filter((_item, i) => i !== index)
     setOneField(path, next)
     setItems(next)
   })

@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import clone from '../utils/clone'
 import { useState, useRef, useEffect } from 'react'
 import { useArray, useForm } from '../Contexts'
 import { noProviderFor } from '../utils/dx'
@@ -27,7 +27,7 @@ export default function useField(path, config = {}) {
   const arrx = useArray()
   const validationMethod = useRef(getValidationMethod(arrx, path, schemaValidation))
 
-  const [value, setValue] = useState(cloneDeep(getOneField(path)))
+  const [value, setValue] = useState(clone(getOneField(path)))
   const [onceValid, setOnceValid] = useState(!validationMethod.current)
   const [touched, setTouched] = useState(false)
   const [submittedOnce, setSubmittedOnce] = useState(false)
@@ -47,7 +47,7 @@ export default function useField(path, config = {}) {
   }, [])
 
   const handleReset = () => {
-    setValue(cloneDeep(getOneField(path)))
+    setValue(clone(getOneField(path)))
     setSubmittedOnce(false)
     setOnceValid(false)
     setTouched(false)

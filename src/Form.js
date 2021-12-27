@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import cloneDeep from 'lodash/cloneDeep'
+import clone from './utils/clone'
 import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'
@@ -29,7 +29,7 @@ export default function Form({
   schemaValidation = {},
   ...rest
 }) {
-  const fields = useRef(Proxify(cloneDeep(initialValues)))
+  const fields = useRef(Proxify(clone(initialValues)))
   const validation = useRef(Proxify(schemaValidation))
   const observers = useRef(new Set())
   const updated = useRef(new Set())
@@ -43,7 +43,7 @@ export default function Form({
   // We need to make validation a proxy as well so we can access its methods in the same way
 
   useEffect(() => {
-    fields.current = Proxify(cloneDeep(initialValues))
+    fields.current = Proxify(clone(initialValues))
     validation.current = Proxify(schemaValidation)
   }, [initialValues])
 
@@ -95,7 +95,7 @@ export default function Form({
   const resetForm = () => {
     if (onReset && hasUpdates()) onReset(diffAlg.current(initialValues, fields.current))
     updated.current = new Set()
-    fields.current = Proxify(cloneDeep(initialValues))
+    fields.current = Proxify(clone(initialValues))
     trigger(resetEvent(formId.current))
   }
 
