@@ -1,7 +1,7 @@
-import { transform, isEqual } from "lodash"
+import transform from "lodash/transform"
+import isEqual from "lodash/isEqual"
 const isArray = arg => Array.isArray(arg)
 const isObject = arg => !Array.isArray(arg) && typeof arg === 'object' && arg !== null
-const isString = arg => typeof arg === 'string'
 
 function deepDiff(prev, next) {
   function diff(next, prev) {
