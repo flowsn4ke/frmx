@@ -9,7 +9,7 @@ export default function Submit({
 }) {
   const {
     disabled: formIsDisabled,
-    renderDiv,
+    render,
     handleSubmit,
   } = useForm()
 
@@ -17,7 +17,7 @@ export default function Submit({
 
   const props = {
     ...(disabled ? { disabled } : {}),
-    ...(renderDiv ? { onClick: handleSubmit, type: "button" } : { type: "submit" }),
+    ...(render === "div" ? { onClick: handleSubmit, type: "button" } : { type: "submit" }),
     ...rest
   }
 

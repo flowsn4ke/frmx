@@ -1,21 +1,19 @@
-import React, { useEffect, useRef } from 'react'
-import clone from './utils/clone'
+import React, { createElement, useEffect, useRef } from 'react'
 import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'
-import { getDiffAlg } from './utils/diff'
 import { trigger } from './events/utils'
 import { resetEvent, setEvent, submitEvent } from './events/eventNames'
 import Proxify from "proxur"
+import clone from './utils/clone'
 
-// TODO: Make a custom clone deep function: no more lodash! Uninstall it!
-
+// TODO: Add a special signal so we know setters come from frmx?
+// TODO: Update the doc: No more renderDiv or diff, added render, default is div
 export default function Form({
   afterChange,
   autoCompleteOff,
   children,
   clearAfterSubmit,
-  diff,
   disabled,
   disableIf,
   disableIfNoUpdates,
@@ -24,28 +22,23 @@ export default function Form({
   onInvalidSubmit,
   onReset,
   onSubmit,
-  renderDiv,
   refreshInitialValues,
   schemaValidation = {},
+  render = "div",
   ...rest
 }) {
-  const fields = useRef(Proxify(clone(initialValues)))
+  const fields = useRef(Proxify(initialValues))
   const validation = useRef(Proxify(schemaValidation))
   const observers = useRef(new Set())
   const updated = useRef(new Set())
   const errors = useRef(new Set())
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
-  // TODO: Feed the original object to the diff alg?
-  const diffAlg = useRef(getDiffAlg(diff))
-  // Read-only proxy. See https://javascript.info/proxy
-
-  // We need to make validation a proxy as well so we can access its methods in the same way
 
   useEffect(() => {
-    fields.current = Proxify(clone(initialValues))
+    fields.current = Proxify(initialValues)
     validation.current = Proxify(schemaValidation)
-  }, [initialValues])
+  }, [initialValues, schemaValidation])
 
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
@@ -55,21 +48,12 @@ export default function Form({
   const getErrors = () => new Set(errors.current)
 
   const getOneField = (field) => fields.current[field]
-  const setOneField = (field, value) => {
-
-    //! We only need to keep track of validation for validation purposes,
-    //! TODO not to prevent setting a value! Any value should be permitted!
-    // TODO: Check the validation method first?
-    // Although we are checking that in the field at the moment :/
-    // TODO: Replace lodash in the getValidationMethod method
-    // TODO: Set the fields based on a callback again in components' useStates?
-    fields.current[field] = value
-    setOneUpdated(field)
-
-    // TODO: Stop using events to handle observers?
-    observers.current.has(field) && trigger(setEvent(formId.current, field), value)
+  const setOneField = (path, value) => {
+    fields.current[path] = value
+    setOneUpdated(path)
+    observers.current.has(path) && trigger(setEvent(formId.current, path), value)
     // TODO: Update the API
-    !!afterChange && afterChange(fields.current, field, hasErrors(), getErrors())
+    !!afterChange && afterChange(fields.current, path, hasErrors(), getErrors())
   }
 
   // TODO: Do we actually need those?
@@ -93,9 +77,9 @@ export default function Form({
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
   const resetForm = () => {
-    if (onReset && hasUpdates()) onReset(diffAlg.current(initialValues, fields.current))
+    if (onReset && hasUpdates()) onReset(fields.current)
     updated.current = new Set()
-    fields.current = Proxify(clone(initialValues))
+    fields.current = Proxify(initialValues)
     trigger(resetEvent(formId.current))
   }
 
@@ -103,12 +87,12 @@ export default function Form({
     e?.preventDefault()
     if (isSubmitting.current === true) return
 
-    if ((disableIfNoUpdates || !!diff) && !hasUpdates()) {
+    if ((disableIfNoUpdates) && !hasUpdates()) {
       trigger(submitEvent(formId.current))
       return
     } else if (
       ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
-      (!!disableIf && disableIf(diffAlg.current(initialValues, fields.current)))
+      (!!disableIf && disableIf(clone(initialValues)))
     ) {
       trigger(submitEvent(formId.current))
       if (!!onInvalidSubmit && typeof onInvalidSubmit === 'function') onInvalidSubmit()
@@ -116,18 +100,27 @@ export default function Form({
       isSubmitting.current = true
       updated.current = new Set()
       errors.current = new Set()
-      onSubmit(diffAlg.current(initialValues, fields.current))
+      onSubmit(clone(initialValues))
       if (clearAfterSubmit) resetForm()
     }
 
     isSubmitting.current = false
   }
 
+  const props = {
+    ...(render === "form" ? {
+      noValidate: true,
+      autoComplete: autoCompleteOff ? "off" : "on",
+      onSubmit: handleSubmit
+    } : {}),
+    children,
+    ...rest
+  }
+
   return <FormContext.Provider value={{
     disabled,
     formId: formId.current,
     handleSubmit,
-    fields: fields.current,
     getErrors,
     getFields,
     getOneField,
@@ -136,28 +129,14 @@ export default function Form({
     hasUpdates,
     hasErrors,
     registerFieldObserver,
-    renderDiv,
+    render,
     resetForm,
     setOneError,
     setOneField,
     setOneUpdated,
     schemaValidation: validation.current,
   }}>
-    {(() => {
-      if (!renderDiv) {
-        return <form
-          noValidate
-          autoComplete={autoCompleteOff ? "off" : "on"}
-          onSubmit={handleSubmit}
-          {...rest}
-        >
-          {children}
-        </form>
-      } else {
-        return <div {...rest}>
-          {children}
-        </div>
-      }
-    })()}
+    {/* TODO: Check render possible values */}
+    {createElement(render, props)}
   </FormContext.Provider>
 }

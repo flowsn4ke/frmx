@@ -1,4 +1,3 @@
-import clone from '../utils/clone'
 import { useState, useRef, useEffect } from 'react'
 import { useArray, useForm } from '../Contexts'
 import { noProviderFor } from '../utils/dx'
@@ -16,7 +15,7 @@ export default function useField(path, config = {}) {
 
   const {
     disabled: formIsDisabled,
-    fields,
+    getFields,
     formId,
     getOneField,
     schemaValidation,
@@ -27,7 +26,7 @@ export default function useField(path, config = {}) {
   const arrx = useArray()
   const validationMethod = useRef(getValidationMethod(arrx, path, schemaValidation))
 
-  const [value, setValue] = useState(clone(getOneField(path)))
+  const [value, setValue] = useState(getOneField(path))
   const [onceValid, setOnceValid] = useState(!validationMethod.current)
   const [touched, setTouched] = useState(false)
   const [submittedOnce, setSubmittedOnce] = useState(false)
@@ -35,7 +34,7 @@ export default function useField(path, config = {}) {
 
   const handleError = (newVal) => {
     if (!!validationMethod.current && typeof validationMethod.current === 'function') {
-      const isError = !validationMethod.current(newVal, fields)
+      const isError = !validationMethod.current(newVal, getFields())
       if (!onceValid && !isError) setOnceValid(true)
       setError(isError)
       setOneError(path, isError)
@@ -47,7 +46,7 @@ export default function useField(path, config = {}) {
   }, [])
 
   const handleReset = () => {
-    setValue(clone(getOneField(path)))
+    setValue(getOneField(path))
     setSubmittedOnce(false)
     setOnceValid(false)
     setTouched(false)

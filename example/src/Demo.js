@@ -67,7 +67,6 @@ export default function Demo() {
   return (
     <Box className={classes.container}>
       <Form
-        renderDiv
         afterChange={(v, f, h, g) => console.log(g)}
         className={classes.formContainer}
         initialValues={fields}
@@ -80,7 +79,6 @@ export default function Demo() {
         disableIfNoUpdates
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
-        diff='keys'
       >
         <Typography variant="h4" className={classes.input}>
           Some Meaningful Form
@@ -149,7 +147,6 @@ export default function Demo() {
         <Form
           initialValues={{ name: "I'm a nested form" }}
           onSubmit={data => console.log("Nested Form Submit")}
-          renderDiv
         >
           <Field path="name" type="text">
             <TextField

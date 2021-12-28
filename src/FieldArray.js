@@ -28,9 +28,9 @@ export default function FieldArray({
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
 
-  const [items, setItems] = useState(clone(getOneField(path)))
+  const [items, setItems] = useState(getOneField(path))
 
-  const handleReset = useRef(() => setItems(clone(getOneField(path))))
+  const handleReset = useRef(() => setItems(getOneField(path)))
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = useRef(() => {
@@ -40,7 +40,7 @@ export default function FieldArray({
   })
 
   const removeItem = useRef((index) => {
-    const next = clone(getOneField(path)).filter((_item, i) => i !== index)
+    const next = getOneField(path).filter((_item, i) => i !== index)
     setOneField(path, next)
     setItems(next)
   })
