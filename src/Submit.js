@@ -1,6 +1,6 @@
 import { cloneElement, Children } from 'react'
 import { useForm } from './Contexts'
-import { devEnvOnlyWarn } from './utils/dx'
+import { warnDev } from './utils/dx'
 
 export default function Submit({
   disabled: locallyDisabled,
@@ -24,7 +24,7 @@ export default function Submit({
   try {
     return Children.only(children) && cloneElement(children, props)
   } catch (err) {
-    devEnvOnlyWarn(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
+    warnDev(`The FldX component can have only one child component, otherwise submitting won't work.`)
     return children
   }
 }

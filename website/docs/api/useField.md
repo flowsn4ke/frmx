@@ -19,14 +19,8 @@ import { Form, Field, Submit, useField } from "frmx"
 import { TextField, Button } from "@material-ui/core"
 import { WeirdInput } from "some-random-pkg"
 
-function CustomCheckboX({field}) {
-  const {
-    value,
-    setValue,
-    error,
-    onBlur,
-    disabled
-  } = useField(field)
+function CustomCheckboX({ path }) {
+  const [ value, setValue, error, disabled, onBlur ] = useField(path)
 
   return <>
     <WeirdInput

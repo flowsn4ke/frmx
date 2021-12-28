@@ -1,6 +1,6 @@
 import { cloneElement, Children, useRef } from 'react'
 import useField from './hooks/useField'
-import { devEnvOnlyWarn, noProviderFor } from './utils/dx'
+import { warnDev, noProviderFor } from './utils/dx'
 
 // TODO: Trim values when submitting based on prop && if type is text
 export default function Field({
@@ -40,7 +40,7 @@ export default function Field({
     type,
     onBlur,
     onChange: onChange.current,
-    // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e),
+    // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e), // => This causes rerender madness and bugs
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: error } : {}),
@@ -54,7 +54,7 @@ export default function Field({
   try {
     return Children.only(children) && cloneElement(children, props)
   } catch (err) {
-    devEnvOnlyWarn(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
+    warnDev(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
     return children
   }
 }

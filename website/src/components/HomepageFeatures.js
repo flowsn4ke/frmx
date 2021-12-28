@@ -1,17 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css'
-import {
-  HiOutlinePuzzle,
-  HiOutlineFire,
-  HiOutlineLightningBolt,
-  HiOutlineRefresh,
-  HiOutlineFilter,
-  HiOutlineCubeTransparent,
-  HiOutlineEye,
-  HiOutlineSparkles,
-  HiOutlineCheckCircle
-} from "react-icons/hi"
+import { HiOutlinePuzzle, HiOutlineFire, HiOutlineLightningBolt } from "react-icons/hi"
 
 const FeatureList = [
   {
@@ -37,64 +27,10 @@ const FeatureList = [
     Svg: HiOutlineLightningBolt,
     description: (
       <>
-        <code>frmx</code> is only ~27kb minified and ~9kb gzipped.
+        <code>frmx</code> is only ~9kb minified and ~3kb gzipped.
       </>
     ),
-  },
-  {
-    title: 'Flexible validation',
-    Svg: HiOutlineCheckCircle,
-    description: (
-      <>
-        No two inputs need to be validated the same way. That's why <code>frmx</code> works on a 'bring your own functions' model and allows you to validate your data any way you'd like.
-      </>
-    ),
-  },
-  {
-    title: 'Reusable inputs',
-    Svg: HiOutlineRefresh,
-    description: (
-      <>
-        <code>frmx</code> allows you to create highly reusable inputs. Ideal for data-intensive applications and to programatically create forms.
-      </>
-    ),
-  },
-  {
-    title: 'Opt-in Diffing',
-    Svg: HiOutlineFilter,
-    description: (
-      <>
-        <code>frmx</code> allows you to get back only the data you really need by providing three level of diffing if you opt in for that feature.
-      </>
-    ),
-  },
-  {
-    title: 'Flexible',
-    Svg: HiOutlineCubeTransparent,
-    description: (
-      <>
-        <code>frmx</code> doesn't dictate your code structure, your components nesting or the shape of your data!
-      </>
-    ),
-  },
-  {
-    title: 'Observers',
-    Svg: HiOutlineEye,
-    description: (
-      <>
-        Fields often depend on each other's values. <code>frmx</code> accounts for that and puts at your disposal observers available as hooks to keep track of other values anywhere in your forms.
-      </>
-    ),
-  },
-  {
-    title: 'Relational validation',
-    Svg: HiOutlineSparkles,
-    description: (
-      <>
-        Fields often depend on each other's values. <code>frmx</code> accounts for that and allows you to validate fields based of each other's value. No invalid data shall pass!
-      </>
-    ),
-  },
+  }
 ];
 
 function Feature({ Svg, title, description }) {

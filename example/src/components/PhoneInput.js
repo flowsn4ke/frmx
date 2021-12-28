@@ -46,12 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PhoneInput({ path, className, placeholder = "" }) {
-  const {
-    value,
-    setValue,
-    error,
-    disabled
-  } = useField(path)
+  const { value, setValue, error, disabled } = useField(path)
 
   const [country, setCountry] = useState('FR')
   const [isFocused, setIsFocused] = useState(false)

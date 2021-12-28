@@ -77,6 +77,6 @@ export default function useField(path, config = {}) {
     setValue: handleChange,
     error: error && (onceValid || touched || submittedOnce),
     disabled: formIsDisabled || config?.disabled,
-    onBlur,
+    onBlur
   }
 }

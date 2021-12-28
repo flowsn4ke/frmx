@@ -9,6 +9,8 @@ import clone from './utils/clone'
 
 // TODO: Add a special signal so we know setters come from frmx?
 // TODO: Update the doc: No more renderDiv or diff, added render, default is div
+// TODO: Check render is a legal value, otherwise replace it with "div"
+
 export default function Form({
   afterChange,
   autoCompleteOff,
@@ -27,7 +29,7 @@ export default function Form({
   render = "div",
   ...rest
 }) {
-  const fields = useRef(Proxify(initialValues))
+  const fields = useRef(Proxify(clone(initialValues)))
   const validation = useRef(Proxify(schemaValidation))
   const observers = useRef(new Set())
   const updated = useRef(new Set())
@@ -36,7 +38,7 @@ export default function Form({
   const formId = useRef(nanoid())
 
   useEffect(() => {
-    fields.current = Proxify(initialValues)
+    fields.current = Proxify(clone(initialValues))
     validation.current = Proxify(schemaValidation)
   }, [initialValues, schemaValidation])
 
@@ -79,7 +81,7 @@ export default function Form({
   const resetForm = () => {
     if (onReset && hasUpdates()) onReset(fields.current)
     updated.current = new Set()
-    fields.current = Proxify(initialValues)
+    fields.current = Proxify(clone(initialValues))
     trigger(resetEvent(formId.current))
   }
 
@@ -136,7 +138,6 @@ export default function Form({
     setOneUpdated,
     schemaValidation: validation.current,
   }}>
-    {/* TODO: Check render possible values */}
     {createElement(render, props)}
   </FormContext.Provider>
 }
