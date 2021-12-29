@@ -6743,11 +6743,6 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
-  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
-
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -8626,6 +8621,11 @@ prop-types@^15.6.2, prop-types@^15.7.2:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
     react-is "^16.8.1"
+
+proxur@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.1.tgz#418d9764f37eb35c8538bd337d94c17d6df9e729"
+  integrity sha512-bDdw49QjvpsAGWIN4Prftdj5HzSciscMf1HcC8hApm3fuNctOzCh8DC+fvcvbIflA5LlLCvCo+SNEXF4uIz7jw==
 
 proxy-addr@~2.0.5:
   version "2.0.7"
