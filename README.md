@@ -39,8 +39,6 @@ frmx no longer supports diffing for lack of usage. It may or may not be reinclud
 
 The `renderDiv` prop for the `<Form>` component is gone, and has been replaced with the `render` prop which accepts a string with the name of the tag you wish to create. The default is `"div"` in order to support nested forms - which happends way more often than you'd think when you use frmx to handle all of your user inputs - but you can pass it any tag name, including of course the `"form"` tag (those cannot be nested).
 
-No more renderDiv or diff, added render, default is div
-
 ## v4 Breaking changes
 
 Before switching to v4, please note that components have been renamed in order to provide better interoperability between librairies.
