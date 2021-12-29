@@ -86,6 +86,7 @@ export default function Form({
   }
 
   const handleSubmit = (e) => {
+    console.log("submitt");
     e?.preventDefault()
     if (isSubmitting.current === true) return
 
@@ -94,7 +95,7 @@ export default function Form({
       return
     } else if (
       ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
-      (!!disableIf && disableIf(clone(initialValues)))
+      (!!disableIf && disableIf(clone(Object.getPrototypeOf(fields.current))))
     ) {
       trigger(submitEvent(formId.current))
       if (!!onInvalidSubmit && typeof onInvalidSubmit === 'function') onInvalidSubmit()
@@ -102,7 +103,7 @@ export default function Form({
       isSubmitting.current = true
       updated.current = new Set()
       errors.current = new Set()
-      onSubmit(clone(initialValues))
+      onSubmit(clone(Object.getPrototypeOf(fields.current)))
       if (clearAfterSubmit) resetForm()
     }
 
