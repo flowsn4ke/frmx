@@ -5,7 +5,9 @@
   "keywords": [
     "frmx",
     "react",
-    "form"
+    "form",
+    "builder",
+    "validator"
   ],
   "author": {
     "name": "Theo Louvel",
@@ -68,6 +70,6 @@
   ],
   "dependencies": {
     "nanoid": "^3.1.25",
-    "proxur": "0.1.1"
+    "proxur": "0.1.2"
   }
 }
