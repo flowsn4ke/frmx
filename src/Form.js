@@ -86,7 +86,6 @@ export default function Form({
   }
 
   const handleSubmit = (e) => {
-    console.log("submitt");
     e?.preventDefault()
     if (isSubmitting.current === true) return
 
