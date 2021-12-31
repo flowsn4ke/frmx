@@ -21,7 +21,7 @@ It is heavily relied on in production at my company (it actually manages **all**
 
 ## Docs
 
-**[Check the documentation here](https://Form.io/)**
+**[Check the documentation here](https://frmx.dev/)**
 
 ## Goal
 
