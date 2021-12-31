@@ -1,8 +1,11 @@
-![latest tag](https://badgen.net/github/tag/flowsn4ke/frmx)
-![total stars](https://badgen.net/github/stars/flowsn4ke/frmx)
-![open issues](https://badgen.net/github/open-issues/flowsn4ke/frmx)
-![last commit](https://badgen.net/github/last-commit/flowsn4ke/frmx)
-![license](https://badgen.net/github/license/flowsn4ke/frmx)
+![license](https://img.shields.io/github/license/flowsn4ke/frmx)
+![latest version](https://img.shields.io/npm/v/frmx)
+![total stars](https://img.shields.io/github/stars/flowsn4ke/frmx)
+![open issues](https://img.shields.io/github/issues-raw/flowsn4ke/frmx)
+![last commit](https://img.shields.io/github/last-commit/flowsn4ke/frmx)
+![bundle size](https://img.shields.io/bundlephobia/minzip/frmx)
+![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/flowsn4ke/frmx)
+![downloads](https://img.shields.io/npm/dt/frmx)
 
 # Simple, Performant, Lightweight React Forms
 
