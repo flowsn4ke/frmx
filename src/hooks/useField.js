@@ -4,6 +4,8 @@ import { noProviderFor } from '../utils/dx'
 import { resetEvent, submitEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useDocumentListener from './useDocumentListener'
+import useSubmitListener from './useSubmitListener'
+import useResetListener from './useResetListener'
 
 export default function useField(path, config = {}) {
   const frmx = useForm()
@@ -52,13 +54,13 @@ export default function useField(path, config = {}) {
     setTouched(false)
     handleError(value)
   }
-  useDocumentListener(resetEvent(formId), handleReset)
+  useResetListener(handleReset)
 
   const handleSubmit = () => {
     setSubmittedOnce(true)
     handleError(getOneField(path))
   }
-  useDocumentListener(submitEvent(formId), handleSubmit)
+  useSubmitListener(handleSubmit)
 
   const handleChange = (next) => {
     next = typeof next === 'function' ? next(value) : next
