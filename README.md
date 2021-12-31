@@ -1,4 +1,8 @@
-![latest release](https://badgen.net/github/tag/flowsn4ke/frmx)
+![latest tag](https://badgen.net/github/tag/flowsn4ke/frmx)
+![total stars](https://badgen.net/stars/tag/flowsn4ke/frmx)
+![open issues](https://badgen.net/open-issues/tag/flowsn4ke/frmx)
+![last commit](https://badgen.net/last-commit/tag/flowsn4ke/frmx)
+![license](https://badgen.net/license/tag/flowsn4ke/frmx)
 
 # Simple, Performant, Lightweight React Forms
 
