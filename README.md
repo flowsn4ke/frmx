@@ -5,7 +5,6 @@
 ![total stars](https://img.shields.io/github/stars/flowsn4ke/frmx)
 ![downloads](https://img.shields.io/npm/dt/frmx)
 ![open issues](https://img.shields.io/github/issues-raw/flowsn4ke/frmx)
-![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/flowsn4ke/frmx)
 
 # Simple, Performant, Lightweight React Forms
 
