@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'
 import { trigger } from './events/utils'
-import { resetEvent, setEvent, submitEvent } from './events/eventNames'
+import { resetEvent, setEvent, submitEvent } from './events'
 import Proxify from "proxur"
 import clone from './utils/clone'
 

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import clone from './utils/clone'
 import { useForm, ArrayContext } from './Contexts'
 import { noProviderFor } from './utils/dx'
-import { resetEvent } from './events/eventNames'
-import useDocumentListener from './hooks/useDocumentListener'
+import { resetEvent } from './events'
+import { useDocumentListener } from "react-events-utils"
 
 export default function FieldArray({
   children,

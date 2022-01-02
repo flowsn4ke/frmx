@@ -9524,6 +9524,11 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-events-utils@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-events-utils/-/react-events-utils-0.1.2.tgz#083223c633811e77853b664c9a2c8366dec7061d"
+  integrity sha512-T8Ac6xIr70iAfLrTHZ51Jqr6piFeKVEZZufyRV60d0rYTRnbczPDNHWmoW05OyxPd6g0kEApGOdbfLKaxqrKdA==
+
 react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
