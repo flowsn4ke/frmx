@@ -71,7 +71,7 @@
   ],
   "dependencies": {
     "nanoid": "^3.1.25",
-    "proxur": "0.1.2",
-    "react-events-utils": "^0.1.2"
+    "proxur": "^0.1.2",
+    "react-events-utils": "^0.2.0"
   }
 }

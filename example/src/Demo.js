@@ -80,6 +80,7 @@ export default function Demo() {
         onInvalidSubmit={() => alert("Invalid form!")}
         schemaValidation={validationMethods}
       >
+        <div>test</div>
         <Typography variant="h4" className={classes.input}>
           Some Meaningful Form
         </Typography>
