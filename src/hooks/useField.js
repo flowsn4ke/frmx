@@ -16,7 +16,6 @@ export default function useField(path, config = {}) {
   const {
     disabled: formIsDisabled,
     getFields,
-    formId,
     getOneField,
     schemaValidation,
     setOneError,

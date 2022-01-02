@@ -2,7 +2,6 @@ import { cloneElement, Children, useRef } from 'react'
 import useField from './hooks/useField'
 import { warnDev, noProviderFor } from './utils/dx'
 
-// TODO: Trim values when submitting based on prop && if type is text
 export default function Field({
   afterChange,
   autoCapitalizeOn,
@@ -20,7 +19,6 @@ export default function Field({
   valueProp = "value",
   ...rest
 }) {
-  // TODO: Is there doc on the trim function?
   const fldx = useField(path, { afterChange, trim, disabled: locallyDisabled, native: true })
 
   if (!fldx) {

@@ -7,11 +7,6 @@ import { resetEvent, setEvent, submitEvent } from './events/eventNames'
 import Proxify from "proxur"
 import clone from './utils/clone'
 
-// TODO: Add a special signal so we know setters come from frmx?
-// TODO: Update the doc: No more renderDiv or diff, added render, default is div
-// TODO: Check render is a legal value, otherwise replace it with "div"
-// TODO: Async submit? No, so we can do optimistic UI
-
 export default function Form({
   afterChange,
   autoCompleteOff,
@@ -27,7 +22,7 @@ export default function Form({
   onSubmit,
   refreshInitialValues,
   schemaValidation = {},
-  render = "div",
+  render = "div", // TODO: Check render is a legal value, otherwise replace it with "div"
   ...rest
 }) {
   const fields = useRef(Proxify(clone(initialValues)))
@@ -47,7 +42,6 @@ export default function Form({
   const hasErrors = () => errors.current.size > 0
 
   const getFields = () => fields.current
-  // TODO: Add to the doc
   const getErrors = () => new Set(errors.current)
 
   const getOneField = (field) => fields.current[field]
@@ -55,18 +49,15 @@ export default function Form({
     fields.current[path] = value
     setOneUpdated(path)
     observers.current.has(path) && trigger(setEvent(formId.current, path), value)
-    // TODO: Update the API
     !!afterChange && afterChange(fields.current, path, hasErrors(), getErrors())
   }
 
-  // TODO: Do we actually need those?
   const getOneUpdated = (field) => updated.current.has(field)
   const setOneUpdated = (field) => {
     if (!updated.current.has(field))
       updated.current.add(field)
   }
 
-  // TODO: Do we actually need those?
   const getOneError = (field) => errors.current.has(field)
   const setOneError = (field, isError) => {
     if (isError && !errors.current.has(field)) {
@@ -76,7 +67,6 @@ export default function Form({
     }
   }
 
-  // TODO: Make use of the proxy somehow later on
   const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
 
   const resetForm = () => {
