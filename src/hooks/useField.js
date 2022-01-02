@@ -1,9 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useArray, useForm } from '../Contexts'
 import { noProviderFor } from '../utils/dx'
-import { resetEvent, submitEvent } from '../events/eventNames'
 import { getValidationMethod } from '../utils/getValidationMethod'
-import useDocumentListener from './useDocumentListener'
 import useSubmitListener from './useSubmitListener'
 import useResetListener from './useResetListener'
 
@@ -68,7 +66,6 @@ export default function useField(path, config = {}) {
     setValue(next)
     handleError(next)
     setOneField(path, next)
-    // TODO: Add error prop in afterChange to doc
     if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, path, error)
   }
 
