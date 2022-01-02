@@ -138,6 +138,7 @@ export default function Demo() {
 
         <Box className={classes.checkboxContainer}>
           <Field path="options.checked" type="checkbox">
+            {/* <input type="checkbox" /> */}
             <Checkbox className={classes.checkbox} />
           </Field>
         </Box>

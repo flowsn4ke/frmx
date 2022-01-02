@@ -11,7 +11,7 @@ sidebar_position: 5
 | Name                    | Type           | Default       |  Description |
 |----------               | -------------  | ------------- |  ------------- |
 | startWithOneMore | boolean | false | Add one empty element in the array on mount (using the provided model) |
-| field | string | undefined |  The field containing the array that should be controlled by `<FieldArray/>`. You can target nested fields like so `"a.nested.field"` (lodash notation). Don't  |
+| path | string | undefined |  The path of the property containing the array that should be controlled by `<FieldArray/>`. You can target nested fields like so `"a.nested.field"` (lodash notation). Don't  |
 | model | object | `""` | The structure of one array element, which can be of any type you need |
 
 ## Example Usage
@@ -37,16 +37,16 @@ export default function MyComponent() {
       path="arr"
       model={{ name: "", email: "" }}
       >
-        {({ field, items, addItem, removeItem, disabled }) => (
+        {({ path, items, addItem, removeItem, disabled }) => (
           <div>
             {items.map((item, i) => (
               <div key={`unique-id-${i}`}>
 
-                <Field path={`${field}.${i}.name`}>
+                <Field path={`${path}.${i}.name`}>
                   <input />
                 </Field>
 
-                <Field path={`${field}.${i}.email`}>
+                <Field path={`${path}.${i}.email`}>
                   <input />
                 </Field>
 

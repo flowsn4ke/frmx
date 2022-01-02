@@ -31,6 +31,9 @@ export default function Field({
 
   const { value, setValue, error, disabled, onBlur } = fldx
 
+  const nativeType = children.type === "input" ? children.props?.type : undefined
+  nativeType && (type = nativeType)
+
   const onChange = useRef((...args) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     setValue(val)
@@ -40,7 +43,6 @@ export default function Field({
     type,
     onBlur,
     onChange: onChange.current,
-    // onKeyPress: e => e.key === 'Enter' && type === 'text' && handleSubmit(e), // => This causes rerender madness and bugs
     disabled,
     [type === "checkbox" ? "checked" : "value"]: value,
     ...(isErrorProp ? { [isErrorProp]: error } : {}),

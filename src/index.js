@@ -5,6 +5,8 @@ import Reset from './Reset'
 import FieldArray from './FieldArray'
 import useField from './hooks/useField'
 import useFieldObserver from './hooks/useFieldObserver'
+import useSubmitListener from './hooks/useSubmitListener'
+import useResetListener from './hooks/useResetListener'
 import { useForm } from './Contexts'
 
 export {
@@ -15,5 +17,7 @@ export {
   Reset,
   useForm,
   useField,
-  useFieldObserver
+  useFieldObserver,
+  useSubmitListener,
+  useResetListener
 }

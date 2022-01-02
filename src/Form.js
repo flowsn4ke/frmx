@@ -10,6 +10,7 @@ import clone from './utils/clone'
 // TODO: Add a special signal so we know setters come from frmx?
 // TODO: Update the doc: No more renderDiv or diff, added render, default is div
 // TODO: Check render is a legal value, otherwise replace it with "div"
+// TODO: Async submit? No, so we can do optimistic UI
 
 export default function Form({
   afterChange,

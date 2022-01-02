@@ -1,6 +1,19 @@
+![license](https://img.shields.io/github/license/flowsn4ke/frmx)
+![latest version](https://img.shields.io/npm/v/frmx)
+![last commit](https://img.shields.io/github/last-commit/flowsn4ke/frmx)
+![bundle size](https://img.shields.io/bundlephobia/minzip/frmx)
+![total stars](https://img.shields.io/github/stars/flowsn4ke/frmx)
+![downloads](https://img.shields.io/npm/dt/frmx)
+![open issues](https://img.shields.io/github/issues-raw/flowsn4ke/frmx)
+![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/flowsn4ke/frmx)
+
 # Simple, Performant, Lightweight React Forms
 
-**Form** is lightweight (~9kb minified / ~3kb gzipped) and eliminates most of the boilerplate code and headaches when building forms with React, without assuming anything about the shape of your form data or the nesting / styling of your component.
+**frmx** is lightweight (~9kb minified / ~3kb gzipped) and eliminates most of the boilerplate code and headaches when building forms with React, without assuming anything about the shape of your form data or the nesting / styling of your component.
+
+But, unlike other librairies, you can take frmx one step further and use it to manager *all kinds of user inputs*, such as **settings** or complex **search filters** for instance.
+
+It is heavily relied on in production at my company (it actually manages **all** user inputs) and used by several thousands users a month, yet having no known (open) issue.
 
 ## CodeSandbox
 
@@ -8,7 +21,7 @@
 
 ## Docs
 
-**[Check the documentation here](https://Form.io/)**
+**[Check the documentation here](https://frmx.dev/)**
 
 ## Goal
 
@@ -31,7 +44,7 @@ schemaValidation={{ bar: { baz: str => str.length > 2 } }}
 
 ## How it works
 
-To get both performance and flexibility with a simple API, `Form` uses React's **context API only to store refs**, expose a few getter / setters methods and give forms a unique id. That way, updating form data doesn't trigger rerendering everything inside the `<Form/>` component. All **fields keep track of their own state** and only update the refs as a **side effect**, while various events regarding form validity / submitting / resetting are passed through **synthetic events** that do not trigger rerenders of the context provider itself.
+To get both performance and flexibility with a simple API, `frmx` uses React's **context API only to store refs**, expose a few getter / setters methods and give forms a unique id. That way, updating form data doesn't trigger rerendering everything inside the `<Form/>` component. All **fields keep track of their own state** and only update the refs as a **side effect**, while various events regarding form validity / submitting / resetting are passed through **synthetic events** that do not trigger rerenders of the context provider itself.
 
 ## v5 Breaking changes
 

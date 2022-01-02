@@ -1,13 +1,14 @@
 {
   "name": "frmx",
-  "version": "5.0.0-alpha.4",
+  "version": "5.0.0-alpha.6",
   "description": "Simple, Performant, Lightweight React Forms",
   "keywords": [
     "frmx",
     "react",
     "form",
     "builder",
-    "validator"
+    "validator",
+    "user input"
   ],
   "author": {
     "name": "Theo Louvel",

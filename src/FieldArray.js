@@ -19,12 +19,7 @@ export default function FieldArray({
     else return null
   }
 
-  const {
-    disabled,
-    formId,
-    getOneField,
-    setOneField,
-  } = frmx
+  const { disabled, formId, getOneField, setOneField } = frmx
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
 
@@ -34,6 +29,7 @@ export default function FieldArray({
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = useRef(() => {
+    // TODO: Add possibility to pass data directly in the function, if empty then clone model
     const next = [...getOneField(path), clone(model)]
     setItems(next)
     setOneField(path, next)
