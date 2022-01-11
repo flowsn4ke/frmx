@@ -50,11 +50,12 @@ export default function useField(path: string, config: {
   }, [])
 
   const handleReset = () => {
-    setValue(getOneField(path))
+    const next = getOneField(path)
+    setValue(next)
     setSubmittedOnce(false)
     setOnceValid(false)
     setTouched(false)
-    handleError(value)
+    handleError(next)
   }
   useResetListener(handleReset)
 

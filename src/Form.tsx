@@ -93,7 +93,9 @@ export default function Form({
   const registerFieldObserver = (path: string) => !observers.current.has(path) && observers.current.add(path)
 
   const resetForm = () => {
-    if (onReset && hasUpdates()) onReset(fields.current)
+    if (onReset && hasUpdates())
+      onReset(fields.current)
+
     updated.current = new Set()
     fields.current = Proxify(clone(initialValues))
     trigger(resetEvent(formId.current))
@@ -111,7 +113,10 @@ export default function Form({
       (!!disableIf && disableIf(clone(Object.getPrototypeOf(fields.current))))
     ) {
       trigger(submitEvent(formId.current))
-      if (!!onInvalidSubmit && typeof onInvalidSubmit === 'function') onInvalidSubmit()
+
+      if (!!onInvalidSubmit)
+        onInvalidSubmit()
+
     } else {
       isSubmitting.current = true
       updated.current = new Set()
