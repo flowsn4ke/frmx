@@ -1,11 +1,35 @@
-import React, { createElement, useEffect, useRef } from 'react'
+import {
+  createElement,
+  useEffect,
+  useRef,
+  ReactNode,
+  ChangeEvent
+} from 'react'
 import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'
-import { trigger } from './events/utils'
+import { trigger } from 'react-events-utils'
 import { resetEvent, setEvent, submitEvent } from './events'
 import Proxify from "proxur"
 import clone from './utils/clone'
+
+interface FormPropsInterface {
+  afterChange?(fields: object, path: string, hasErrors: boolean, getErrors: any): any,
+  autoCompleteOff?: boolean,
+  children: ReactNode,
+  clearAfterSubmit?: any,
+  disabled?: boolean,
+  disableIf?(fields: object): boolean,
+  disableIfNoUpdates?: boolean,
+  disableIfInvalid?: boolean,
+  initialValues: object,
+  onInvalidSubmit?(): any,
+  onReset?(fields: object): any,
+  onSubmit?(fields: object): any,
+  schemaValidation?: object,
+  render?: string,
+  rest?: any
+}
 
 export default function Form({
   afterChange,
@@ -20,11 +44,10 @@ export default function Form({
   onInvalidSubmit,
   onReset,
   onSubmit,
-  refreshInitialValues,
   schemaValidation = {},
   render = "div", // TODO: Check render is a legal value, otherwise replace it with "div"
   ...rest
-}) {
+}: FormPropsInterface) {
   const fields = useRef(Proxify(clone(initialValues)))
   const validation = useRef(Proxify(schemaValidation))
   const observers = useRef(new Set())
@@ -44,30 +67,30 @@ export default function Form({
   const getFields = () => fields.current
   const getErrors = () => new Set(errors.current)
 
-  const getOneField = (field) => fields.current[field]
-  const setOneField = (path, value) => {
+  const getOneField = (path: string) => fields.current[path]
+  const setOneField = (path: string, value) => {
     fields.current[path] = value
     setOneUpdated(path)
     observers.current.has(path) && trigger(setEvent(formId.current, path), value)
     !!afterChange && afterChange(fields.current, path, hasErrors(), getErrors())
   }
 
-  const getOneUpdated = (field) => updated.current.has(field)
-  const setOneUpdated = (field) => {
-    if (!updated.current.has(field))
-      updated.current.add(field)
+  const getOneUpdated = (path: string) => updated.current.has(path)
+  const setOneUpdated = (path: string) => {
+    if (!updated.current.has(path))
+      updated.current.add(path)
   }
 
-  const getOneError = (field) => errors.current.has(field)
-  const setOneError = (field, isError) => {
-    if (isError && !errors.current.has(field)) {
-      errors.current.add(field)
-    } else if (!isError && errors.current.has(field)) {
-      errors.current.delete(field)
+  const getOneError = (path: string) => errors.current.has(path)
+  const setOneError = (path: string, isError) => {
+    if (isError && !errors.current.has(path)) {
+      errors.current.add(path)
+    } else if (!isError && errors.current.has(path)) {
+      errors.current.delete(path)
     }
   }
 
-  const registerFieldObserver = (field) => !observers.current.has(field) && observers.current.add(field)
+  const registerFieldObserver = (path: string) => !observers.current.has(path) && observers.current.add(path)
 
   const resetForm = () => {
     if (onReset && hasUpdates()) onReset(fields.current)
@@ -76,7 +99,7 @@ export default function Form({
     trigger(resetEvent(formId.current))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e?: ChangeEvent) => {
     e?.preventDefault()
     if (isSubmitting.current === true) return
 
@@ -110,25 +133,26 @@ export default function Form({
     ...rest
   }
 
-  return <FormContext.Provider value={{
-    disabled,
-    formId: formId.current,
-    handleSubmit,
-    getErrors,
-    getFields,
-    getOneField,
-    getOneUpdated,
-    getOneError,
-    hasUpdates,
-    hasErrors,
-    registerFieldObserver,
-    render,
-    resetForm,
-    setOneError,
-    setOneField,
-    setOneUpdated,
-    schemaValidation: validation.current,
-  }}>
+  return <FormContext.Provider
+    value={{
+      disabled,
+      formId: formId.current,
+      handleSubmit,
+      getErrors,
+      getFields,
+      getOneField,
+      getOneUpdated,
+      getOneError,
+      hasUpdates,
+      hasErrors,
+      registerFieldObserver,
+      render,
+      resetForm,
+      setOneError,
+      setOneField,
+      setOneUpdated,
+      schemaValidation: validation.current,
+    }}>
     {createElement(render, props)}
   </FormContext.Provider>
 }

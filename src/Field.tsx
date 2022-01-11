@@ -1,6 +1,30 @@
-import { cloneElement, Children, useRef } from 'react'
+import {
+  cloneElement,
+  Children,
+  useRef,
+  ReactElement,
+  isValidElement,
+} from 'react'
 import useField from './hooks/useField'
 import { warnDev, noProviderFor } from './utils/dx'
+
+interface FieldPropsInterface {
+  afterChange?(value?: any, path?: string, error?: boolean): any,
+  autoCapitalizeOn?: boolean,
+  autoCompleteOff?: boolean,
+  autoCorrectOn?: boolean,
+  children: ReactElement,
+  disabled?: boolean,
+  path: string,
+  getValueFromArgs?(args: any): any,
+  isErrorProp?: string,
+  onChangeProp?: string,
+  spellCheckOn?: boolean,
+  trim?: boolean,
+  type?: string,
+  valueProp?: string,
+  rest?: any
+}
 
 export default function Field({
   afterChange,
@@ -18,7 +42,7 @@ export default function Field({
   type = "text",
   valueProp = "value",
   ...rest
-}) {
+}: FieldPropsInterface) {
   const fldx = useField(path, { afterChange, trim, disabled: locallyDisabled, native: true })
 
   if (!fldx) {
@@ -32,7 +56,7 @@ export default function Field({
   const nativeType = children.type === "input" ? children.props?.type : undefined
   nativeType && (type = nativeType)
 
-  const onChange = useRef((...args) => {
+  const onChange = useRef((...args: any) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     setValue(val)
   })
@@ -52,7 +76,12 @@ export default function Field({
   }
 
   try {
-    return Children.only(children) && cloneElement(children, props)
+    if (isValidElement(children) && Children.only(children))
+      return cloneElement(children as ReactElement, props) // on type guards: https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
+
+    else
+      throw new Error()
+
   } catch (err) {
     warnDev(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
     return children

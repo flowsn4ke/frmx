@@ -1,16 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  ReactElement
+} from 'react'
 import clone from './utils/clone'
 import { useForm, ArrayContext } from './Contexts'
 import { noProviderFor } from './utils/dx'
 import { resetEvent } from './events'
 import { useDocumentListener } from "react-events-utils"
 
+interface childrenInterface {
+  path: string,
+  items: Array<any>,
+  removeItem(index: number): void,
+  addItem(): void,
+  disabled: boolean
+}
+
+interface FieldArrayPropsInterface {
+  children?(object: childrenInterface): ReactElement,
+  path: string,
+  model: any,
+  startWithOneMore?: boolean
+}
+
 export default function FieldArray({
   children,
   path,
   model = "",
   startWithOneMore,
-}) {
+}: FieldArrayPropsInterface) {
   const frmx = useForm()
 
   if (!frmx) {
@@ -35,7 +55,7 @@ export default function FieldArray({
     setOneField(path, next)
   })
 
-  const removeItem = useRef((index) => {
+  const removeItem = useRef((index: number) => {
     const next = getOneField(path).filter((_item, i) => i !== index)
     setOneField(path, next)
     setItems(next)

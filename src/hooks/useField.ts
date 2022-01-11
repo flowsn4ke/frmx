@@ -5,7 +5,12 @@ import { getValidationMethod } from '../utils/getValidationMethod'
 import useSubmitListener from './useSubmitListener'
 import useResetListener from './useResetListener'
 
-export default function useField(path, config = {}) {
+export default function useField(path: string, config: {
+  native?: boolean,
+  trim?: boolean,
+  afterChange?(value: any, path: string, error: boolean): any,
+  disabled?: boolean
+} = {}) {
   const frmx = useForm()
 
   if (!frmx) {
@@ -31,7 +36,7 @@ export default function useField(path, config = {}) {
   const [submittedOnce, setSubmittedOnce] = useState(false)
   const [error, setError] = useState(false)
 
-  const handleError = (newVal) => {
+  const handleError = (newVal: any) => {
     if (!!validationMethod.current && typeof validationMethod.current === 'function') {
       const isError = !validationMethod.current(newVal, getFields())
       if (!onceValid && !isError) setOnceValid(true)
@@ -59,13 +64,13 @@ export default function useField(path, config = {}) {
   }
   useSubmitListener(handleSubmit)
 
-  const handleChange = (next) => {
+  const handleChange = (next: any) => {
     next = typeof next === 'function' ? next(value) : next
     next = !!config?.trim && typeof next === 'string' ? next.trim() : next
     setValue(next)
     handleError(next)
     setOneField(path, next)
-    if (config?.afterChange && typeof config?.afterChange === 'function') config.afterChange(next, path, error)
+    if (config.afterChange) config.afterChange(next, path, error)
   }
 
   const onBlur = () => setTouched(true)

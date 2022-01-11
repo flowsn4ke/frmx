@@ -1,4 +1,4 @@
-export const getValidationMethod = (arrx, field, schemaValidation) => {
+export const getValidationMethod = (arrx: { validationPath: string }, field: string, schemaValidation: object) => {
   let validationPath
 
   if (!!arrx) {

@@ -23,15 +23,16 @@
     "url": "https://github.com/flowsn4ke/frmx/issues"
   },
   "homepage": "https://frmx.dev",
-  "main": "dist/index.js",
-  "module": "dist/index.modern.js",
-  "source": "src/index.js",
+  "source": "src/index.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.modern.module.js",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs && rm dist/*.map",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "build": "microbundle --jsx react --no-compress --format modern,cjs --no-sourcemap",
+    "start": "microbundle -w --no-compress",
     "start:demo": "cd example && yarn start",
     "start:doc": "cd website && yarn start",
     "prepare": "run-s build",
@@ -48,6 +49,7 @@
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
+    "@types/react": "^17.0.38",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
@@ -61,7 +63,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^2.2.0",
-    "microbundle-crl": "^0.13.10",
+    "microbundle": "^0.14.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
     "react-scripts": "^3.4.1"

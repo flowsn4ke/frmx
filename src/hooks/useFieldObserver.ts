@@ -3,7 +3,7 @@ import { useForm } from "../Contexts"
 import { noProviderFor } from "../utils/dx";
 import { useDocumentListener } from "react-events-utils";
 
-export default function useFieldObserver(field, userHandler) {
+export default function useFieldObserver(path: string, userHandler?: (event: any) => any) {
   const frmx = useForm()
 
   if (!frmx) {
@@ -12,18 +12,18 @@ export default function useFieldObserver(field, userHandler) {
   }
 
   useEffect(() => {
-    frmx.registerFieldObserver(field)
+    frmx.registerFieldObserver(path)
   }, [])
 
-  const [value, setValue] = useState(frmx.getOneField(field))
+  const [value, setValue] = useState(frmx.getOneField(path))
 
-  const handler = useRef(e => {
-    const next = e.detail
+  const handler = useRef((event: any) => {
+    const next = event.detail
     setValue(next)
     userHandler && typeof userHandler === "function" && userHandler(next)
   })
 
-  useDocumentListener(`frmx-${frmx.formId}-set-${field}`, handler.current)
+  useDocumentListener(`frmx-${frmx.formId}-set-${path}`, handler.current)
 
   return value
 };
