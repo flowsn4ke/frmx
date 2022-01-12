@@ -2,7 +2,7 @@ import {
   createElement,
   useEffect,
   useRef,
-  ReactNode,
+  ReactElement,
   ChangeEvent
 } from 'react'
 import { nanoid } from 'nanoid'
@@ -16,7 +16,7 @@ import clone from './utils/clone'
 interface FormPropsInterface {
   afterChange?(fields: object, path: string, hasErrors: boolean, getErrors: any): any,
   autoCompleteOff?: boolean,
-  children: ReactNode,
+  children: ReactElement,
   clearAfterSubmit?: any,
   disabled?: boolean,
   disableIf?(fields: object): boolean,
