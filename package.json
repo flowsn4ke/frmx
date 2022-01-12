@@ -24,15 +24,15 @@
   },
   "homepage": "https://frmx.dev",
   "source": "src/index.ts",
-  "main": "dist/index.umd.js",
+  "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle --jsx react --no-compress --format modern,cjs --no-sourcemap",
-    "start": "microbundle --jsx react -w --no-compress",
+    "build": "microbundle --jsx react --no-sourcemap --compress",
+    "start": "microbundle --jsx react -w",
     "start:demo": "cd example && yarn start",
     "start:doc": "cd website && yarn start",
     "prepare": "run-s build",
