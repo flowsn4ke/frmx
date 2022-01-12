@@ -25,7 +25,7 @@
   "homepage": "https://frmx.dev",
   "source": "src/index.ts",
   "main": "dist/index.umd.js",
-  "module": "dist/index.modern.module.js",
+  "module": "dist/index.modern.js",
   "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
