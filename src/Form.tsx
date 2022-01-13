@@ -23,7 +23,7 @@ interface FormPropsInterface {
   disableIfNoUpdates?: boolean,
   disableIfInvalid?: boolean,
   initialValues: object,
-  noRefresh?: boolean,
+  refresh?: boolean,
   onInvalidSubmit?(): any,
   onReset?(fields: object): any,
   onSubmit?(fields: object): any,
@@ -42,7 +42,7 @@ export default function Form({
   disableIfNoUpdates,
   disableIfInvalid,
   initialValues = {},
-  noRefresh,
+  refresh,
   onInvalidSubmit,
   onReset,
   onSubmit,
@@ -59,11 +59,15 @@ export default function Form({
   const formId = useRef(nanoid())
 
   useEffect(() => {
-    if (!noRefresh) {
+    if (refresh) {
       fields.current = Proxify(clone(initialValues))
       validation.current = Proxify(clone(schemaValidation))
     }
-  }, [initialValues, schemaValidation])
+  }, [
+    initialValues,
+    schemaValidation,
+    refresh
+  ])
 
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
