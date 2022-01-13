@@ -111,17 +111,16 @@ export default function Form({
 
   const handleSubmit = (e?: ChangeEvent) => {
     e?.preventDefault()
+    trigger(submitEvent(formId.current))
+
     if (isSubmitting.current === true) return
 
     if ((disableIfNoUpdates) && !hasUpdates()) {
-      trigger(submitEvent(formId.current))
       return
     } else if (
       ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
       (!!disableIf && disableIf(clone(Object.getPrototypeOf(fields.current))))
     ) {
-      trigger(submitEvent(formId.current))
-
       if (!!onInvalidSubmit)
         onInvalidSubmit()
 
