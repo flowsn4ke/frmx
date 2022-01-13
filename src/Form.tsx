@@ -1,5 +1,6 @@
 import {
   createElement,
+  useEffect,
   useRef,
   ReactElement,
   ChangeEvent
@@ -10,6 +11,7 @@ import { FormContext } from './Contexts'
 import { trigger } from 'react-events-utils'
 import { resetEvent, setEvent, submitEvent } from './events'
 import Proxify from "proxur"
+import clone from './utils/clone'
 
 interface FormPropsInterface {
   afterChange?(fields: object, path: string, hasErrors: boolean, getErrors: any): any,
@@ -21,6 +23,7 @@ interface FormPropsInterface {
   disableIfNoUpdates?: boolean,
   disableIfInvalid?: boolean,
   initialValues: object,
+  noRefresh?: boolean,
   onInvalidSubmit?(): any,
   onReset?(fields: object): any,
   onSubmit?(fields: object): any,
@@ -39,6 +42,7 @@ export default function Form({
   disableIfNoUpdates,
   disableIfInvalid,
   initialValues = {},
+  noRefresh,
   onInvalidSubmit,
   onReset,
   onSubmit,
@@ -46,13 +50,20 @@ export default function Form({
   render = "div", // TODO: Check render is a legal value, otherwise replace it with "div"
   ...rest
 }: FormPropsInterface) {
-  const fields = useRef(Proxify(initialValues))
+  const fields = useRef(Proxify(clone(initialValues)))
   const validation = useRef(Proxify(schemaValidation))
   const observers = useRef(new Set())
   const updated = useRef(new Set())
   const errors = useRef(new Set())
   const isSubmitting = useRef(false)
   const formId = useRef(nanoid())
+
+  useEffect(() => {
+    if (!noRefresh) {
+      fields.current = Proxify(clone(initialValues))
+      validation.current = Proxify(clone(schemaValidation))
+    }
+  }, [initialValues, schemaValidation])
 
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
@@ -90,7 +101,7 @@ export default function Form({
       onReset(fields.current)
 
     updated.current = new Set()
-    fields.current = Proxify(initialValues)
+    fields.current = Proxify(clone(initialValues))
     trigger(resetEvent(formId.current))
   }
 
@@ -103,7 +114,7 @@ export default function Form({
       return
     } else if (
       ((disableIfInvalid || onInvalidSubmit) && hasErrors()) ||
-      (!!disableIf && disableIf(Object.getPrototypeOf(fields.current)))
+      (!!disableIf && disableIf(clone(Object.getPrototypeOf(fields.current))))
     ) {
       trigger(submitEvent(formId.current))
 
@@ -114,7 +125,7 @@ export default function Form({
       isSubmitting.current = true
       updated.current = new Set()
       errors.current = new Set()
-      onSubmit(Object.getPrototypeOf(fields.current))
+      onSubmit(clone(Object.getPrototypeOf(fields.current)))
       if (clearAfterSubmit) resetForm()
     }
 
