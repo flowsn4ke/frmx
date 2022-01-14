@@ -73,10 +73,14 @@ export default function Form({
 
   const getOneField = (path: string) => fields.current[path]
   const setOneField = (path: string, value: any) => {
-    fields.current[path] = value
-    setOneUpdated(path)
-    observers.current.has(path) && trigger(setEvent(formId.current, path), value)
-    !!afterChange && afterChange(clone(fields.current), path, hasErrors(), getErrors())
+    try {
+      fields.current[path] = value
+      setOneUpdated(path)
+      observers.current.has(path) && trigger(setEvent(formId.current, path), value)
+      !!afterChange && afterChange(clone(fields.current), path, hasErrors(), getErrors())
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const getOneUpdated = (path: string) => updated.current.has(path)
