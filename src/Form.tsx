@@ -63,11 +63,7 @@ export default function Form({
       fields.current = Proxify(clone(initialValues))
       validation.current = Proxify(clone(schemaValidation))
     }
-  }, [
-    initialValues,
-    schemaValidation,
-    refresh
-  ])
+  }, [initialValues])
 
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
@@ -80,7 +76,7 @@ export default function Form({
     fields.current[path] = value
     setOneUpdated(path)
     observers.current.has(path) && trigger(setEvent(formId.current, path), value)
-    !!afterChange && afterChange(fields.current, path, hasErrors(), getErrors())
+    !!afterChange && afterChange(clone(fields.current), path, hasErrors(), getErrors())
   }
 
   const getOneUpdated = (path: string) => updated.current.has(path)
