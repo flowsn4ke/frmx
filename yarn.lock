@@ -10476,10 +10476,10 @@ prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
-proxur@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.2.tgz#89823b2297c282dee48cfbc351fd003b19d716aa"
-  integrity sha512-KE4hLdmvkEadmIoyZ7gkx4HDKfQWKSvVV2rSLKQc/HkMspqZDJ6Y/NX2z7NmLIb0m/HLaqtGmlmyYlegfdCoEA==
+proxur@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.4.tgz#cf022331c169568725631611a5515b80e579d110"
+  integrity sha512-IJWE/Adj376oiDUcla6f2wAfkoqhy5hCVLxkXdZ2kgG/urn6U8/n0ubXh34Xrl5imDtgMOhNU8wMswmRs9XIxQ==
 
 proxy-addr@~2.0.5:
   version "2.0.7"
