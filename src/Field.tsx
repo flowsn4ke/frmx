@@ -83,7 +83,7 @@ export default function Field({
       throw new Error()
 
   } catch (err) {
-    warnDev(`The FldX component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
+    warnDev(`The Field component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
     return children
   }
 }

@@ -32,7 +32,7 @@
   },
   "scripts": {
     "build": "microbundle --jsx react --no-sourcemap --compress",
-    "start": "microbundle --jsx react -w",
+    "start": "microbundle --jsx react -w --no-compress",
     "start:demo": "cd example && yarn start",
     "start:doc": "cd website && yarn start",
     "prepare": "run-s build",

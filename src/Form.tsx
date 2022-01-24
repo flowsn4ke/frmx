@@ -77,7 +77,7 @@ export default function Form({
       fields.current[path] = value
       setOneUpdated(path)
       observers.current.has(path) && trigger(setEvent(formId.current, path), value)
-      !!afterChange && afterChange(clone(fields.current), path, hasErrors(), getErrors())
+      !!afterChange && afterChange(clone(Object.getPrototypeOf(fields.current)), path, hasErrors(), getErrors())
     } catch (err) {
       console.log(err)
     }
