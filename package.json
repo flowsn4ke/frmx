@@ -1,6 +1,9 @@
 {
   "name": "frmx",
   "version": "5.1.13",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
   "description": "Simple, Performant, Lightweight React Forms",
   "keywords": [
     "frmx",
@@ -23,9 +26,6 @@
     "url": "https://github.com/flowsn4ke/frmx/issues"
   },
   "homepage": "https://frmx.dev",
-  "source": "src/index.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.modern.js",
   "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
@@ -72,8 +72,9 @@
     "dist"
   ],
   "dependencies": {
+    "frmx": "^5.1.13",
     "nanoid": "^3.1.25",
-    "proxur": "^0.1.4",
+    "proxur": "^0.1.9",
     "react-events-utils": "^0.2.0"
   }
 }

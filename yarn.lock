@@ -6098,6 +6098,15 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
+frmx@^5.1.13:
+  version "5.1.13"
+  resolved "https://registry.yarnpkg.com/frmx/-/frmx-5.1.13.tgz#59a3e8aa4a38b98b27590ae013a6315cbd4287fd"
+  integrity sha512-YnJ+SVyKeRRQdZ397LyWXFBsE18rWflqHB4Guc6E0YhD7jGSJfRNO/yVJ2L1/jY6kcT7iG0Bo+yU1yOUft19fA==
+  dependencies:
+    nanoid "^3.1.25"
+    proxur "^0.1.4"
+    react-events-utils "^0.2.0"
+
 from2@^2.1.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/from2/-/from2-2.3.0.tgz#8bfb5502bde4a4d36cfdeea007fcca21d7e382af"
@@ -10477,9 +10486,14 @@ prop-types@^15.7.2:
     react-is "^16.8.1"
 
 proxur@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.4.tgz#cf022331c169568725631611a5515b80e579d110"
-  integrity sha512-IJWE/Adj376oiDUcla6f2wAfkoqhy5hCVLxkXdZ2kgG/urn6U8/n0ubXh34Xrl5imDtgMOhNU8wMswmRs9XIxQ==
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.6.tgz#af345cf427072efc65020da6a038e5c66c7eb4f8"
+  integrity sha512-lso4sOQ1zJVcU0AZ/2CjzA0KZWJkPHb/A7A6y8yuIV1MAF/Gjc8Gsw5KJxfT/5EAM0o1jXrY5Qa3Hh/X+zCKgQ==
+
+proxur@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/proxur/-/proxur-0.1.9.tgz#c3eba58a5a478470a9f33c84f22b163f73d2b82f"
+  integrity sha512-VWe48gX+hcbaJsWb+WfBGWDqUmn4ohOZpSLPgoMJjTk9Vu+wW+reLf2qelraI2l5TZhJsKOPjIIYbEFYAZ09ZQ==
 
 proxy-addr@~2.0.5:
   version "2.0.7"
