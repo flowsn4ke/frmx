@@ -72,7 +72,6 @@
     "dist"
   ],
   "dependencies": {
-    "frmx": "^5.1.13",
     "nanoid": "^3.1.25",
     "proxur": "^0.1.9",
     "react-events-utils": "^0.2.0"
