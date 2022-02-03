@@ -5,7 +5,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 module.exports = {
   title: 'frmx',
   tagline: 'Simple, Performant, Lightweight React Forms',
-  url: 'https://frmx.io',
+  url: 'https://frmx.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

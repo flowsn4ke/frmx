@@ -87,6 +87,6 @@ However, **using frmx will never result in more code than any other method**, an
 
 With frmx, any user input can be regarded as a form, and you can create **highly reusable inputs**, never worrying about manually rigging up state in React. As long as a you're inside a `<Form/>` component, just pass the `field` prop to your inputs and they'll automatically bubble up their values to the nearest `<Form/>` parent through React's context.
 
-Stumbled upon a weird input from a component library? [Check `<Field/>` API](https://www.frmx.io/docs/api/fldx) to see if you can't use a prop to make it work, and if not, [just use the `useForm` hook instead](https://www.frmx.io/docs/api/usefrmx)!
+Stumbled upon a weird input from a component library? [Check `<Field/>` API](https://www.frmx.dev/docs/api/fldx) to see if you can't use a prop to make it work, and if not, [just use the `useForm` hook instead](https://www.frmx.dev/docs/api/usefrmx)!
 
 That's right, you can even have **nested forms** in frmx! A form can actually serve as a field for another form for instance, ~~sky~~ your imagination is the limit.
