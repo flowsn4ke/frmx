@@ -80,6 +80,7 @@ To do so, you can destructure all values frmx interacts with like so (assuming y
 | getOneUpdated | function | function returning a boolean, Ex: `const isVisited = getOneVisited(field)` |
 | handleSubmit | function | the function implementing all frmx submitting logic |
 | hasUpdates | function |  Returns a boolean indicating wether or not the form was updated |
+| hasErrors | function |  Returns a boolean indicating wether or not the form contains errors |
 | resetForm | function | the function that resets the form to the initialValues state |
 | setOneError | function | function accepting a boolean. Ex: `setOneError(field, true)` |
 | setOneField | function | function that allows you to set a field value. Ex: `setOneField(field, value)` |
