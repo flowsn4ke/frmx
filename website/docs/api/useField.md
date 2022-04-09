@@ -8,7 +8,7 @@ The `useField` hook must be consumed inside a `<Form/>` provider, as it uses its
 
 The same hook is used by `<Field/>` internally, ensuring coherency accross all your inputs.
 
-If you feel like it's still not flexible enough, you can [check out the `useForm` hook](https://www.frmx.io/docs/api/usefrmx).
+If you feel like it's still not flexible enough, you can [check out the `useForm` hook](https://www.frmx.dev/docs/api/usefrmx).
 
 **Note**: The error returned is a *state of the UI*. Validation still happens internally following the rules you set in hte schemaValidation object you passed to `<Form/>`. For it to work correctly, you need to use onBlur. If you can't pass an "onBlur" prop to your input, just call it right after you first set the value.
 
@@ -20,7 +20,7 @@ import { TextField, Button } from "@material-ui/core"
 import { WeirdInput } from "some-random-pkg"
 
 function CustomCheckboX({ path }) {
-  const [ value, setValue, error, disabled, onBlur ] = useField(path)
+  const { value, setValue, error, disabled, onBlur } = useField(path)
 
   return <>
     <WeirdInput

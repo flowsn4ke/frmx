@@ -41,7 +41,7 @@ export default function FieldArray({
 
   const { disabled, formId, getOneField, setOneField } = frmx
 
-  if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.io/docs/api/arrx#render-props")
+  if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.dev/docs/api/arrx#render-props")
 
   const [items, setItems] = useState(getOneField(path))
 
