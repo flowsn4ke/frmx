@@ -10673,10 +10673,10 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
-react-events-utils@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-events-utils/-/react-events-utils-0.2.0.tgz#6e244ee6ff3d16c393570c60abd3ad3598bedea6"
-  integrity sha512-PGJZeHlkNqCdOwmXXlkiI+INJnMKT9ynZfTa2TJjtnanIvnW7Xr08nW1TQgIsbpv4xqAyfXIzg1E87poQa7a3g==
+react-events-utils@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-events-utils/-/react-events-utils-0.2.1.tgz#b193c194e6e9fad704a02e9cbd7a53312e605f13"
+  integrity sha512-BzuS95RI/MPP6OfEJvgvKi1aVuissWTifQjA7xvR4oRjv55Xmkx6vE0Bv+PitoPlOm2FvRpKoCrxqDMBAqneKw==
 
 react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
