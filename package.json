@@ -1,6 +1,6 @@
 {
   "name": "frmx",
-  "version": "5.1.17",
+  "version": "5.1.18",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
@@ -74,6 +74,6 @@
   "dependencies": {
     "nanoid": "^3.1.25",
     "proxur": "^0.1.9",
-    "react-events-utils": "^0.2.1"
+    "react-events-utils": "^0.2.2"
   }
 }
