@@ -1,6 +1,6 @@
 {
   "name": "frmx",
-  "version": "5.1.16",
+  "version": "5.1.17",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
