@@ -31,14 +31,15 @@ export default function Reset({
   }
 
   try {
-    if (isValidElement(children) && Children.only(children))
-      return cloneElement(children as ReactElement, props)
+    if (isValidElement(children) && Children.only(children)) {
+      return cloneElement(children as ReactElement, props);
+    }
 
     else
-      throw new Error()
+      throw new Error();
 
   } catch (err) {
-    warnDev(`The FldX component can have only one child component, otherwise resetting won't work.`)
-    return children
+    warnDev(`The FldX component can have only one child component, otherwise resetting won't work.`);
+    return children;
   }
 }

@@ -33,7 +33,7 @@
   "scripts": {
     "build": "microbundle --jsx react --no-sourcemap --compress",
     "start": "microbundle --jsx react -w --no-compress",
-    "start:demo": "cd example && yarn start",
+    "start:demo": "cd cra-example && yarn start",
     "start:doc": "cd website && yarn start",
     "prepare": "run-s build",
     "test": "run-s test:unit test:build",
@@ -41,8 +41,8 @@
     "test:lint": "eslint .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
-    "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "predeploy": "cd cra-example && yarn install && yarn run build",
+    "deploy": "gh-pages -d cra-example/build"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -74,6 +74,7 @@
   "dependencies": {
     "nanoid": "^3.1.25",
     "proxur": "^0.1.9",
+    "react-event-utils": "^1.0.1",
     "react-events-utils": "^0.2.2"
   }
 }

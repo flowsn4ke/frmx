@@ -76,14 +76,15 @@ export default function Field({
   }
 
   try {
-    if (isValidElement(children) && Children.only(children))
-      return cloneElement(children as ReactElement, props) // on type guards: https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
+    if (isValidElement(children) && Children.only(children)) {
+      return cloneElement(children as ReactElement, props); // on type guards: https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
+    }
 
     else
-      throw new Error()
+      throw new Error();
 
   } catch (err) {
-    warnDev(`The Field component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`)
-    return children
+    warnDev(`The Field component can have only one child component. Check out the field ${path} to fix the problem, otherwise this field won't work.`);
+    return children;
   }
 }
