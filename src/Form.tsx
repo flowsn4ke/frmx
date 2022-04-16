@@ -1,14 +1,8 @@
-import {
-  createElement,
-  useEffect,
-  useRef,
-  ReactElement,
-  ChangeEvent
-} from 'react'
+import React from 'react'
 import { nanoid } from 'nanoid'
 
 import { FormContext } from './Contexts'
-import { trigger } from 'react-events-utils'
+import { trigger } from './libs/events-utils'
 import { resetEvent, setEvent, submitEvent } from './events'
 import Proxify from "proxur"
 import clone from './utils/clone'
@@ -16,7 +10,7 @@ import clone from './utils/clone'
 interface FormPropsInterface {
   afterChange?(fields: object, path: string, hasErrors: boolean, getErrors: any): any,
   autoCompleteOff?: boolean,
-  children: ReactElement,
+  children: React.ReactElement,
   clearAfterSubmit?: any,
   disabled?: boolean,
   disableIf?(fields: object): boolean,
@@ -50,15 +44,15 @@ export default function Form({
   render = "div", // TODO: Check render is a legal value, otherwise replace it with "div"
   ...rest
 }: FormPropsInterface) {
-  const fields = useRef(Proxify(clone(initialValues)))
-  const validation = useRef(Proxify(schemaValidation))
-  const observers = useRef(new Set())
-  const updated = useRef(new Set())
-  const errors = useRef(new Set())
-  const isSubmitting = useRef(false)
-  const formId = useRef(nanoid())
+  const fields = React.useRef(Proxify(clone(initialValues)))
+  const validation = React.useRef(Proxify(schemaValidation))
+  const observers = React.useRef(new Set())
+  const updated = React.useRef(new Set())
+  const errors = React.useRef(new Set())
+  const isSubmitting = React.useRef(false)
+  const formId = React.useRef(nanoid())
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (refresh) {
       fields.current = Proxify(clone(initialValues))
       validation.current = Proxify(clone(schemaValidation))
@@ -109,7 +103,7 @@ export default function Form({
     trigger(resetEvent(formId.current))
   }
 
-  const handleSubmit = (e?: ChangeEvent) => {
+  const handleSubmit = (e?: React.ChangeEvent) => {
     e?.preventDefault()
     trigger(submitEvent(formId.current))
 
@@ -165,6 +159,6 @@ export default function Form({
       setOneUpdated,
       schemaValidation: validation.current,
     }}>
-    {createElement(render, props)}
+    {React.createElement(render, props)}
   </FormContext.Provider>
 }

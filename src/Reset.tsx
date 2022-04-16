@@ -1,14 +1,9 @@
-import {
-  cloneElement,
-  Children,
-  ReactElement,
-  isValidElement
-} from 'react'
+import React from 'react'
 import { useForm } from './Contexts'
 import { warnDev } from './utils/dx'
 
 interface ResetInterface {
-  children: ReactElement,
+  children: React.ReactElement,
   onClick?(): any,
   rest?: any
 }
@@ -31,8 +26,8 @@ export default function Reset({
   }
 
   try {
-    if (isValidElement(children) && Children.only(children)) {
-      return cloneElement(children as ReactElement, props);
+    if (React.isValidElement(children) && React.Children.only(children)) {
+      return React.cloneElement(children as React.ReactElement, props);
     }
 
     else

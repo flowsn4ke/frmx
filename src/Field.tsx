@@ -1,10 +1,4 @@
-import {
-  cloneElement,
-  Children,
-  useRef,
-  ReactElement,
-  isValidElement,
-} from 'react'
+import React from 'react'
 import useField from './hooks/useField'
 import { warnDev, noProviderFor } from './utils/dx'
 
@@ -13,7 +7,7 @@ interface FieldPropsInterface {
   autoCapitalizeOn?: boolean,
   autoCompleteOff?: boolean,
   autoCorrectOn?: boolean,
-  children: ReactElement,
+  children: React.ReactElement,
   disabled?: boolean,
   path: string,
   getValueFromArgs?(args: any): any,
@@ -56,7 +50,7 @@ export default function Field({
   const nativeType = children.type === "input" ? children.props?.type : undefined
   nativeType && (type = nativeType)
 
-  const onChange = useRef((...args: any) => {
+  const onChange = React.useRef((...args: any) => {
     let val = !!getValueFromArgs ? getValueFromArgs(args) : type === "checkbox" ? args[0].target.checked : args[0].target.value
     setValue(val)
   })
@@ -76,8 +70,8 @@ export default function Field({
   }
 
   try {
-    if (isValidElement(children) && Children.only(children)) {
-      return cloneElement(children as ReactElement, props); // on type guards: https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
+    if (React.isValidElement(children) && React.Children.only(children)) {
+      return React.cloneElement(children as React.ReactElement, props); // on type guards: https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
     }
 
     else

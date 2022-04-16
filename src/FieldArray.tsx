@@ -1,14 +1,9 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  ReactElement
-} from 'react'
+import React from 'react'
 import clone from './utils/clone'
 import { useForm, ArrayContext } from './Contexts'
 import { noProviderFor } from './utils/dx'
 import { resetEvent } from './events'
-import { useDocumentListener } from "react-events-utils"
+import { useDocumentListener } from "./libs/events-utils"
 
 interface childrenInterface {
   path: string,
@@ -19,7 +14,7 @@ interface childrenInterface {
 }
 
 interface FieldArrayPropsInterface {
-  children?(object: childrenInterface): ReactElement,
+  children?(object: childrenInterface): React.ReactElement,
   path: string,
   model: any,
   startWithOneMore?: boolean
@@ -43,25 +38,25 @@ export default function FieldArray({
 
   if (typeof children !== 'function') throw new Error("The <ArrX/> component only accepts a function as a child (render props). See the documentation here: https://www.frmx.dev/docs/api/arrx#render-props")
 
-  const [items, setItems] = useState(getOneField(path))
+  const [items, setItems] = React.useState(getOneField(path))
 
-  const handleReset = useRef(() => setItems(getOneField(path)))
+  const handleReset = React.useRef(() => setItems(getOneField(path)))
   useDocumentListener(resetEvent(formId), handleReset.current)
 
-  const addItem = useRef((data?: any) => {
+  const addItem = React.useRef((data?: any) => {
     // TODO: Add possibility to pass data directly in the function, if empty then clone model
     const next = [...getOneField(path), clone(data || model)]
     setItems(next)
     setOneField(path, next)
   })
 
-  const removeItem = useRef((index: number) => {
+  const removeItem = React.useRef((index: number) => {
     const next = getOneField(path).filter((_item, i) => i !== index)
     setOneField(path, next)
     setItems(next)
   })
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (startWithOneMore) addItem.current()
   }, [])
 

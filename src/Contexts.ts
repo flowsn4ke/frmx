@@ -1,9 +1,9 @@
-import { createContext, useContext, ChangeEvent } from 'react'
+import React from 'react'
 
 export interface FormContextInterface {
   disabled: boolean,
   formId: string,
-  handleSubmit(event: ChangeEvent<HTMLInputElement>): any,
+  handleSubmit(event: React.ChangeEvent<HTMLInputElement>): any,
   getErrors(): any,
   getFields(): object,
   getOneField(path: string): any,
@@ -20,12 +20,12 @@ export interface FormContextInterface {
   schemaValidation: object
 }
 
-export const FormContext = createContext<FormContextInterface | null>(null)
-export const useForm = () => useContext(FormContext)
+export const FormContext = React.createContext<FormContextInterface | null>(null)
+export const useForm = () => React.useContext(FormContext)
 
 export interface ArrayContextInterface {
   validationPath: string
 }
 
-export const ArrayContext = createContext<ArrayContextInterface | null>(null)
-export const useArray = () => useContext(ArrayContext)
+export const ArrayContext = React.createContext<ArrayContextInterface | null>(null)
+export const useArray = () => React.useContext(ArrayContext)
