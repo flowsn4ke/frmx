@@ -3,8 +3,9 @@ import commonjs from "@rollup/plugin-commonjs"
 import typescript from "@rollup/plugin-typescript"
 import { terser } from "rollup-plugin-terser"
 import external from "rollup-plugin-peer-deps-external"
-import postcss from "rollup-plugin-postcss"
 import dts from "rollup-plugin-dts"
+
+// See https://javascript.plainenglish.io/react-component-library-with-ts-and-rollup-77aca0c727bf
 
 const packageJson = require("./package.json")
 
@@ -29,7 +30,6 @@ export default [
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      postcss(),
       terser(),
     ],
   },
