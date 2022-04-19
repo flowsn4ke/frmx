@@ -43,9 +43,9 @@ export default function FieldArray({
   const handleReset = React.useRef(() => setItems(getOneField(path)))
   useDocumentListener(resetEvent(formId), handleReset.current)
 
-  const addItem = React.useRef(() => {
+  const addItem = React.useRef((data?: any) => {
     // TODO: Add possibility to pass data directly in the function, if empty then clone model
-    const next = [...getOneField(path), clone(model)]
+    const next = [...getOneField(path), clone(data || model)]
     setItems(next)
     setOneField(path, next)
   })
