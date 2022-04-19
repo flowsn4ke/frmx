@@ -9,7 +9,7 @@ interface childrenInterface {
   path: string,
   items: Array<any>,
   removeItem(index: number): void,
-  addItem(item?: any): void,
+  addItem(): void,
   disabled: boolean
 }
 
@@ -43,9 +43,9 @@ export default function FieldArray({
   const handleReset = React.useRef(() => setItems(getOneField(path)))
   useDocumentListener(resetEvent(formId), handleReset.current)
 
-  const addItem = React.useRef((data?: any) => {
+  const addItem = React.useRef(() => {
     // TODO: Add possibility to pass data directly in the function, if empty then clone model
-    const next = [...getOneField(path), clone(data || model)]
+    const next = [...getOneField(path), clone(model)]
     setItems(next)
     setOneField(path, next)
   })
