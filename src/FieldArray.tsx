@@ -44,8 +44,8 @@ export default function FieldArray({
   useDocumentListener(resetEvent(formId), handleReset.current)
 
   const addItem = React.useRef((data?: any) => {
-    // TODO: Add possibility to pass data directly in the function, if empty then clone model
-    const next = [...getOneField(path), clone(data || model)]
+    //! Events might be implicitely and accidentally passed to the function depending how the onClick event handler is passed, hence the check
+    const next = [...getOneField(path), clone(!(data.nativeEvent || data._reactName) ? data : model)]
     setItems(next)
     setOneField(path, next)
   })

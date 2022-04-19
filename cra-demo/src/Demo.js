@@ -221,7 +221,8 @@ function ArrayStuff({ path }) {
             <Button disabled={disabled} onClick={() => removeItem(i)}>Remove</Button>
           </Box>
         ))}
-        <Button disabled={disabled} onClick={addItem}>Add Person</Button>
+        <Button disabled={disabled} onClick={() => addItem()}>Add Person</Button>
+        <Button disabled={disabled} onClick={() => addItem({ name: "John Doe", email: "john@john.fr" })}>Add Person with values</Button>
       </Box>
     )}
   </FieldArray>

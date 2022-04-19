@@ -1,6 +1,6 @@
 import React from 'react'
 import { nanoid } from 'nanoid'
-
+// const { v4: uuidv4 } = require('uuid')
 import { FormContext } from './Contexts'
 import { trigger } from './libs/events-utils'
 import { resetEvent, setEvent, submitEvent } from './events'
@@ -84,7 +84,7 @@ export default function Form({
   }
 
   const getOneError = (path: string) => errors.current.has(path)
-  const setOneError = (path: string, isError) => {
+  const setOneError = (path: string, isError: boolean) => {
     if (isError && !errors.current.has(path)) {
       errors.current.add(path)
     } else if (!isError && errors.current.has(path)) {
