@@ -9,7 +9,7 @@ interface childrenInterface {
   path: string,
   items: Array<any>,
   removeItem(index: number): void,
-  addItem(): void,
+  addItem(item?: any): void,
   disabled: boolean
 }
 
