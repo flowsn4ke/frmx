@@ -45,7 +45,7 @@ export default function FieldArray({
 
   const addItem = React.useRef((data?: any) => {
     //! Events might be implicitely and accidentally passed to the function depending how the onClick event handler is passed, hence the check
-    const next = [...getOneField(path), clone(!(data.nativeEvent || data._reactName) ? data : model)]
+    const next = [...getOneField(path), clone(data && !(data?.nativeEvent || data?._reactName) ? data : model)]
     setItems(next)
     setOneField(path, next)
   })
