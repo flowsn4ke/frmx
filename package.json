@@ -1,6 +1,6 @@
 {
   "name": "frmx",
-  "version": "5.2.5",
+  "version": "5.2.6",
   "description": "Simple, Performant, Lightweight React Forms",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
