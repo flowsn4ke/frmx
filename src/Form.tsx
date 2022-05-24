@@ -6,6 +6,8 @@ import { resetEvent, setEvent, submitEvent } from './events'
 import Proxify from "proxur"
 import clone from './utils/clone'
 
+const s = new Snowflake()
+
 interface FormPropsInterface {
   afterChange?(fields: object, path: string, hasErrors: boolean, getErrors: any): any,
   autoCompleteOff?: boolean,
@@ -24,7 +26,7 @@ interface FormPropsInterface {
   render?: string,
   rest?: any
 }
-const snowflake = new Snowflake();
+
 export default function Form({
   afterChange,
   autoCompleteOff,
@@ -49,7 +51,7 @@ export default function Form({
   const updated = React.useRef(new Set())
   const errors = React.useRef(new Set())
   const isSubmitting = React.useRef(false)
-  const formId = React.useRef(Snowflake().generate())
+  const formId = React.useRef(s.generate())
 
   React.useEffect(() => {
     if (refresh) {

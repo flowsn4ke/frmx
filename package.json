@@ -56,7 +56,10 @@
     "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
   "dependencies": {
     "proxur": "^0.1.9"
   }
