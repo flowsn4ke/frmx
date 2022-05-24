@@ -64,8 +64,7 @@ const validationMethods = {
 export default function Demo() {
   const classes = useStyles();
 
-  return (
-    <Box className={classes.container}>
+  return <Box className={classes.container}>
       <Form
         afterChange={(v, f, h, g) => console.log(g)}
         className={classes.formContainer}
@@ -179,7 +178,6 @@ export default function Demo() {
         </Reset>
       </Form>
     </Box>
-  );
 }
 
 function SomeComponent({ path }) {

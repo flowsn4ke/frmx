@@ -58,8 +58,6 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "nanoid": "^3.1.25",
-    "proxur": "^0.1.9",
-    "uuid": "^8.3.2"
+    "proxur": "^0.1.9"
   }
 }

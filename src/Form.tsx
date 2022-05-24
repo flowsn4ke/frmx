@@ -1,7 +1,6 @@
 import React from 'react'
-import { nanoid } from 'nanoid'
-// const { v4: uuidv4 } = require('uuid')
 import { FormContext } from './Contexts'
+import Snowflake from './libs/snowflake-id'
 import { trigger } from './libs/events-utils'
 import { resetEvent, setEvent, submitEvent } from './events'
 import Proxify from "proxur"
@@ -25,7 +24,7 @@ interface FormPropsInterface {
   render?: string,
   rest?: any
 }
-
+const snowflake = new Snowflake();
 export default function Form({
   afterChange,
   autoCompleteOff,
@@ -50,7 +49,7 @@ export default function Form({
   const updated = React.useRef(new Set())
   const errors = React.useRef(new Set())
   const isSubmitting = React.useRef(false)
-  const formId = React.useRef(nanoid())
+  const formId = React.useRef(Snowflake().generate())
 
   React.useEffect(() => {
     if (refresh) {
@@ -141,7 +140,7 @@ export default function Form({
 
   return <FormContext.Provider
     value={{
-      disabled,
+      disabled: !!disabled,
       formId: formId.current,
       handleSubmit,
       getErrors,
