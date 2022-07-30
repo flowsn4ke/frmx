@@ -4,18 +4,13 @@ import { noProviderFor } from '../utils/dx'
 import { getValidationMethod } from '../utils/getValidationMethod'
 import useSubmitListener from './useSubmitListener'
 import useResetListener from './useResetListener'
-import useFieldObserver from './useFieldObserver'
 
-export default function useField(
-  path: string,
-  config: {
+export default function useField(path: string, config: {
   native?: boolean,
   trim?: boolean,
   afterChange?(value: any, path: string, error: boolean): any,
-  disabled?: boolean,
-  refresh?: boolean,
-} = {}
-) {
+  disabled?: boolean
+} = {}) {
   const frmx = useForm()
 
   if (!frmx) {
@@ -78,7 +73,6 @@ export default function useField(
     setOneField(path, next)
     if (config.afterChange) config.afterChange(next, path, error)
   }
-  useFieldObserver(path,config?.refresh ? handleChange: () => {})
 
   const onBlur = () => setTouched(true)
 
