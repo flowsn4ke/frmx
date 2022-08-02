@@ -9,7 +9,7 @@ import clone from './utils/clone'
 const s = new Snowflake()
 
 interface FormPropsInterface {
-  afterChange?(fields: object, path: string, hasErrors: boolean, getErrors: any): any,
+  afterChange?(fields: object, path: string | null, hasErrors: boolean, getErrors: any): any,
   autoCompleteOff?: boolean,
   children: React.ReactElement,
   clearAfterSubmit?: any,
@@ -102,6 +102,9 @@ export default function Form({
     updated.current = new Set()
     fields.current = Proxify(clone(initialValues))
     trigger(resetEvent(formId.current))
+
+    if (afterChange)
+      afterChange(clone(Object.getPrototypeOf(fields.current)), null, hasErrors(), getErrors())
   }
 
   const handleSubmit = (e?: React.ChangeEvent) => {
