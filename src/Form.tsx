@@ -63,7 +63,7 @@ export default function Form({
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
-  const getFields = () => fields.current
+  const getFields = () => Object.getPrototypeOf(fields.current)
   const getErrors = () => new Set(errors.current)
 
   const getOneField = (path: string) => fields.current[path]
