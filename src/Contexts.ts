@@ -9,6 +9,7 @@ export interface FormContextInterface {
   getOneField(path: string): any,
   getOneUpdated(path: string): any,
   getOneError(path: string): boolean,
+  getUpdatesList(): string[],
   hasUpdates(): boolean,
   hasErrors(): boolean,
   registerFieldObserver(path: string): void,

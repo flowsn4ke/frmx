@@ -48,7 +48,7 @@ export default function Form({
   const fields = React.useRef(Proxify(clone(initialValues)))
   const validation = React.useRef(Proxify(schemaValidation))
   const observers = React.useRef(new Set())
-  const updated = React.useRef(new Set())
+  const updated = React.useRef(new Set<string>())
   const errors = React.useRef(new Set())
   const isSubmitting = React.useRef(false)
   const formId = React.useRef(s.generate())
@@ -60,6 +60,7 @@ export default function Form({
     }
   }, [initialValues])
 
+  const getUpdatesList = () => [...updated.current]
   const hasUpdates = () => updated.current.size > 0
   const hasErrors = () => errors.current.size > 0
 
@@ -92,6 +93,7 @@ export default function Form({
       errors.current.delete(path)
     }
   }
+
 
   const registerFieldObserver = (path: string) => !observers.current.has(path) && observers.current.add(path)
 
@@ -153,6 +155,7 @@ export default function Form({
       getOneField,
       getOneUpdated,
       getOneError,
+      getUpdatesList,
       hasUpdates,
       hasErrors,
       registerFieldObserver,
