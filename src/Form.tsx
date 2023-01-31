@@ -78,6 +78,12 @@ export default function Form({
       console.log(err)
     }
   }
+  const unsetOneField = (path: string) => {
+    delete fields.current[path]
+    updated.current.delete(path)
+    errors.current.delete(path)
+    observers.current.delete(path)
+  }
 
   const getOneUpdated = (path: string) => updated.current.has(path)
   const setOneUpdated = (path: string) => {
@@ -164,6 +170,7 @@ export default function Form({
       setOneError,
       setOneField,
       setOneUpdated,
+      unsetOneField,
       schemaValidation: validation.current,
     }}>
     {React.createElement(render, props)}

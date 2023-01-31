@@ -18,6 +18,7 @@ export interface FormContextInterface {
   setOneError(path: string, isError: boolean): void,
   setOneField(path: string, value: any): void,
   setOneUpdated(path: string): void,
+  unsetOneField(path: string): void,
   schemaValidation: object
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Field, FieldArray, Submit, Reset, useFieldObserver } from "frmx"
+import { Form, Field, FieldArray, Submit, Reset, useFieldObserver, useForm } from "frmx"
 import { isEmail, isHexColor } from "validator"
 import parsePhoneNumber from 'libphonenumber-js'
 
@@ -65,38 +65,91 @@ export default function Demo() {
   const classes = useStyles();
 
   return <Box className={classes.container}>
+    <Form
+      afterChange={(v, f, h, g) => console.log(g)}
+      className={classes.formContainer}
+      initialValues={fields}
+      onSubmit={(values) => console.log(values)}
+      onReset={(values) => console.log("reset")}
+      // disabled
+      // clearAfterSubmit
+      disableIfInvalid
+      // disabledIf={(data) => data.name === data.newPassword}
+      disableIfNoUpdates
+      onInvalidSubmit={() => alert("Invalid form!")}
+      schemaValidation={validationMethods}
+    >
+      <Tester />
+      <Typography variant="h4" className={classes.input}>
+        Some Meaningful Form
+      </Typography>
+
+      <Field path="date" type="date">
+        <TextField
+          className={classes.input}
+          variant="outlined"
+          label="Date"
+        />
+      </Field>
+
+      <Field path="options.slider" type="range" getValueFromArgs={args => args[1]}>
+        <Slider valueLabelDisplay="auto" />
+      </Field>
+
+      <Field path="name" type="text" afterChange={console.log} isErrorProp="error">
+        <TextField
+          className={classes.input}
+          variant="outlined"
+          label="Name"
+        />
+      </Field>
+
+      <PhoneInput
+        path="phoneNumber"
+        className={classes.input}
+        placeholder="Enter your number"
+      />
+
+      <Field path="email" isErrorProp="error" trim>
+        <TextField
+          className={classes.input}
+          variant="outlined"
+          label="me@email.com"
+        />
+      </Field>
+
+      <Field path="options.obj.0">
+        <TextField
+          className={classes.input}
+          variant="outlined"
+          label="Field Object"
+        />
+      </Field>
+
+      <Field path="options.arr.0">
+        <TextField
+          className={classes.input}
+          variant="outlined"
+          label="Field Array"
+        />
+      </Field>
+
+      <SomeComponent path='options.colors.main' />
+
+      <Box className={classes.checkboxContainer}>
+        <Field path="options.checked" type="checkbox">
+          {/* <input type="checkbox" /> */}
+          <Checkbox className={classes.checkbox} />
+        </Field>
+      </Box>
+
+      <ArrayStuff path="objInArr" />
+
       <Form
-        afterChange={(v, f, h, g) => console.log(g)}
-        className={classes.formContainer}
-        initialValues={fields}
-        onSubmit={(values) => console.log(values)}
-        onReset={(values) => console.log("reset")}
-        // disabled
-        // clearAfterSubmit
-        disableIfInvalid
-        // disabledIf={(data) => data.name === data.newPassword}
-        disableIfNoUpdates
-        onInvalidSubmit={() => alert("Invalid form!")}
-        schemaValidation={validationMethods}
+        initialValues={{ name: "I'm a nested form" }}
+        onSubmit={data => console.log("Nested Form Submit")}
       >
-        <div>test</div>
-        <Typography variant="h4" className={classes.input}>
-          Some Meaningful Form
-        </Typography>
-
-        <Field path="date" type="date">
-          <TextField
-            className={classes.input}
-            variant="outlined"
-            label="Date"
-          />
-        </Field>
-
-        <Field path="options.slider" type="range" getValueFromArgs={args => args[1]}>
-          <Slider valueLabelDisplay="auto" />
-        </Field>
-
-        <Field path="name" type="text" afterChange={console.log} isErrorProp="error">
+        <Field path="name" type="text">
           <TextField
             className={classes.input}
             variant="outlined"
@@ -104,80 +157,34 @@ export default function Demo() {
           />
         </Field>
 
-        <PhoneInput
-          path="phoneNumber"
-          className={classes.input}
-          placeholder="Enter your number"
-        />
-
-        <Field path="email" isErrorProp="error" trim>
-          <TextField
-            className={classes.input}
-            variant="outlined"
-            label="me@email.com"
-          />
-        </Field>
-
-        <Field path="options.obj.0">
-          <TextField
-            className={classes.input}
-            variant="outlined"
-            label="Field Object"
-          />
-        </Field>
-
-        <Field path="options.arr.0">
-          <TextField
-            className={classes.input}
-            variant="outlined"
-            label="Field Array"
-          />
-        </Field>
-
-        <SomeComponent path='options.colors.main' />
-
-        <Box className={classes.checkboxContainer}>
-          <Field path="options.checked" type="checkbox">
-            {/* <input type="checkbox" /> */}
-            <Checkbox className={classes.checkbox} />
-          </Field>
-        </Box>
-
-        <ArrayStuff path="objInArr" />
-
-        <Form
-          initialValues={{ name: "I'm a nested form" }}
-          onSubmit={data => console.log("Nested Form Submit")}
-        >
-          <Field path="name" type="text">
-            <TextField
-              className={classes.input}
-              variant="outlined"
-              label="Name"
-            />
-          </Field>
-
-          <Submit>
-            <Button variant="contained" className={classes.input}>
-              Submit Nested Form
-            </Button>
-          </Submit>
-
-        </Form>
-
         <Submit>
           <Button variant="contained" className={classes.input}>
-            Submit
+            Submit Nested Form
           </Button>
         </Submit>
 
-        <Reset >
-          <Button variant="contained" className={classes.input}>
-            Reset
-          </Button>
-        </Reset>
       </Form>
-    </Box>
+
+      <Submit>
+        <Button variant="contained" className={classes.input}>
+          Submit
+        </Button>
+      </Submit>
+
+      <Reset >
+        <Button variant="contained" className={classes.input}>
+          Reset
+        </Button>
+      </Reset>
+    </Form>
+  </Box>
+}
+
+function Tester() {
+  const { unsetOneField } = useForm()
+  return <button onClick={() => unsetOneField("date")}>
+    test
+  </button>
 }
 
 function SomeComponent({ path }) {
