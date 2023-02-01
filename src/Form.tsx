@@ -134,7 +134,7 @@ export default function Form({
       isSubmitting.current = true
       updated.current = new Set()
       errors.current = new Set()
-      onSubmit(clone(Object.getPrototypeOf(fields.current)))
+      onSubmit(clone(Object.getPrototypeOf(fields.current)), updated.current)
       if (clearAfterSubmit) resetForm()
     }
 

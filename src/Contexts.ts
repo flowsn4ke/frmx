@@ -3,7 +3,7 @@ import React from 'react'
 export interface FormContextInterface {
   disabled: boolean,
   formId: string,
-  handleSubmit(event: React.ChangeEvent<HTMLInputElement>): any,
+  handleSubmit(event: React.ChangeEvent<HTMLInputElement>, updatedKeys: string[]): any,
   getErrors(): any,
   getFields(): object,
   getOneField(path: string): any,
