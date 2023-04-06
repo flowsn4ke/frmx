@@ -100,7 +100,6 @@ export default function Form({
     }
   }
 
-
   const registerFieldObserver = (path: string) => !observers.current.has(path) && observers.current.add(path)
 
   const resetForm = () => {
@@ -132,9 +131,9 @@ export default function Form({
 
     } else {
       isSubmitting.current = true
-      updated.current = new Set()
+      onSubmit(clone(Object.getPrototypeOf(fields.current)), Array.from(updated.current))
       errors.current = new Set()
-      onSubmit(clone(Object.getPrototypeOf(fields.current)), updated.current)
+      updated.current = new Set()
       if (clearAfterSubmit) resetForm()
     }
 
