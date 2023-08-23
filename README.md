@@ -20,7 +20,7 @@ It is heavily relied on in production at my company (it actually manages **all**
 
 ## Docs
 
-**[Check the documentation here](https://frmx.dev/)**
+**[Check the documentation here](https://frmx-docs.vercel.app/)**
 
 ## Goal
 
