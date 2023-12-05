@@ -37,7 +37,7 @@
   "bugs": {
     "url": "https://github.com/flowsn4ke/frmx/issues"
   },
-  "homepage": "https://frmx.dev",
+  "homepage": "https://frmx-docs.vercel.app",
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@rollup/plugin-commonjs": "^21.0.1",
